@@ -3,7 +3,10 @@ guid: e1bc39e27b498814cb14d5d48e77fe4a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - door: {instanceID: 0}
+  - moveLeftText: {fileID: 7440653655638514231, guid: 8b8b0253dde7886479c63c7571e691c0, type: 3}
+  - player: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

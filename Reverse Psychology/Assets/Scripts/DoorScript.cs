@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement; // Required for scene loading
 
 public class DoorScript : MonoBehaviour
 {
-    public Color closedColor = Color.red;
     public Color openColor = Color.green;
     private bool isOpen = false;
     private SpriteRenderer sr;
@@ -13,7 +12,6 @@ public class DoorScript : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<BoxCollider2D>();
-        sr.color = closedColor;
     }
 
     public void OpenDoor()
