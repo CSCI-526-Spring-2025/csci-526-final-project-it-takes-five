@@ -7,6 +7,7 @@ TagManager:
   - BlueOrb
   - Ground
   - Wall
+  - YellowOrb
   layers:
   - Default
   - TransparentFX

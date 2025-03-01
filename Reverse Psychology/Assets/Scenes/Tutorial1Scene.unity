@@ -1370,6 +1370,10 @@ PrefabInstance:
       propertyPath: moveLeftText
       value: 
       objectReference: {fileID: 1916772117}
+    - target: {fileID: 5464496103388337911, guid: 74d506d5640f133499237500428b5f52, type: 3}
+      propertyPath: instructionText
+      value: 
+      objectReference: {fileID: 1916772117}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

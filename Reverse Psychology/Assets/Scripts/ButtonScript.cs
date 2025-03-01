@@ -4,7 +4,7 @@ public class ButtonScript : MonoBehaviour
 {
     public DoorScript door;
     // Assign the Door GameObject (with DoorScript) in the Inspector.
-    public GameObject moveLeftText;
+    public GameObject instructionText;
     public GameObject Panel2;
     public PlayerController player;       // Assign the Player GameObject (with PlayerController) in the Inspector.
     public Color pressedColor = Color.gray;  // Color to change to when the button is pressed.
@@ -29,8 +29,12 @@ public class ButtonScript : MonoBehaviour
             {
                 sr.color = pressedColor;
             }
-            moveLeftText.SetActive(true);
-            Panel2.SetActive(true);
+
+            // Show text if it exists
+            if (instructionText != null) instructionText.SetActive(true);
+            if (Panel2 != null) Panel2.SetActive(true);
+
+            
             // Trigger the door opening and player transformation.
             door.OpenDoor();
             player.TransformToHuman();

@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     // UI element to display orb count (assign a Text element from your UI)
     public TextMeshProUGUI orbStackUIText;
+    public TextMeshProUGUI warningText;
 
     // Optional ground check settings to allow jumping only when grounded.
     public Transform groundCheck;
@@ -59,30 +60,63 @@ public class PlayerController : MonoBehaviour
         float moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
-        if (isGhost && Input.GetKeyDown(KeyCode.F))
+        // Pick up orbs (in ghost mode?)
+        if (
+            //isGhost && 
+            Input.GetKeyDown(KeyCode.F))
         {
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
             {
                 orbStack.Push(nearbyOrb);
                 nearbyOrb.SetActive(false); // Deactivate the orb.
-                Debug.Log("Picked up orb manually. Orb count: " + orbStack.Count);
+                Debug.Log("Picked up orb. Orb count: " + orbStack.Count);
                 UpdateOrbUI();
                 nearbyOrb = null; // Clear reference after pickup.
             }
         }
 
+        // Jump in ghost mode
         if (!isGhost && Input.GetKeyDown(KeyCode.W))
         {
+            // If two blue orbs at top of the stack, jump
             if (orbStack.Count >= 2)
             {
-                // Remove two orbs from the stack.
-                orbStack.Pop();
-                orbStack.Pop();
-                UpdateOrbUI();
+                GameObject topOrb = orbStack.Pop(); // Remove and store the top orb
+                GameObject secondOrb = orbStack.Pop(); // Remove and store the second orb
 
-                // Apply upward jump force.
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                Debug.Log("Jump performed using 2 blue orbs.");
+                if (topOrb.CompareTag("BlueOrb") && secondOrb.CompareTag("BlueOrb"))
+                {
+                
+                    UpdateOrbUI();
+                    // Apply upward jump force.
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    Debug.Log("Jump performed using 2 blue orbs.");
+                }
+                else {
+                    // Put orbs back on the stack.
+                    orbStack.Push(secondOrb);
+                    orbStack.Push(topOrb);
+                    Debug.Log("Jump cannot be performed without 2 blue orbs on top.");
+
+                    // Show warning message on UI
+                    if (warningText != null)
+                    {
+                        warningText.gameObject.SetActive(true);
+                    }
+
+                }
+            }
+        }
+
+        // Press SPACE to drop top orb where player is standing.
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (orbStack.Count > 0)
+            {
+                GameObject topOrb = orbStack.Pop();
+                topOrb.transform.position = transform.position;
+                topOrb.SetActive(true);
+                UpdateOrbUI();
             }
         }
     }
@@ -112,9 +146,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // When the player enters the orb's trigger zone, set the nearby orb reference.
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("BlueOrb") && isGhost)
+        if ((collision.CompareTag("BlueOrb") || collision.CompareTag("YellowOrb")) 
+            //&& isGhost
+        )
         {
             // Set nearby orb if not already set.
             if (nearbyOrb == null)
@@ -129,7 +166,9 @@ public class PlayerController : MonoBehaviour
     // When the player leaves the orb's trigger zone, clear the reference.
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("BlueOrb") && isGhost)
+        if ((collision.CompareTag("BlueOrb") || collision.CompareTag("YellowOrb"))
+         //&& isGhost
+        )
         {
             if (collision.gameObject == nearbyOrb)
             {
@@ -144,7 +183,7 @@ public class PlayerController : MonoBehaviour
     {
         if (orbStackUIText != null)
         {
-            orbStackUIText.text = "Orbs: " + orbStack.Count;
+            orbStackUIText.text = "Orbs: " + orbStack.Count + "/" + orbStackCapacity;
         }
     }
 }

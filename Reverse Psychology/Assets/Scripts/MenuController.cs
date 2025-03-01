@@ -45,5 +45,6 @@ public class MenuController : MonoBehaviour
     public void OnTutorial3Clicked()
     {
         Debug.Log("Tutorial 3 selected. Functionality to be added.");
+        SceneManager.LoadScene("Tutorial3Scene");
     }
 }
