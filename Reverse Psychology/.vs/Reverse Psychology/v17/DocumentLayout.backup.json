@@ -53,7 +53,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\ButtonScript.cs",
               "ToolTip": "C:\\Users\\riyar\\OneDrive\\Desktop\\Final\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\ButtonScript.cs",
               "RelativeToolTip": "Assets\\Scripts\\ButtonScript.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACAAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACAAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-28T20:24:56.694Z",
               "EditorCaption": ""
@@ -68,8 +68,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Tutorial1Hint.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-28T20:12:26.168Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-28T20:12:26.168Z"
             },
             {
               "$type": "Document",
@@ -81,8 +80,7 @@
               "RelativeToolTip": "Assets\\Scripts\\StartGameUI.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-28T19:32:01.564Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-28T19:32:01.564Z"
             },
             {
               "$type": "Document",
@@ -94,8 +92,7 @@
               "RelativeToolTip": "Assets\\Scripts\\CameraFollow.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-28T18:50:53.881Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-28T18:50:53.881Z"
             }
           ]
         }
