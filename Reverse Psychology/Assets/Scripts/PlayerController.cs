@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
-    public float jumpForce = 7f; // The jump force applied when using orbs.
+    public float jumpForce = 7f;
     public Color ghostColor = Color.white;
     public Color humanColor = Color.yellow;
-    
+
     private bool isGhost = true;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -18,11 +20,11 @@ public class PlayerController : MonoBehaviour
     private Stack<GameObject> orbStack = new Stack<GameObject>();
     public int orbStackCapacity = 3;
 
-    // UI element to display orb count (assign a Text element from your UI)
+    // UI element to display orb count and warning messages
     public TextMeshProUGUI orbStackUIText;
     public TextMeshProUGUI warningText;
 
-    // Optional ground check settings to allow jumping only when grounded.
+    // Optional ground check settings.
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
@@ -30,6 +32,9 @@ public class PlayerController : MonoBehaviour
     private List<Collider2D> wallColliders = new List<Collider2D>();
     private GameObject nearbyOrb;
 
+    // UI elements to display the orb stack.
+    public GameObject[] orbSlots;  // Assign 3 UI Image slot GameObjects in the Inspector
+    public Sprite emptySlotSprite; // Sprite to use for an empty slot
 
     void Start()
     {
@@ -37,10 +42,12 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
 
-        // Start as ghost (floating)
+        // Start as ghost.
         gameObject.layer = LayerMask.NameToLayer("Ghost");
         rb.gravityScale = 0;
         sr.color = ghostColor;
+
+        // Disable collisions with walls.
         GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
         foreach (GameObject wall in walls)
         {
@@ -56,14 +63,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Movement using A/D or left/right arrow keys
+        // Movement using A/D or left/right arrow keys.
         float moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
-        // Pick up orbs (in ghost mode?)
-        if (
-            //isGhost && 
-            Input.GetKeyDown(KeyCode.F))
+        // Pick up orbs when pressing F.
+        if (Input.GetKeyDown(KeyCode.F))
         {
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
             {
@@ -75,40 +80,34 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Jump in ghost mode
+        // Jump in human mode (when not a ghost) using W.
         if (!isGhost && Input.GetKeyDown(KeyCode.W))
         {
-            // If two blue orbs at top of the stack, jump
             if (orbStack.Count >= 2)
             {
-                GameObject topOrb = orbStack.Pop(); // Remove and store the top orb
-                GameObject secondOrb = orbStack.Pop(); // Remove and store the second orb
+                GameObject topOrb = orbStack.Pop();
+                GameObject secondOrb = orbStack.Pop();
 
                 if (topOrb.CompareTag("BlueOrb") && secondOrb.CompareTag("BlueOrb"))
                 {
-                
                     UpdateOrbUI();
-                    // Apply upward jump force.
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                     Debug.Log("Jump performed using 2 blue orbs.");
                 }
-                else {
-                    // Put orbs back on the stack.
+                else
+                {
                     orbStack.Push(secondOrb);
                     orbStack.Push(topOrb);
                     Debug.Log("Jump cannot be performed without 2 blue orbs on top.");
-
-                    // Show warning message on UI
                     if (warningText != null)
                     {
                         warningText.gameObject.SetActive(true);
                     }
-
                 }
             }
         }
 
-        // Press SPACE to drop top orb where player is standing.
+        // Press SPACE to drop the top orb at the player's position.
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (orbStack.Count > 0)
@@ -121,54 +120,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // private bool IsGrounded()
-    // {
-    //     return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-    // }
-
-    // Call this to transform the player from ghost to human.
+    // Transform the player from ghost to human.
     public void TransformToHuman()
     {
         if (isGhost)
         {
             isGhost = false;
-            // Enable gravity so the player stops floating.
             rb.gravityScale = 1;
             foreach (Collider2D wallCol in wallColliders)
             {
                 Physics2D.IgnoreCollision(col, wallCol, false);
             }
-            // Switch layer to "Human" so wall collisions are enabled.
             gameObject.layer = LayerMask.NameToLayer("Human");
-            // Change the sprite color to indicate transformation.
             sr.color = humanColor;
             Debug.Log("Player transformed to human!");
         }
     }
 
-    // When the player enters the orb's trigger zone, set the nearby orb reference.
+    // When the player enters an orb's trigger zone, store a reference.
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.CompareTag("BlueOrb") || collision.CompareTag("YellowOrb")) 
-            //&& isGhost
-        )
+        if (collision.CompareTag("BlueOrb") || collision.CompareTag("YellowOrb"))
         {
-            // Set nearby orb if not already set.
             if (nearbyOrb == null)
             {
                 nearbyOrb = collision.gameObject;
                 Debug.Log("Orb in pickup range. Press F to pick it up.");
             }
         }
-    
     }
 
-    // When the player leaves the orb's trigger zone, clear the reference.
+    // Clear the orb reference when the player leaves the orb's trigger zone.
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if ((collision.CompareTag("BlueOrb") || collision.CompareTag("YellowOrb"))
-         //&& isGhost
-        )
+        if (collision.CompareTag("BlueOrb") || collision.CompareTag("YellowOrb"))
         {
             if (collision.gameObject == nearbyOrb)
             {
@@ -178,12 +163,34 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Update the UI Text to show the current orb count.
+    // Update the UI for the orb stack.
     private void UpdateOrbUI()
     {
-        if (orbStackUIText != null)
+        // Loop through each UI slot.
+        for (int i = 0; i < orbSlots.Length; i++)
         {
-            orbStackUIText.text = "Orbs: " + orbStack.Count + "/" + orbStackCapacity;
+            // Each orbSlot is a GameObject with an Image component.
+            Image slotImage = orbSlots[i].GetComponent<Image>();
+
+            if (i < orbStack.Count)
+            {
+                // Retrieve the orb from the stack using LINQ's ElementAt.
+                GameObject orbInStack = orbStack.ElementAt(i);
+                SpriteRenderer orbSpriteRenderer = orbInStack.GetComponent<SpriteRenderer>();
+                if (orbSpriteRenderer != null)
+                {
+                    // Set the UI slot sprite and color to match the orb.
+                    slotImage.sprite = orbSpriteRenderer.sprite;
+                    slotImage.color = orbSpriteRenderer.color;
+                }
+            }
+            else
+            {
+                // Set the slot to show the empty slot sprite and a default color (e.g., white).
+                slotImage.sprite = emptySlotSprite;
+                slotImage.color = Color.white;
+            }
         }
     }
+
 }
