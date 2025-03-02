@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement; // Required for scene loading
 using System.Collections;
 
-public class DoorScript : MonoBehaviour
+public class DoorLevelScript : MonoBehaviour
 {
     public Color openColor = Color.green;
     private bool isOpen = false;
@@ -65,8 +65,9 @@ public class DoorScript : MonoBehaviour
         if (gameOverText != null)
             gameOverText.SetActive(false);
 
-        MenuController.showTutorialsPanel = true;
-        MenuController.showLevelsPanel = false;
+        MenuController.showTutorialsPanel = false;
+        MenuController.showLevelsPanel = true;
+
         // Load the Main Menu Scene after the delay
         SceneManager.LoadScene("MainMenuScene");
     }

@@ -6,12 +6,33 @@ public class MenuController : MonoBehaviour
     // Assign these in the Inspector
     public GameObject mainMenuPanel;    // The panel with "Tutorials" and "Levels" buttons
     public GameObject tutorialsPanel;   // The panel with the three tutorial buttons
+    public GameObject levelsPanel;   // The panel with the levels buttons
+
+
+    public static bool showTutorialsPanel = false;
+    public static bool showLevelsPanel = false;
+
 
     void Start()
     {
         // Ensure only the main menu is active at game start
         mainMenuPanel.SetActive(true);
         tutorialsPanel.SetActive(false);
+        levelsPanel.SetActive(false);
+
+
+        if (showTutorialsPanel)
+        {
+            OnTutorialsClicked();
+            // Reset the flag after using it
+            showTutorialsPanel = false;
+        }
+        if (showLevelsPanel)
+        {
+            OnLevelsClicked();
+            // Reset the flag after using it
+            showLevelsPanel = false;
+        }
     }
 
     // Called when the "Tutorials" button is clicked
@@ -19,12 +40,23 @@ public class MenuController : MonoBehaviour
     {
         mainMenuPanel.SetActive(false);  // Hide the main menu
         tutorialsPanel.SetActive(true);    // Show the tutorials menu
+        levelsPanel.SetActive(false);
+
     }
 
     // Called when the "Levels" button is clicked (for later use)
     public void OnLevelsClicked()
     {
-        Debug.Log("Levels button clicked. Levels functionality to be added.");
+        mainMenuPanel.SetActive(false);  // Hide the main menu
+        tutorialsPanel.SetActive(false);    // Show the tutorials menu
+        levelsPanel.SetActive(true);
+
+    }
+
+    public void OnLevel1Clicked()
+    {
+        Debug.Log("Level 1 selected. Load Level content here.");
+        SceneManager.LoadScene("Level1");
     }
 
     // Called when "Tutorial 1" button is clicked
