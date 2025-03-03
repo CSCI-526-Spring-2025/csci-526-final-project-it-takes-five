@@ -2510,7 +2510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   door: {fileID: 8407101835277745549}
   instructionText: {fileID: 0}
-  Panel2: {fileID: 847051518}
+  Panel2: {fileID: 0}
   player: {fileID: 822365011}
   pressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!1 &2132155451
