@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     // Orb stack: capacity is 3.
     private Stack<GameObject> orbStack = new Stack<GameObject>();
-    public int orbStackCapacity = 3;
+    private int orbStackCapacity = 5;
 
     // UI element to display orb count and warning messages
     public TextMeshProUGUI orbStackUIText;
@@ -33,8 +33,8 @@ public class PlayerController : MonoBehaviour
     private GameObject nearbyOrb;
 
     // UI elements to display the orb stack.
-    public GameObject[] orbSlots;  // Assign 3 UI Image slot GameObjects in the Inspector
-    public Sprite emptySlotSprite; // Sprite to use for an empty slot
+    public GameObject[] orbSlots;  
+    public Sprite emptySlotSprite; 
 
     void Start()
     {
@@ -70,8 +70,10 @@ public class PlayerController : MonoBehaviour
         // Pick up orbs when pressing F.
         if (Input.GetKeyDown(KeyCode.F))
         {
+            Debug.Log("Pressing F");
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
             {
+                Debug.Log("Inside if");
                 orbStack.Push(nearbyOrb);
                 nearbyOrb.SetActive(false); // Deactivate the orb.
                 Debug.Log("Picked up orb. Orb count: " + orbStack.Count);
@@ -81,7 +83,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Jump in human mode (when not a ghost) using W.
-        if (!isGhost && Input.GetKeyDown(KeyCode.W))
+        if (!isGhost && Input.GetKeyDown(KeyCode.Space))
         {
             if (orbStack.Count >= 2)
             {
@@ -107,8 +109,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Press SPACE to drop the top orb at the player's position.
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Press G to drop the top orb at the player's position.
+        if (Input.GetKeyDown(KeyCode.G))
         {
             if (orbStack.Count > 0)
             {
