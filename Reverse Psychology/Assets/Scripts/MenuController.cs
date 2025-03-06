@@ -8,6 +8,8 @@ public class MenuController : MonoBehaviour
     public GameObject tutorialsPanel;   // The panel with the three tutorial buttons
     public GameObject levelsPanel;   // The panel with the levels buttons
 
+    public static bool isTutorial = false;
+    public static int currentLevel = 0;
 
     public static bool showTutorialsPanel = false;
     public static bool showLevelsPanel = false;
@@ -55,6 +57,8 @@ public class MenuController : MonoBehaviour
 
     public void OnLevel1Clicked()
     {
+        isTutorial = false;
+        currentLevel = 1;
         Debug.Log("Level 1 selected. Load Level content here.");
         SceneManager.LoadScene("Level1");
     }
@@ -62,6 +66,8 @@ public class MenuController : MonoBehaviour
     // Called when "Tutorial 1" button is clicked
     public void OnTutorial1Clicked()
     {
+        isTutorial=true;
+        currentLevel = 1;
         // For now, just log the action; later you can load a new scene or display your tutorial
         Debug.Log("Tutorial 1 selected. Load tutorial content here.");
         SceneManager.LoadScene("Tutorial1Scene");
@@ -70,12 +76,16 @@ public class MenuController : MonoBehaviour
     // Add similar methods for Tutorial 2 and 3 if needed
     public void OnTutorial2Clicked()
     {
+        isTutorial = true;
+        currentLevel = 2;
         Debug.Log("Tutorial 2 selected. Functionality to be added.");
         SceneManager.LoadScene("Tutorial2Scene");
     }
 
     public void OnTutorial3Clicked()
     {
+        isTutorial = true;
+        currentLevel = 3;
         Debug.Log("Tutorial 3 selected. Functionality to be added.");
         SceneManager.LoadScene("Tutorial3Scene");
     }
