@@ -75,9 +75,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.36862746, g: 0.81960785, b: 0.81960785, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -172,5 +172,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  ghostColor: {r: 1, g: 1, b: 1, a: 1}
-  humanColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  jumpForce: 7
+  ghostColor: {r: 0.36862746, g: 0.81960785, b: 0.81960785, a: 1}
+  humanColor: {r: 1, g: 1, b: 0, a: 1}
+  orbStackUIText: {fileID: 0}
+  warningText: {fileID: 0}
+  groundCheck: {fileID: 0}
+  groundCheckRadius: 0.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  orbSlots: []
+  emptySlotSprite: {fileID: 0}
