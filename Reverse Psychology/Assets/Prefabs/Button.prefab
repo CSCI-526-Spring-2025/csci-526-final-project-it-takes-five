@@ -157,6 +157,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5568277372764483096}
+  - component: {fileID: -4497742794133578129}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -180,3 +181,15 @@ Transform:
   - {fileID: 9107263590457973056}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4497742794133578129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3425247049250444057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b559aea292d98734c914a2fd13882133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

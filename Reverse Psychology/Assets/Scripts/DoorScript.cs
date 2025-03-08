@@ -11,7 +11,7 @@ public class DoorScript : MonoBehaviour
     public GameObject gameOverText; 
     private int maxTutorialLevel = 3;
     private int maxLevels = 1;
-
+    public GameAnalytics gameAnalytics;
 
     void Start()
     {
@@ -42,6 +42,8 @@ public class DoorScript : MonoBehaviour
         if (isOpen && collision.CompareTag("Player"))
         {
             Debug.Log("Tutorial 1 Complete");
+
+            gameAnalytics.EndLevel();
 
             StartCoroutine(ShowGameOverAndLoadScene());
             // Load the Tutorials Scene (make sure the scene name is correct in Unity's Build Settings)

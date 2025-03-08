@@ -12,6 +12,8 @@ public class ButtonScript : MonoBehaviour
     private bool activated = false;
     private SpriteRenderer sr;
 
+    public GameAnalytics gameAnalytics;
+
     void Start()
     {
         // Get the SpriteRenderer component from the button.
@@ -23,6 +25,8 @@ public class ButtonScript : MonoBehaviour
         if (!activated && collision.CompareTag("Player"))
         {
             activated = true;
+
+            gameAnalytics.StartReturnJourney();
 
             // Change the button color to indicate it has been pressed.
             if (sr != null)

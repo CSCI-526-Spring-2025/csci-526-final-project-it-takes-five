@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "463281396319",
+    "firebase_url": "https://gameanalytics-its-default-rtdb.firebaseio.com",
+    "project_id": "gameanalytics-its",
+    "storage_bucket": "gameanalytics-its.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463281396319:android:9555536f147ddac00119ea",
+        "android_client_info": {
+          "package_name": "com.example.ReversePsychology"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBanWvgz3YKrMyGBrmfcer1Sub0qxcwPW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
