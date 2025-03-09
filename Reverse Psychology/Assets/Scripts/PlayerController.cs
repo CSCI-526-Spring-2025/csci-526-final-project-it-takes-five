@@ -7,8 +7,9 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+
     public float speed = 5f;
-    public float jumpForce = 7f;
+    private float jumpForce = 7f;
     public Color ghostColor = Color.white;
     public Color humanColor = Color.yellow;
 
@@ -196,3 +197,4 @@ public class PlayerController : MonoBehaviour
     }
 
 }
+

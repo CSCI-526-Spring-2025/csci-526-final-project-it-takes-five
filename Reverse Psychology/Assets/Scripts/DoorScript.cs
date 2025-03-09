@@ -10,7 +10,7 @@ public class DoorScript : MonoBehaviour
     private BoxCollider2D col;
     public GameObject gameOverText; 
     private int maxTutorialLevel = 3;
-    private int maxLevels = 1;
+    private int maxLevels = 2;
     public GameAnalytics gameAnalytics;
 
     void Start()
@@ -69,23 +69,24 @@ public class DoorScript : MonoBehaviour
         if (gameOverText != null)
             gameOverText.SetActive(false);
 
-        MenuController.showTutorialsPanel = true;
-        MenuController.showLevelsPanel = false;
-        // Load the Main Menu Scene after the delay
         if (MenuController.isTutorial)
         {
-            if(MenuController.currentLevel == maxTutorialLevel)
+            Debug.Log("1");
+            if (MenuController.currentLevel == maxTutorialLevel)
             {
                 SceneManager.LoadScene("Level1");
                 MenuController.currentLevel = 1;
                 MenuController.isTutorial = false;
+                MenuController.showLevelsPanel = true;
             } else
             {
                 MenuController.currentLevel += 1;
                 SceneManager.LoadScene("Tutorial"+ MenuController.currentLevel+"Scene");
+                MenuController.showTutorialsPanel = true;
             }
         } else
         {
+            MenuController.showLevelsPanel = true;
             if (MenuController.currentLevel == maxLevels)
             {
                 SceneManager.LoadScene("MainMenuScene");
