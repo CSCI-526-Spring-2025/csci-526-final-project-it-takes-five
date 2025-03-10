@@ -31,8 +31,37 @@
         const binSize = 5; // Change this to change the bin size
         const maxBin = 30; // Change this to change the max bin
         
-        function fetchDataAndPlot() {
-            const analyticsRef = ref(db); // Get the root of the database
+        function leveldata() {
+            const analyticsRef = ref(db, 'level'); // Get the url of the database
+            get(analyticsRef).then(snapshot => {
+                if (snapshot.exists()) {
+                    let levelFrequencies = {};
+                    snapshot.forEach(timestampSnapshot => {
+                        timestampSnapshot.forEach(levelSnapshot => {
+                            let data = levelSnapshot.val();
+                            let level = data.levelNumber;
+                            // console.log(level, data);
+                            // Initialize the array for each level if it doesn't exist
+                            if (!levelFrequencies[level]) levelFrequencies[level] = 0;
+                            levelFrequencies[level] += 1;
+                        });
+                    });
+                    console.log(levelFrequencies);
+
+                    // Plot frequencies of levels
+                    const levelDiv = document.createElement('div');
+                    levelDiv.innerHTML = `<h3> Level Completions</h3>`;
+                    const levelCanvas = document.createElement('canvas');
+                    levelDiv.appendChild(levelCanvas);
+                    document.getElementById('chartsContainer').appendChild(levelDiv);
+
+                    plotGraph(levelCanvas, Object.keys(levelFrequencies), Object.values(levelFrequencies), 'Level Pass Frequencies', 'Level', 'rgba(75, 192, 192, 0.5)');
+                }
+            });
+        }
+
+        function timedata() {
+            const analyticsRef = ref(db, 'timedata'); // Get the url of the database
             get(analyticsRef).then(snapshot => {
                 if (snapshot.exists()) {
                     let completionTimes = {};
@@ -42,7 +71,7 @@
                         timestampSnapshot.forEach(sessionSnapshot => {
                             let data = sessionSnapshot.val();
                             let level = data.levelNumber;
-                            console.log(level, data);
+                            // console.log(level, data);
                             // Initialize the array for each level if it doesn't exist
                             if (!completionTimes[level]) completionTimes[level] = { ltr: [], rtl: [], total: [] };
                             completionTimes[level].ltr.push(data.leftToRightTime);
@@ -57,12 +86,16 @@
                     for (const level in completionTimes) {
                         const levelDiv = document.createElement('div');
                         levelDiv.innerHTML = `<h3> ${level}</h3>`;
+                        const chartsDiv = document.createElement('div');
+                        chartsDiv.style.display = 'flex';
                         const ltrCanvas = document.createElement('canvas');
                         const rtlCanvas = document.createElement('canvas');
                         const totalCanvas = document.createElement('canvas');
-                        levelDiv.appendChild(ltrCanvas);
-                        levelDiv.appendChild(rtlCanvas);
-                        levelDiv.appendChild(totalCanvas);
+                        
+                        chartsDiv.appendChild(ltrCanvas);
+                        chartsDiv.appendChild(rtlCanvas);
+                        chartsDiv.appendChild(totalCanvas);
+                        levelDiv.appendChild(chartsDiv);
                         document.getElementById('chartsContainer').appendChild(levelDiv);
 
                         plotGraph(ltrCanvas, getLabels(binSize, maxBin), binTimes(completionTimes[level], 'ltr', binSize, maxBin), 'Left-to-Right Completion Time', `Time Bins (${binSize}s)`);
@@ -77,6 +110,7 @@
             });
         }
 
+        // Helper functions
         function getLabels(binSize, maxBin) {
             let labels = [];
             for (let i = 0; i < Math.ceil(maxBin / binSize); i++) {
@@ -94,18 +128,20 @@
             return bins;
         }
         
-        function plotGraph(canvas, labels, data, title, xlabel) {
+        function plotGraph(canvas, labels, data, title, xlabel, backgroundColor = 'rgba(75, 192, 192, 0.5)') {
             new Chart(canvas, {
                 type: 'bar',
                 data: {
                     labels: labels,
-                    datasets: [{ label: title, data: data, backgroundColor: 'rgba(75, 192, 192, 0.5)' }]
+                    datasets: [{ label: title, data: data, backgroundColor: backgroundColor }]
                 },
                 options: { responsive: true, scales: { x: { title: { display: true, text: xlabel } }, y: { beginAtZero: true } } }
             });
         }
         
-        fetchDataAndPlot();
+        // Fetch and plot data
+        leveldata();
+        timedata();
     </script>
     
 </body>
