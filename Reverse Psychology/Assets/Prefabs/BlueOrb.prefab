@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3791737570666289590}
   - component: {fileID: 4580692603818874020}
   - component: {fileID: 4320446710600820845}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BlueOrb
   m_TagString: BlueOrb
   m_Icon: {fileID: 0}

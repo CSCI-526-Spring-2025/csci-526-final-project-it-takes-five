@@ -62,6 +62,14 @@ public class PlayerController : MonoBehaviour
         UpdateOrbUI();
     }
 
+    bool IsOverlapping(GameObject orb, Transform player)
+    {
+        Bounds orbBounds = orb.GetComponent<Renderer>().bounds;
+        Bounds playerBounds = player.GetComponent<Renderer>().bounds;
+
+        return orbBounds.Intersects(playerBounds);
+    }
+
     void Update()
     {
         // Movement using A/D or left/right arrow keys.
@@ -79,7 +87,10 @@ public class PlayerController : MonoBehaviour
                 nearbyOrb.SetActive(false); // Deactivate the orb.
                 Debug.Log("Picked up orb. Orb count: " + orbStack.Count);
                 UpdateOrbUI();
-                nearbyOrb = null; // Clear reference after pickup.
+                // find other nearby orbs if they exist, otherwise set nearbyOrb to null
+                GameObject[] orbs = GameObject.FindGameObjectsWithTag("BlueOrb").Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToArray();
+                nearbyOrb = orbs.FirstOrDefault(orb =>  orb.activeInHierarchy && IsOverlapping(orb, transform));
+                //nearbyOrb = null; // Clear reference after pickup.
             }
         }
 
@@ -116,7 +127,9 @@ public class PlayerController : MonoBehaviour
             if (orbStack.Count > 0)
             {
                 GameObject topOrb = orbStack.Pop();
-                topOrb.transform.position = transform.position;
+               
+                Vector3 dropPosition = transform.position;                
+                topOrb.transform.position = dropPosition;
                 topOrb.SetActive(true);
                 UpdateOrbUI();
             }

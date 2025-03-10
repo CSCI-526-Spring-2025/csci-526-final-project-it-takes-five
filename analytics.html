@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Analytics Dashboard</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="chartsContainer"></div>
+    
+    <script type="module">
+        // Firebase imports
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyBanWvgz3YKrMyGBrmfcer1Sub0qxcwPW0",
+          authDomain: "gameanalytics-its.firebaseapp.com",
+          databaseURL: "https://gameanalytics-its-default-rtdb.firebaseio.com",
+          projectId: "gameanalytics-its",
+          storageBucket: "gameanalytics-its.firebasestorage.app",
+          messagingSenderId: "463281396319",
+          appId: "1:463281396319:android:9555536f147ddac00119ea"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        
+        const binSize = 5; // Change this to change the bin size
+        const maxBin = 30; // Change this to change the max bin
+        
+        function fetchDataAndPlot() {
+            const analyticsRef = ref(db); // Get the root of the database
+            get(analyticsRef).then(snapshot => {
+                if (snapshot.exists()) {
+                    let completionTimes = {};
+
+                    // Loop through each timestamp (top-level key)
+                    snapshot.forEach(timestampSnapshot => {
+                        timestampSnapshot.forEach(sessionSnapshot => {
+                            let data = sessionSnapshot.val();
+                            let level = data.levelNumber;
+                            console.log(level, data);
+                            // Initialize the array for each level if it doesn't exist
+                            if (!completionTimes[level]) completionTimes[level] = { ltr: [], rtl: [], total: [] };
+                            completionTimes[level].ltr.push(data.leftToRightTime);
+                            completionTimes[level].rtl.push(data.rightToLeftTime);
+                            completionTimes[level].total.push(data.totalTime);
+                        });
+                    });
+
+                    console.log(completionTimes);
+
+                    // Plot the data for each level
+                    for (const level in completionTimes) {
+                        const levelDiv = document.createElement('div');
+                        levelDiv.innerHTML = `<h3> ${level}</h3>`;
+                        const ltrCanvas = document.createElement('canvas');
+                        const rtlCanvas = document.createElement('canvas');
+                        const totalCanvas = document.createElement('canvas');
+                        levelDiv.appendChild(ltrCanvas);
+                        levelDiv.appendChild(rtlCanvas);
+                        levelDiv.appendChild(totalCanvas);
+                        document.getElementById('chartsContainer').appendChild(levelDiv);
+
+                        plotGraph(ltrCanvas, getLabels(binSize, maxBin), binTimes(completionTimes[level], 'ltr', binSize, maxBin), 'Left-to-Right Completion Time', `Time Bins (${binSize}s)`);
+                        plotGraph(rtlCanvas, getLabels(binSize, maxBin), binTimes(completionTimes[level], 'rtl', binSize, maxBin), 'Right-to-Left Completion Time', `Time Bins (${binSize}s)`);
+                        plotGraph(totalCanvas, getLabels(binSize, maxBin), binTimes(completionTimes[level], 'total', binSize, maxBin), 'Total Completion Time', `Time Bins (${binSize}s)`);
+                    }
+                } else {
+                    console.log('No data available');
+                }
+            }).catch(error => {
+                console.error(error);
+            });
+        }
+
+        function getLabels(binSize, maxBin) {
+            let labels = [];
+            for (let i = 0; i < Math.ceil(maxBin / binSize); i++) {
+                labels.push(`${i * binSize}-${(i + 1) * binSize}s`);
+            }
+            return labels;
+        }
+        
+        function binTimes(times, key, binSize, maxBin) {
+            let bins = new Array(Math.ceil(maxBin / binSize)).fill(0);
+            times[key].forEach(t => {
+                let bin = Math.floor(t / binSize);
+                bins[bin]++;
+            });
+            return bins;
+        }
+        
+        function plotGraph(canvas, labels, data, title, xlabel) {
+            new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: title, data: data, backgroundColor: 'rgba(75, 192, 192, 0.5)' }]
+                },
+                options: { responsive: true, scales: { x: { title: { display: true, text: xlabel } }, y: { beginAtZero: true } } }
+            });
+        }
+        
+        fetchDataAndPlot();
+    </script>
+    
+</body>
+</html>
+

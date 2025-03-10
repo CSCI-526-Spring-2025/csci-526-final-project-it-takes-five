@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Wall
   - YellowOrb
+  - Orb
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - UI
   - Ghost
   - Human
-  - 
-  - 
+  - Player
+  - Orbs
   - 
   - 
   - 
