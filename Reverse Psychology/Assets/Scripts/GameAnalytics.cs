@@ -109,8 +109,9 @@ public class GameAnalytics : MonoBehaviour
 
 
         Debug.Log($"Level {levelNumber} restart");
-        string URL = "https://gameanalytics-its-default-rtdb.firebaseio.com/";
-        string key = "Level_" + userId + timestamp;
+        string URL = "https://gameanalytics-its-default-rtdb.firebaseio.com/level/";
+        //string key = "Level_" + userId + timestamp;
+        string key = timestamp;
 
         //string databaseSecret = "AIzaSyBanWvgz3YKrMyGBrmfcer1Sub0qxcwPW0";  // Replace with your actual secret key
 
@@ -158,6 +159,18 @@ public class GameAnalytics : MonoBehaviour
         }
     }
 
+    public void EndLevelDeath()
+    {
+        if (isReturning)
+        {
+            pauseTime = true;
+            Debug.Log("journey ended");
+            //rightToLeftTime = Time.time - levelStartTime;
+            //totalTime = leftToRightTime + rightToLeftTime;
+            //StartCoroutine(SaveAnalyticsData());
+        }
+    }
+
 
     private IEnumerator SaveAnalyticsData()
     {
@@ -174,8 +187,10 @@ public class GameAnalytics : MonoBehaviour
 
         Debug.Log($"Level {levelNumber} Completion Time: Left to Right = {leftToRightTime} sec, Right to Left = {rightToLeftTime} sec, Total = {totalTime} sec");
         //Debug.Log($"Player Deaths: {playerDeaths}");
-        string URL = "https://gameanalytics-its-default-rtdb.firebaseio.com/";
-        string key = userId+timestamp;
+        string URL = "https://gameanalytics-its-default-rtdb.firebaseio.com/timedata/";
+        //string key = userId+timestamp;
+        string key = timestamp;
+
 
         string databaseSecret = "AIzaSyBanWvgz3YKrMyGBrmfcer1Sub0qxcwPW0";  // Replace with your actual secret key
 
