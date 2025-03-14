@@ -4,64 +4,61 @@ using UnityEngine;
 
 public class Tutorial2Hint : MonoBehaviour
 {
-    // Reference to the PickupText GameObject (a TextMeshPro UI element).
-    // Assign this in the Inspector.
-    public GameObject PickupText;
-    public GameObject JumpText;
+    public GameObject PickupText; // Text shown when colliding with BlueOrb
+    public GameObject JumpText;   // Text shown when colliding with Button
+
+    private bool isNearOrb = false;  // Track if player is near BlueOrb
+    private bool isNearButton = false; // Track if player is near Button
 
     void Start()
     {
-        // Hide the pickup text initially.
-        if (PickupText != null)
-        {
-            PickupText.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("PickupText is not assigned in Tutorial2Hint!");
-        }
+        // Hide texts initially
+        if (PickupText != null) PickupText.SetActive(false);
+        if (JumpText != null) JumpText.SetActive(false);
     }
 
     void Update()
     {
-        // When the F key is pressed, hide the PickupText if it's active.
-        if (Input.GetKeyDown(KeyCode.F))
+        // Hide JumpText when space is pressed and player is near button
+        if (isNearButton && Input.GetKeyDown(KeyCode.Space))
         {
-            if (PickupText != null && PickupText.activeSelf)
-            {
-                PickupText.SetActive(false);
-            }
-        }
+            if (JumpText != null)
+                JumpText.SetActive(false);
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            JumpText.SetActive(false);
+            isNearButton = false; // Reset the button collision flag
         }
     }
 
-    // Called when another collider enters this GameObject's trigger collider.
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the collided object has the tag "BlueOrb".
+        // Show PickupText when colliding with BlueOrb
         if (collision.CompareTag("BlueOrb"))
         {
             if (PickupText != null)
-            {
                 PickupText.SetActive(true);
-            }
+
+            isNearOrb = true;
+        }
+
+        // Show JumpText when colliding with Button
+        if (collision.CompareTag("Button"))
+        {
+            if (JumpText != null)
+                JumpText.SetActive(true);
+
+            isNearButton = true;
         }
     }
 
-    // Called when another collider exits this GameObject's trigger collider.
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // Hide the text when the blue orb is no longer colliding.
+        // Hide PickupText when player moves away from BlueOrb
         if (collision.CompareTag("BlueOrb"))
         {
             if (PickupText != null)
-            {
                 PickupText.SetActive(false);
-            }
+
+            isNearOrb = false;
         }
     }
 }

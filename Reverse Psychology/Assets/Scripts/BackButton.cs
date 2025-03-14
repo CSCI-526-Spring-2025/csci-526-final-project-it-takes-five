@@ -27,6 +27,10 @@ public class BackButton : MonoBehaviour
     {
         SceneManager.LoadScene("Level2");
     }
+    public void OnRestartLevel3Clicked()
+    {
+        SceneManager.LoadScene("Level3");
+    }
 
     public void OnRestart1Clicked()
     {

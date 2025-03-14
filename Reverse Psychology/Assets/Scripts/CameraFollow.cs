@@ -2,47 +2,58 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public float FollowSpeed = 2f;           // For vertical following (optional)
-    public Transform target;                 // Target for vertical follow (if needed)
-    public Transform leftWall;               // Assign the left wall in the Inspector
-    public Transform rightWall;              // Assign the right wall in the Inspector
-    public float fixedYPosition = 2f;        // Base y-position for the camera
-    public float verticalOffset = 1f;        // Additional vertical offset
+    public float followSpeed = 5f;       // Camera follow speed
+    public Transform target;             // Player
+    public Transform leftWall;           // Left boundary
+    public Transform rightWall;          // Right boundary
+    public float minOrthographicSize = 3f; // Minimum zoom-out size
+    public float maxOrthographicSize = 6f; // Maximum zoom-out size
+    public float verticalOffset = -4.05f;    // Additional vertical offset
+    public float fixedYPosition = 5.51f;    // Fixed vertical position of the camera
+    // public float levelSizeThreshold = 21.3f; // Hardcoded level size beyond which camera follows normally
 
     private Camera cam;
+    private float minX, maxX;
 
     void Start()
     {
         cam = Camera.main;
-        // Initial update in case the resolution is already set.
-        UpdateCamera();
+        AdjustCameraSize();  // Adjust camera size based on level size
+        UpdateCameraBounds();
+        UpdateCameraPosition();
     }
 
-    void Update()
+    void LateUpdate()
     {
-        // Recalculate camera settings every frame so that changes in aspect ratio (e.g., fullscreen)
-        // keep the walls exactly at the left/right edges.
-        UpdateCamera();
-
-        // Optional vertical follow for the target.
-        float newY = Mathf.Lerp(transform.position.y, target.position.y + verticalOffset, FollowSpeed * Time.deltaTime);
-        transform.position = new Vector3(transform.position.x, newY, -10f);
+        UpdateCameraPosition();
     }
 
-    void UpdateCamera()
+    void AdjustCameraSize()
     {
-        // Calculate the horizontal center between the walls.
-        float centerX = (leftWall.position.x + rightWall.position.x) / 2f;
+        // Calculate the required orthographic size based on the level width
+        float levelWidth = rightWall.position.x - leftWall.position.x;
+        float screenRatio = (float)Screen.width / Screen.height;
 
-        // Calculate half the horizontal distance between the walls.
-        float halfDistance = (rightWall.position.x - leftWall.position.x) / 2f;
+        float requiredSize = levelWidth / (2f * screenRatio); // Half width divided by aspect ratio
 
-        // Set the orthographic size so the horizontal view exactly spans the walls.
-        // (Horizontal half-width = cam.orthographicSize * cam.aspect)
-        cam.orthographicSize = halfDistance / cam.aspect;
+        // Clamp between min and max zoom-out values
+        cam.orthographicSize = Mathf.Clamp(requiredSize, minOrthographicSize, maxOrthographicSize);
+    }
 
-        // Set the camera's horizontal position to center the walls.
-        // The vertical position is set to fixedYPosition + verticalOffset (and is updated by vertical follow).
-        transform.position = new Vector3(centerX, transform.position.y, -10f);
+    void UpdateCameraBounds()
+    {
+        float halfWidth = cam.orthographicSize * cam.aspect;
+        minX = leftWall.position.x + halfWidth;
+        maxX = rightWall.position.x - halfWidth;
+    }
+
+    void UpdateCameraPosition()
+    {
+        if (target == null) return;
+
+        float targetX = Mathf.Lerp(transform.position.x, target.position.x, followSpeed * Time.deltaTime);
+        float clampedX = Mathf.Clamp(targetX, minX, maxX);
+
+        transform.position = new Vector3(clampedX, fixedYPosition + verticalOffset, -10f);
     }
 }

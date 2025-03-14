@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,6 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
-
     public float speed = 5f;
     private float jumpForce = 7f;
     public Color ghostColor = Color.white;
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
-    // Orb stack: capacity is 3.
+    // Orb stack: capacity is 5.
     private Stack<GameObject> orbStack = new Stack<GameObject>();
     private int orbStackCapacity = 5;
 
@@ -36,6 +36,12 @@ public class PlayerController : MonoBehaviour
     // UI elements to display the orb stack.
     public GameObject[] orbSlots;  
     public Sprite emptySlotSprite; 
+
+    // Dash variables.
+    private bool isDashing = false;
+    public float dashDuration = 0.2f;
+    public float dashDistance = 7f;
+    private float lastHorizontalInput = 1f; // Defaults to right.
 
     void Start()
     {
@@ -66,18 +72,14 @@ public class PlayerController : MonoBehaviour
     {
         Bounds orbBounds = orb.GetComponent<Renderer>().bounds;
         Bounds playerBounds = player.GetComponent<Renderer>().bounds;
-
         return orbBounds.Intersects(playerBounds);
     }
 
     void Update()
     {
-        // Movement using A/D or left/right arrow keys.
-        float moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-
+        
         // Pick up orbs when pressing F.
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Pressing F");
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
@@ -87,14 +89,14 @@ public class PlayerController : MonoBehaviour
                 nearbyOrb.SetActive(false); // Deactivate the orb.
                 Debug.Log("Picked up orb. Orb count: " + orbStack.Count);
                 UpdateOrbUI();
-                // find other nearby orbs if they exist, otherwise set nearbyOrb to null
-                GameObject[] orbs = GameObject.FindGameObjectsWithTag("BlueOrb").Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToArray();
-                nearbyOrb = orbs.FirstOrDefault(orb =>  orb.activeInHierarchy && IsOverlapping(orb, transform));
-                //nearbyOrb = null; // Clear reference after pickup.
+                // Find other nearby orbs if they exist, otherwise set nearbyOrb to null.
+                GameObject[] orbs = GameObject.FindGameObjectsWithTag("BlueOrb")
+                                        .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToArray();
+                nearbyOrb = orbs.FirstOrDefault(orb => orb.activeInHierarchy && IsOverlapping(orb, transform));
             }
         }
 
-        // Jump in human mode (when not a ghost) using W.
+        // Jump in human mode (when not a ghost) using Space.
         if (!isGhost && Input.GetKeyDown(KeyCode.Space))
         {
             if (orbStack.Count >= 2)
@@ -119,21 +121,91 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                Debug.Log("Not enough orbs to dash.");
+                if (warningText != null)
+                {
+                    warningText.gameObject.SetActive(true);
+                }
+            }
         }
 
+        // Dash: when Left Shift is pressed and we're not already dashing.
+        if (!isGhost && Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (orbStack.Count >= 2)
+            {
+                // Remove top two orbs.
+                GameObject topOrb = orbStack.Pop();
+                GameObject secondOrb = orbStack.Pop();
+
+                if (topOrb.CompareTag("YellowOrb") && secondOrb.CompareTag("YellowOrb"))
+                {
+                    UpdateOrbUI();
+                    Debug.Log("Dash performed using 2 yellow orbs.");
+                    StartCoroutine(Dash());
+                }
+                else
+                {
+                    // The two top orbs are not both yellow. Push them back.
+                    orbStack.Push(secondOrb);
+                    orbStack.Push(topOrb);
+                    Debug.Log("Dash cannot be performed without 2 yellow orbs on top.");
+                    if (warningText != null)
+                    {
+                        warningText.gameObject.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Not enough orbs to dash.");
+                if (warningText != null)
+                {
+                    warningText.gameObject.SetActive(true);
+                }
+            }
+        }
+
+        // Only process regular movement if not dashing.
+        if (!isDashing)
+        {
+            float moveInput = Input.GetAxis("Horizontal");
+            if (moveInput != 0)
+            {
+                lastHorizontalInput = moveInput;
+            }
+            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        }
+
+
         // Press G to drop the top orb at the player's position.
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetMouseButtonDown(1))
         {
             if (orbStack.Count > 0)
             {
                 GameObject topOrb = orbStack.Pop();
-               
-                Vector3 dropPosition = transform.position;                
+                Vector3 dropPosition = transform.position;
+                dropPosition.y -= 0.3f; // Adjust the drop position downward by 0.2 units.
                 topOrb.transform.position = dropPosition;
                 topOrb.SetActive(true);
                 UpdateOrbUI();
             }
         }
+    }
+
+    IEnumerator Dash()
+    {
+        isDashing = true;
+        // Calculate dash speed so that the player covers dashDistance in dashDuration.
+        float dashSpeed = dashDistance / dashDuration;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0; // Disable gravity for a pure horizontal dash.
+        rb.velocity = new Vector2(lastHorizontalInput * dashSpeed, 0);
+        yield return new WaitForSeconds(dashDuration);
+        rb.gravityScale = originalGravity;
+        isDashing = false;
     }
 
     // Transform the player from ghost to human.
@@ -208,6 +280,4 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
 }
-
