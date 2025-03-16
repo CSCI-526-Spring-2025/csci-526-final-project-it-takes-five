@@ -9,11 +9,12 @@ TagManager:
   - Wall
   - YellowOrb
   - Orb
+  - Button
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - SpotLightMask
   - Water
   - UI
   - Ghost

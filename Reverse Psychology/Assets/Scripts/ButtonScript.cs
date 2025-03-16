@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class ButtonScript : MonoBehaviour
 {
@@ -6,9 +7,11 @@ public class ButtonScript : MonoBehaviour
     // Assign the Door GameObject (with DoorScript) in the Inspector.
     public GameObject instructionText;
     public GameObject Panel2;
+    public GameObject globalLightObject;
+    private Light2D globalLight;
     public PlayerController player;       // Assign the Player GameObject (with PlayerController) in the Inspector.
     public Color pressedColor = Color.gray;  // Color to change to when the button is pressed.
-
+    private float newIntensity = 1f;
     private bool activated = false;
     private SpriteRenderer sr;
 
@@ -33,6 +36,8 @@ public class ButtonScript : MonoBehaviour
             {
                 sr.color = pressedColor;
             }
+            globalLight = globalLightObject.GetComponent<Light2D>();
+            globalLight.intensity = newIntensity;
 
             // Show text if it exists
             if (instructionText != null) instructionText.SetActive(true);
