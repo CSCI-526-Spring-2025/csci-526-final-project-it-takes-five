@@ -38,4 +38,6 @@ public class PauseManager : MonoBehaviour
         GameObject.FindWithTag("Player").transform.position = new Vector3(2f, 1f, 0f); // Example checkpoint
         TogglePause();
     }
+
+    //public void 
 }

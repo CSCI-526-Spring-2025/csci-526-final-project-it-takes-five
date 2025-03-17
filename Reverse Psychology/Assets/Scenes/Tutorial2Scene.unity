@@ -1544,6 +1544,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4396986197217174074, guid: 0c0f47f4cc7719242b0e61a34b32ac80, type: 3}
+      propertyPath: m_Color.b
+      value: 0.9744615
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396986197217174074, guid: 0c0f47f4cc7719242b0e61a34b32ac80, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9748427
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396986197217174074, guid: 0c0f47f4cc7719242b0e61a34b32ac80, type: 3}
+      propertyPath: m_Color.r
+      value: 0.965646
+      objectReference: {fileID: 0}
     - target: {fileID: 6942607713041414717, guid: 0c0f47f4cc7719242b0e61a34b32ac80, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2768,9 +2780,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: emptyTopSlotSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 006218f0d0e7aac47a73dbbe5f68575f, type: 3}
+    - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: orbSlots.Array.size
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: emptyBottomSlotSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5e1445d53138dd248bd7ab29bb4c6c81, type: 3}
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: orbSlots.Array.data[0]
       value: 

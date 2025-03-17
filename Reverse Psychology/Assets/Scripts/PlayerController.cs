@@ -35,7 +35,8 @@ public class PlayerController : MonoBehaviour
 
     // UI elements to display the orb stack.
     public GameObject[] orbSlots;  
-    public Sprite emptySlotSprite; 
+    public Sprite emptyTopSlotSprite; 
+    public Sprite emptyBottomSlotSprite;
 
     // Dash variables.
     private bool isDashing = false;
@@ -275,7 +276,14 @@ public class PlayerController : MonoBehaviour
             else
             {
                 // Set the slot to show the empty slot sprite and a default color (e.g., white).
-                slotImage.sprite = emptySlotSprite;
+                if(i < 2)
+                {
+                    slotImage.sprite = emptyTopSlotSprite;
+                    
+                } else
+                {
+                    slotImage.sprite = emptyBottomSlotSprite;
+                }
                 slotImage.color = Color.white;
             }
         }
