@@ -36,9 +36,10 @@ public class ButtonScript : MonoBehaviour
             {
                 sr.color = pressedColor;
             }
+            if (globalLightObject != null) { 
             globalLight = globalLightObject.GetComponent<Light2D>();
             globalLight.intensity = newIntensity;
-
+            }
             // Show text if it exists
             if (instructionText != null) instructionText.SetActive(true);
             if (Panel2 != null) Panel2.SetActive(true);

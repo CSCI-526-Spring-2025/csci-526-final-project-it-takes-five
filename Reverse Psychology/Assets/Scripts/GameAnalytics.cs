@@ -26,6 +26,8 @@ public class GameAnalytics : MonoBehaviour
     private bool isReturning;
     //private FirebaseApp firebaseApp;
 
+
+
     void Start()
     {
         ResetMetrics();
@@ -91,16 +93,63 @@ public class GameAnalytics : MonoBehaviour
 
     public void OnPlayerDeath()
     {
-        Debug.Log("Restart data send");
-        StartCoroutine(SaveLevelAnalyticsData());
+        Debug.Log("Death data send");
+        StartCoroutine(SaveLevelDeathAnalyticsData());
 
+    }
+
+    private IEnumerator SaveLevelDeathAnalyticsData()
+    {
+        Debug.Log("Level Death Analytics data sending!!");
+        string timestamp = DateTime.UtcNow.ToString("_yyyy-MM-dd-HH-mm-ss");
+        string userId = SystemInfo.deviceUniqueIdentifier;
+
+        LevelAnalyticsData data = new LevelAnalyticsData(levelNumber);
+        string json = JsonUtility.ToJson(data);
+
+
+        
+        string URL = "https://gameanalytics-its-default-rtdb.firebaseio.com/death/";
+        //string key = "Level_" + userId + timestamp;
+        string key = timestamp;
+
+        //string databaseSecret = "AIzaSyBanWvgz3YKrMyGBrmfcer1Sub0qxcwPW0";  // Replace with your actual secret key
+
+
+        using (var uwr = new UnityWebRequest(URL + key + ".json", "POST"))
+        {
+            Debug.Log($"Level {levelNumber} Death");
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+            using UploadHandlerRaw uploadHandler = new UploadHandlerRaw(jsonToSend);
+            uwr.uploadHandler = uploadHandler;
+            uwr.downloadHandler = new DownloadHandlerBuffer();
+            uwr.disposeUploadHandlerOnDispose = true;
+            uwr.disposeDownloadHandlerOnDispose = true;
+            uwr.SetRequestHeader("Content-Type", "application/json");
+            uwr.timeout = 5;
+            //Send the request then wait here until it returns
+            yield return uwr.SendWebRequest();
+            if (uwr.result != UnityWebRequest.Result.Success)
+                Debug.Log("Error While Sending:" + uwr.error + " TimeStamp:" + timestamp);
+            else
+                Debug.Log("Data Received:" + uwr.downloadHandler.text + "TimeStamp: " + timestamp);
+        }
+        yield return new WaitForSeconds(1f);  // Example of delay
+        Debug.Log("Level Analytics data saved.");
     }
 
 
 
-    private IEnumerator SaveLevelAnalyticsData()
+    public void OnPlayerRestart()
     {
-        Debug.Log("Level Analytics data sending!!");
+        Debug.Log("Restart data send");
+        StartCoroutine(SaveLevelRestartAnalyticsData());
+
+    }
+
+    private IEnumerator SaveLevelRestartAnalyticsData()
+    {
+        Debug.Log("Level Restart Analytics data sending!!");
         string timestamp = DateTime.UtcNow.ToString("_yyyy-MM-dd-HH-mm-ss");
         string userId = SystemInfo.deviceUniqueIdentifier;
 
@@ -109,7 +158,7 @@ public class GameAnalytics : MonoBehaviour
 
 
         Debug.Log($"Level {levelNumber} restart");
-        string URL = "https://gameanalytics-its-default-rtdb.firebaseio.com/level/";
+        string URL = "https://gameanalytics-its-default-rtdb.firebaseio.com/restart/";
         //string key = "Level_" + userId + timestamp;
         string key = timestamp;
 
@@ -136,6 +185,7 @@ public class GameAnalytics : MonoBehaviour
         yield return new WaitForSeconds(1f);  // Example of delay
         Debug.Log("Level Analytics data saved.");
     }
+
 
 
     public void StartReturnJourney()
@@ -167,7 +217,8 @@ public class GameAnalytics : MonoBehaviour
             Debug.Log("journey ended");
             //rightToLeftTime = Time.time - levelStartTime;
             //totalTime = leftToRightTime + rightToLeftTime;
-            //StartCoroutine(SaveAnalyticsData());
+            //StartCoroutine(SaveLevelDeathAnalyticsData());
+            OnPlayerDeath();
         }
     }
 

@@ -8,13 +8,13 @@ public class SpikeScript : MonoBehaviour
     public GameAnalytics gameAnalytics;
     private int maxTutorialLevel = 3;
     private int maxLevels = 1;
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Player hit spikes! Game Over.");
-            gameAnalytics.EndLevelDeath();
+            Debug.Log("Player hit spikes! Game Over.");  
+        gameAnalytics.EndLevelDeath();
+
             PlayerController player = collision.GetComponent<PlayerController>();
             if (player != null)
                 player.enabled = false;
@@ -30,7 +30,7 @@ public class SpikeScript : MonoBehaviour
         yield return new WaitForSeconds(5f);
         if (gameOverText != null)
             gameOverText.SetActive(false);
-
+        Debug.Log("Game Over ");
         MenuController.showLevelsPanel = true;
 
         SceneManager.LoadScene("MainMenuScene");

@@ -6,20 +6,20 @@ public class Tutorial3Hint : MonoBehaviour
 {
     // Reference to the PickupText GameObject (a TextMeshPro UI element).
     // Assign this in the Inspector.
-    public GameObject DropText;
+    //public GameObject DropText;
     // public GameObject JumpText;
 
     void Start()
     {
         // Hide the drop text initially.
-        if (DropText != null)
-        {
-            DropText.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("DropText is not assigned in Tutorial3Hint!");
-        }
+        //if (DropText != null)
+        //{
+        //    DropText.SetActive(false);
+        //}
+        //else
+        //{
+        //    Debug.LogError("DropText is not assigned in Tutorial3Hint!");
+        //}
     }
 
     void Update()
