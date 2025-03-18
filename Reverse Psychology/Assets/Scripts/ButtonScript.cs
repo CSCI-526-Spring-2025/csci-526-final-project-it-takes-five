@@ -1,5 +1,21 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+
+public class OrbData
+{
+    public string uid;
+    public Vector3 position;
+    // You can add other fields such as rotation, orb type, etc.
+}
+
+public class GameCheckpoint
+{
+    public Vector3 playerPosition;
+    public List<string> pickedUpOrbUIDs; // Orbs in the stack, referenced by UID.
+    public List<OrbData> remainingOrbs;  // Orbs not picked up, with their positions.
+}
 
 public class ButtonScript : MonoBehaviour
 {
@@ -14,8 +30,11 @@ public class ButtonScript : MonoBehaviour
     private float newIntensity = 1f;
     private bool activated = false;
     private SpriteRenderer sr;
-
     public GameAnalytics gameAnalytics;
+    private Stack<GameObject> checkpointStack;
+    private List<string> pickedUpOrbUIDs = new List<string>();
+    //private Stack<GameObject> remainingOrbs;
+    private List<OrbData> remainingOrbData = new List<OrbData>();
 
     void Start()
     {
@@ -48,7 +67,54 @@ public class ButtonScript : MonoBehaviour
             // Trigger the door opening and player transformation.
             door.OpenDoor();
             player.TransformToHuman();
-            Debug.Log("Button pressed: Door opened, player transformed, and button color changed.");
+
+            saveCheckpoint();
         }
+    }
+
+    public void saveCheckpoint()
+    {
+        checkpointStack = player.getStack();
+        for (int i = 0; i < checkpointStack.Count; i++)
+        {
+            OrbClass orbComponent = checkpointStack.ElementAt(i).GetComponent<OrbClass>();
+            pickedUpOrbUIDs.Add(orbComponent.uniqueID);
+
+        }
+
+        GameObject[] blueOrbs = GameObject.FindGameObjectsWithTag("BlueOrb");
+        GameObject[] yellowOrbs = GameObject.FindGameObjectsWithTag("YellowOrb");
+      
+        foreach (GameObject orb in blueOrbs)
+        {
+            OrbClass orbComponent = orb.GetComponent<OrbClass>();
+            if (orbComponent != null)
+            {
+                // Check if this orb is not already picked up.
+                if (!pickedUpOrbUIDs.Contains(orbComponent.uniqueID))
+                {
+                    OrbData data = new OrbData();
+                    data.uid = orbComponent.uniqueID;
+                    data.position = orb.transform.position;
+                    remainingOrbData.Add(data);
+                }
+            }
+        }
+
+        foreach (GameObject orb in yellowOrbs)
+        {
+            OrbClass orbComponent = orb.GetComponent<OrbClass>();
+            if (orbComponent != null)
+            {
+                if (!pickedUpOrbUIDs.Contains(orbComponent.uniqueID))
+                {
+                    OrbData data = new OrbData();
+                    data.uid = orbComponent.uniqueID;
+                    data.position = orb.transform.position;
+                    remainingOrbData.Add(data);
+                }
+            }
+        }
+        
     }
 }

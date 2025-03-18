@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sr;
 
     // Orb stack: capacity is 5.
-    private Stack<GameObject> orbStack = new Stack<GameObject>();
+    public Stack<GameObject> orbStack = new Stack<GameObject>();
     private int orbStackCapacity = 5;
 
     // UI element to display orb count and warning messages
@@ -76,19 +76,25 @@ public class PlayerController : MonoBehaviour
         return orbBounds.Intersects(playerBounds);
     }
 
+    public Stack<GameObject> getStack()
+    {
+        return orbStack;
+    }
+
     void Update()
     {
         
         // Pick up orbs when pressing F.
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Pressing F");
+            //Debug.Log("Pressing F");
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
             {
-                Debug.Log("Inside if");
+                //Debug.Log("Inside if");
                 orbStack.Push(nearbyOrb);
                 nearbyOrb.SetActive(false); // Deactivate the orb.
                 Debug.Log("Picked up orb. Orb count: " + orbStack.Count);
+                //Debug.Log("Orb id: " + nearbyOrb.uniqueID);
                 UpdateOrbUI();
                 // Find other nearby orbs if they exist, otherwise set nearbyOrb to null.
                 GameObject[] orbs = GameObject.FindGameObjectsWithTag("BlueOrb")
@@ -234,7 +240,7 @@ public class PlayerController : MonoBehaviour
             if (nearbyOrb == null)
             {
                 nearbyOrb = collision.gameObject;
-                Debug.Log("Orb in pickup range. Press F to pick it up.");
+                //Debug.Log("Orb in pickup range. Press F to pick it up.");
             }
         }
     }
@@ -265,6 +271,8 @@ public class PlayerController : MonoBehaviour
             {
                 // Retrieve the orb from the stack using LINQ's ElementAt.
                 GameObject orbInStack = orbStack.ElementAt(i);
+                OrbClass orbComponent = orbInStack.GetComponent<OrbClass>();
+                Debug.Log(orbComponent.uniqueID);
                 SpriteRenderer orbSpriteRenderer = orbInStack.GetComponent<SpriteRenderer>();
                 if (orbSpriteRenderer != null)
                 {
