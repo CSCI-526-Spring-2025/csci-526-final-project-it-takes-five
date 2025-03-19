@@ -10,6 +10,7 @@ TagManager:
   - YellowOrb
   - Orb
   - Button
+  - SafeZone
   layers:
   - Default
   - TransparentFX
