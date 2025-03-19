@@ -27,7 +27,6 @@ public class GameAnalytics : MonoBehaviour
     //private FirebaseApp firebaseApp;
 
 
-
     void Start()
     {
         ResetMetrics();
@@ -82,21 +81,47 @@ public class GameAnalytics : MonoBehaviour
         timerText.text = "Time: " + elapsedTime.ToString("F2") + "s";
     }
 
-    void ResetMetrics()
+    // Event handlers
+    public void OnPlayerRestart()
     {
-        leftToRightTime = 0;
-        rightToLeftTime = 0;
-        totalTime = 0;
-        //playerDeaths = 0;
-        isReturning = false;
-    }
-
-    public void OnPlayerDeath()
-    {
-        Debug.Log("Death data send");
-        StartCoroutine(SaveLevelDeathAnalyticsData());
+        Debug.Log("Restart data send");
+        StartCoroutine(SaveLevelRestartAnalyticsData());
 
     }
+
+    public void EndLevel()
+    {
+        if (isReturning)
+        {
+            pauseTime = true;
+            Debug.Log("journey ended");
+            rightToLeftTime = Time.time - levelStartTime;
+            totalTime = leftToRightTime + rightToLeftTime;
+            
+            StartCoroutine(SaveAnalyticsData());
+        }
+    }
+
+    public void EndLevelDeath()
+    {
+        if (isReturning)
+        {
+            pauseTime = true;
+            Debug.Log("journey ended");
+            //rightToLeftTime = Time.time - levelStartTime;
+            //totalTime = leftToRightTime + rightToLeftTime;
+            StartCoroutine(SaveLevelDeathAnalyticsData());
+        }
+    }
+
+    public void EndAbility(string type, bool success)
+    {
+        if (isReturning) {
+            StartCoroutine(SaveAbilityAnalyticsData(type, success));
+        }
+    }
+
+    // Data posting functions
 
     private IEnumerator SaveLevelDeathAnalyticsData()
     {
@@ -138,15 +163,6 @@ public class GameAnalytics : MonoBehaviour
         Debug.Log("Level Analytics data saved.");
     }
 
-
-
-    public void OnPlayerRestart()
-    {
-        Debug.Log("Restart data send");
-        StartCoroutine(SaveLevelRestartAnalyticsData());
-
-    }
-
     private IEnumerator SaveLevelRestartAnalyticsData()
     {
         Debug.Log("Level Restart Analytics data sending!!");
@@ -186,54 +202,16 @@ public class GameAnalytics : MonoBehaviour
         Debug.Log("Level Analytics data saved.");
     }
 
-
-
-    public void StartReturnJourney()
-    {
-        Debug.Log("return journey started");
-        leftToRightTime = Time.time - levelStartTime;
-        isReturning = true;
-        levelStartTime = Time.time;
-    }
-
-    public void EndLevel()
-    {
-        if (isReturning)
-        {
-            pauseTime = true;
-            Debug.Log("journey ended");
-            rightToLeftTime = Time.time - levelStartTime;
-            totalTime = leftToRightTime + rightToLeftTime;
-            
-            StartCoroutine(SaveAnalyticsData());
-        }
-    }
-
-    public void EndLevelDeath()
-    {
-        if (isReturning)
-        {
-            pauseTime = true;
-            Debug.Log("journey ended");
-            //rightToLeftTime = Time.time - levelStartTime;
-            //totalTime = leftToRightTime + rightToLeftTime;
-            //StartCoroutine(SaveLevelDeathAnalyticsData());
-            OnPlayerDeath();
-        }
-    }
-
-
     private IEnumerator SaveAnalyticsData()
     {
         Debug.Log("Analytics data sending!!");
         string timestamp = DateTime.UtcNow.ToString("_yyyy-MM-dd-HH-mm-ss");
-        string userId = SystemInfo.deviceUniqueIdentifier;
+        // string userId = SystemInfo.deviceUniqueIdentifier;
 
         AnalyticsData data = new AnalyticsData(levelNumber, leftToRightTime, rightToLeftTime, totalTime, timestamp);
         string json = JsonUtility.ToJson(data);
 
         //dbReference.Child("analytics").Child(userId).Child(timestamp).SetRawJsonValueAsync(json);
-
         //json ={ }
 
         Debug.Log($"Level {levelNumber} Completion Time: Left to Right = {leftToRightTime} sec, Right to Left = {rightToLeftTime} sec, Total = {totalTime} sec");
@@ -269,6 +247,64 @@ public class GameAnalytics : MonoBehaviour
         yield return new WaitForSeconds(1f);  // Example of delay
         Debug.Log("Analytics data saved.");
     }
+
+    private IEnumerator SaveAbilityAnalyticsData(string type, bool success)
+    {
+        Debug.Log("Ability Analytics data sending!!");
+        string timestamp = DateTime.UtcNow.ToString("_yyyy-MM-dd-HH-mm-ss");
+        // string userId = SystemInfo.deviceUniqueIdentifier;
+
+        AbilityAnalyticsData data = new AbilityAnalyticsData(levelNumber, type, success, timestamp);
+        string json = JsonUtility.ToJson(data);
+
+        Debug.Log($"Level {levelNumber} Ability Used: {type}, Success = {success}");
+        string URL = "https://gameanalytics-its-default-rtdb.firebaseio.com/abilitydata/";
+        string key = timestamp;
+
+        string databaseSecret = "AIzaSyBanWvgz3YKrMyGBrmfcer1Sub0qxcwPW0";  // Replace with your actual secret key
+
+        using (var uwr = new UnityWebRequest(URL + key + ".json", "POST"))
+        {
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+            using UploadHandlerRaw uploadHandler = new UploadHandlerRaw(jsonToSend);
+            uwr.uploadHandler = uploadHandler;
+            uwr.downloadHandler = new DownloadHandlerBuffer();
+            uwr.disposeUploadHandlerOnDispose = true;
+            uwr.disposeDownloadHandlerOnDispose = true;
+            uwr.SetRequestHeader("Content-Type", "application/json");
+            uwr.timeout = 5;
+            //Send the request then wait here until it returns
+            yield return uwr.SendWebRequest();
+
+            //string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+
+            if (uwr.result != UnityWebRequest.Result.Success)
+                Debug.Log("Error While Sending:" + uwr.error + " TimeStamp:" + timestamp);
+            else
+                Debug.Log("Data Received:" + uwr.downloadHandler.text + "TimeStamp: " + timestamp);
+        }
+        yield return new WaitForSeconds(1f);  // Example of delay
+        Debug.Log("Ability Analytics data saved.");
+    }
+
+    // Helper functions
+    void ResetMetrics()
+    {
+        leftToRightTime = 0;
+        rightToLeftTime = 0;
+        totalTime = 0;
+        //playerDeaths = 0;
+        isReturning = false;
+    }
+
+    public void StartReturnJourney()
+    {
+        Debug.Log("return journey started");
+        leftToRightTime = Time.time - levelStartTime;
+        isReturning = true;
+        levelStartTime = Time.time;
+    }
+    
 }
 
 [Serializable]
@@ -302,5 +338,23 @@ public class LevelAnalyticsData
     public LevelAnalyticsData(string level)
     {
         levelNumber = level;
+    }
+}
+
+[Serializable]
+public class AbilityAnalyticsData
+{
+    public string level;
+    public string ability;
+    public bool success;
+    public string timestamp;
+
+
+    public AbilityAnalyticsData(string level, string ability, bool success, string timestamp)
+    {
+        this.level = level;
+        this.ability = ability;
+        this.success = success;
+        this.timestamp = timestamp;
     }
 }

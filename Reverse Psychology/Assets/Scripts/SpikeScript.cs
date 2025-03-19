@@ -13,11 +13,14 @@ public class SpikeScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Debug.Log("Player hit spikes! Game Over.");  
-        gameAnalytics.EndLevelDeath();
+            gameAnalytics.EndLevelDeath();
 
             PlayerController player = collision.GetComponent<PlayerController>();
             if (player != null)
+            {
+                player.abilityEnd();
                 player.enabled = false;
+            }
             // Start Coroutine to wait and exit the game
             StartCoroutine(GameOver());
         }

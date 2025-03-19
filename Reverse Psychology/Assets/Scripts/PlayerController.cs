@@ -44,6 +44,11 @@ public class PlayerController : MonoBehaviour
     public float dashDistance = 7f;
     private float lastHorizontalInput = 1f; // Defaults to right.
 
+    // Ability success variables
+    public GameObject gameAnalytics;
+    public bool abilityInProgress = false;
+    public string currentAbility = "";
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -69,11 +74,11 @@ public class PlayerController : MonoBehaviour
         UpdateOrbUI();
     }
 
-    bool IsOverlapping(GameObject orb, Transform player)
+    bool IsOverlapping(GameObject obj, Transform player)
     {
-        Bounds orbBounds = orb.GetComponent<Renderer>().bounds;
+        Bounds objectBounds = obj.GetComponent<Renderer>().bounds;
         Bounds playerBounds = player.GetComponent<Renderer>().bounds;
-        return orbBounds.Intersects(playerBounds);
+        return objectBounds.Intersects(playerBounds);
     }
 
     public Stack<GameObject> getStack()
@@ -81,13 +86,29 @@ public class PlayerController : MonoBehaviour
         return orbStack;
     }
 
+    public bool abilityEnd() {
+        abilityInProgress = false;
+       // Check if touching safe zone
+        GameObject[] safeZones = GameObject.FindGameObjectsWithTag("SafeZone");
+        GameAnalytics analyticsScript = gameAnalytics.GetComponent<GameAnalytics>();
+
+        foreach (GameObject safeZone in safeZones)
+        {
+            if (IsOverlapping(safeZone, transform))
+            {   
+                analyticsScript.EndAbility(currentAbility, true);                return true;
+            }
+        }
+        analyticsScript.EndAbility(currentAbility, false);
+        return false;
+    }
+
     void Update()
     {
         
-        // Pick up orbs when pressing F.
+        // Pick up orbs when pressing left arrow key.
         if (Input.GetMouseButtonDown(0))
         {
-            //Debug.Log("Pressing F");
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
             {
                 //Debug.Log("Inside if");
@@ -114,6 +135,12 @@ public class PlayerController : MonoBehaviour
                 if (topOrb.CompareTag("BlueOrb") && secondOrb.CompareTag("BlueOrb"))
                 {
                     UpdateOrbUI();
+                    // End old ability
+                    if (abilityInProgress) {
+                        Debug.Log("Ability ended. Success: " + abilityEnd());
+                    }
+                    abilityInProgress = true;
+                    currentAbility = "Jump";
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                     Debug.Log("Jump performed using 2 blue orbs.");
                 }
@@ -150,6 +177,11 @@ public class PlayerController : MonoBehaviour
                 if (topOrb.CompareTag("YellowOrb") && secondOrb.CompareTag("YellowOrb"))
                 {
                     UpdateOrbUI();
+                    if (abilityInProgress) {
+                        Debug.Log("Ability ended. Success: " + abilityEnd());
+                    }
+                    abilityInProgress = true;
+                    currentAbility = "Dash";
                     Debug.Log("Dash performed using 2 yellow orbs.");
                     StartCoroutine(Dash());
                 }
@@ -186,7 +218,6 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
         }
 
-
         // Press G to drop the top orb at the player's position.
         if (Input.GetMouseButtonDown(1))
         {
@@ -199,6 +230,15 @@ public class PlayerController : MonoBehaviour
                 topOrb.SetActive(true);
                 UpdateOrbUI();
             }
+        }
+
+        // If ability is in progress, check if it has ended.
+        if (abilityInProgress){
+            // Check if not midair
+            if (rb.velocity.y == 0) {
+                Debug.Log("Ability ended. Success: " + abilityEnd());
+            }
+
         }
     }
 
