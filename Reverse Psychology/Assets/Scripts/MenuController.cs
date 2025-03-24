@@ -79,6 +79,14 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("Level3");
     }
 
+    public void OnLevel4Clicked()
+    {
+        isTutorial = false;
+        currentLevel = 4;
+        Debug.Log("Level 4 selected. Load Level content here.");
+        SceneManager.LoadScene("Level4");
+    }
+
     // Called when "Tutorial 1" button is clicked
     public void OnTutorial1Clicked()
     {
