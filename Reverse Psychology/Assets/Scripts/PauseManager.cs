@@ -7,14 +7,19 @@ public class PauseManager : MonoBehaviour
     public GameObject pauseButton;
 
     private bool isPaused = false;
+    public GameObject instructionsPanel;
 
     void Start()
     {
         pauseMenu.SetActive(false);
+        instructionsPanel.SetActive(false);
     }
 
     public void TogglePause()
     {
+        Debug.Log("TogglePause clicked");
+        if (instructionsPanel.activeSelf)
+            return;
         isPaused = !isPaused;
         pauseMenu.SetActive(isPaused);
         Time.timeScale = isPaused ? 0f : 1f;
@@ -39,5 +44,15 @@ public class PauseManager : MonoBehaviour
         TogglePause();
     }
 
-    //public void 
+
+    public void ShowInstructions()
+    {
+        instructionsPanel.SetActive(true);
+    }
+
+    // Closes the instructions panel, leaving the pause menu active
+    public void CloseInstructions()
+    {
+        instructionsPanel.SetActive(false);
+    }
 }
