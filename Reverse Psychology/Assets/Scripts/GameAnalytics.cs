@@ -8,28 +8,28 @@ using System.Collections;
 
 public class GameAnalytics : MonoBehaviour
 {
+    public bool debug = false;
+
     public TextMeshProUGUI timerText; // UI Text to display timer
     private float leftToRightTime;
     private float rightToLeftTime;
     private float totalTime;
     private float levelTimer;
     private float levelStartTime;
-    private string levelNumber;
-
-    //private int playerDeaths;
-
     private float endTime;
-
     private bool pauseTime;
 
-    //private DatabaseReference dbReference;
+    private string levelNumber;
     private bool isReturning;
-    //private FirebaseApp firebaseApp;
 
+    private int width;
+    private int height;
 
+    // Reset metrics, get level number, get width and height, start timer
     void Start()
     {
         ResetMetrics();
+        // Get level number
         GameObject textObject = GameObject.Find("CurrentLevel");
         pauseTime = false;
         if (textObject != null)
@@ -46,8 +46,10 @@ public class GameAnalytics : MonoBehaviour
             Debug.LogError("Text GameObject not found in the scene.");
         }
 
-
         levelStartTime = levelTimer = Time.time;
+
+        // Get width and height
+
         //dbReference = FirebaseDatabase.DefaultInstance.RootReference;
         //FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         //{
@@ -72,6 +74,7 @@ public class GameAnalytics : MonoBehaviour
         //});
     }
 
+    // Update timer
     void Update()
     {
         if (!pauseTime) {
@@ -81,20 +84,40 @@ public class GameAnalytics : MonoBehaviour
         timerText.text = "Time: " + elapsedTime.ToString("F2") + "s";
     }
 
-    // Event handlers
+    // Event handlers for restart, level end, and ability use. Call coroutines to send data
+    
+    // Send Level Data when player restarts: Level, Timestamp, dummy position to /restart
+    // Used for num restarts graph
     public void OnPlayerRestart()
     {
+        if(debug) return;
         Debug.Log("Restart data send");
         StartCoroutine(SaveLevelRestartAnalyticsData());
 
     }
-
-    public void EndLevel()
+ 
+    // Send Level Data when player dies: Level, Timestamp, position to /death
+    // Used for death heatmap
+    public void EndLevelDeath(float x, float y)
     {
+        if(debug) return;
         if (isReturning)
         {
             pauseTime = true;
-            Debug.Log("journey ended");
+            Debug.Log("Death data send");
+            StartCoroutine(SaveLevelDeathAnalyticsData(x, y));
+        }
+    }
+
+    // Send Analytics Data when player completes level: Level, Left to Right Time, Right to Left Time, Total Time to /timedata
+    // Used for completion time box plots
+    public void EndLevel()
+    {
+        if(debug) return;
+        if (isReturning)
+        {
+            pauseTime = true;
+            Debug.Log("Level completed");
             rightToLeftTime = Time.time - levelStartTime;
             totalTime = leftToRightTime + rightToLeftTime;
             
@@ -102,34 +125,25 @@ public class GameAnalytics : MonoBehaviour
         }
     }
 
-    public void EndLevelDeath()
+    // Send Ability Data when player uses ability: Level, Ability, Success, Timestamp, Position to /abilitydata
+    // Used for ability heatmap
+    public void EndAbility(string type, bool success, float x, float y)
     {
-        if (isReturning)
-        {
-            pauseTime = true;
-            Debug.Log("journey ended");
-            //rightToLeftTime = Time.time - levelStartTime;
-            //totalTime = leftToRightTime + rightToLeftTime;
-            StartCoroutine(SaveLevelDeathAnalyticsData());
-        }
-    }
-
-    public void EndAbility(string type, bool success)
-    {
+        if(debug) return;
         if (isReturning) {
-            StartCoroutine(SaveAbilityAnalyticsData(type, success));
+            StartCoroutine(SaveAbilityAnalyticsData(type, success, x, y));
         }
     }
 
-    // Data posting functions
+    // Data posting functions ____________________________________________________________
 
-    private IEnumerator SaveLevelDeathAnalyticsData()
+    private IEnumerator SaveLevelDeathAnalyticsData(float x, float y)
     {
         Debug.Log("Level Death Analytics data sending!!");
         string timestamp = DateTime.UtcNow.ToString("_yyyy-MM-dd-HH-mm-ss");
         string userId = SystemInfo.deviceUniqueIdentifier;
 
-        LevelAnalyticsData data = new LevelAnalyticsData(levelNumber);
+        LevelAnalyticsData data = new LevelAnalyticsData(levelNumber, x, y);
         string json = JsonUtility.ToJson(data);
 
 
@@ -169,7 +183,7 @@ public class GameAnalytics : MonoBehaviour
         string timestamp = DateTime.UtcNow.ToString("_yyyy-MM-dd-HH-mm-ss");
         string userId = SystemInfo.deviceUniqueIdentifier;
 
-        LevelAnalyticsData data = new LevelAnalyticsData(levelNumber);
+        LevelAnalyticsData data = new LevelAnalyticsData(levelNumber, 0.0f, 0.0f);
         string json = JsonUtility.ToJson(data);
 
 
@@ -248,13 +262,13 @@ public class GameAnalytics : MonoBehaviour
         Debug.Log("Analytics data saved.");
     }
 
-    private IEnumerator SaveAbilityAnalyticsData(string type, bool success)
+    private IEnumerator SaveAbilityAnalyticsData(string type, bool success, float x, float y)
     {
         Debug.Log("Ability Analytics data sending!!");
         string timestamp = DateTime.UtcNow.ToString("_yyyy-MM-dd-HH-mm-ss");
         // string userId = SystemInfo.deviceUniqueIdentifier;
 
-        AbilityAnalyticsData data = new AbilityAnalyticsData(levelNumber, type, success, timestamp);
+        AbilityAnalyticsData data = new AbilityAnalyticsData(levelNumber, type, success, timestamp, x, y);
         string json = JsonUtility.ToJson(data);
 
         Debug.Log($"Level {levelNumber} Ability Used: {type}, Success = {success}");
@@ -307,6 +321,8 @@ public class GameAnalytics : MonoBehaviour
     
 }
 
+// Data templates
+
 [Serializable]
 public class AnalyticsData
 {
@@ -330,17 +346,23 @@ public class AnalyticsData
     }
 }
 
+// Level Analytics: Level, Timestamp. Records end of a level (for death or restart)
 [Serializable]
 public class LevelAnalyticsData
 {
     public string levelNumber;
+    public float x;
+    public float y;
 
-    public LevelAnalyticsData(string level)
+    public LevelAnalyticsData(string level, float x, float y)
     {
         levelNumber = level;
+        this.x = x;
+        this.y = y;
     }
 }
 
+// Ability Analytics: Level, Ability, Success, Timestamp
 [Serializable]
 public class AbilityAnalyticsData
 {
@@ -348,13 +370,18 @@ public class AbilityAnalyticsData
     public string ability;
     public bool success;
     public string timestamp;
+    public float x;
+    public float y;
 
 
-    public AbilityAnalyticsData(string level, string ability, bool success, string timestamp)
+    public AbilityAnalyticsData(string level, string ability, bool success, string timestamp, float x, float y)
     {
         this.level = level;
         this.ability = ability;
         this.success = success;
         this.timestamp = timestamp;
+        this.x = x;
+        this.y = y;
     }
 }
+

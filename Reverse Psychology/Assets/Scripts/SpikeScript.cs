@@ -13,7 +13,7 @@ public class SpikeScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Debug.Log("Player hit spikes! Game Over.");  
-            gameAnalytics.EndLevelDeath();
+            gameAnalytics.EndLevelDeath(collision.transform.position.x, collision.transform.position.y);
 
             PlayerController player = collision.GetComponent<PlayerController>();
             if (player != null)

@@ -1,0 +1,449 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <title>Game Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; margin: 5vw">
+    <h1 >Game Analytics Dashboard</h1>    
+
+    <!-- Box Plot Controls -->
+    <div id="completion-time-graph">
+        <div>
+            <label for="completion-dataType">Select Data Type:</label>
+            <select id="completion-dataType">
+                <option value="ltr">Left to Right</option>
+                <option value="rtl">Right to Left</option>
+                <option value="total">Total</option>
+            </select>
+            <div id="completion-checkboxes"></div>
+        </div>
+        <div id="time-plot"></div>
+    </div>
+
+    <!-- Restart Graph -->
+    <div id="restart-graph"></div>
+
+    <!-- Heatmaps -->
+    <div id="heatmaps">
+        <div id="heatmap-dropdown"></div>
+        <br>
+        <h2>Death Heatmap</h2>
+        <div id="death-heatmap"></div>
+        <h2>Ability Heatmap</h2>
+        <div id="ability-checkboxes"></div>
+        <div id="ability-heatmap"></div>
+    </div>
+    
+    <style>
+        #completion-time-graph {
+            display: grid;
+            grid-template-columns: 20% auto;
+            height: 500px;
+            align-items: center;
+        }
+    </style>
+
+    <script type="module">
+        // Firebase imports
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+        import { goOnline } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyBanWvgz3YKrMyGBrmfcer1Sub0qxcwPW0",
+          authDomain: "gameanalytics-its.firebaseapp.com",
+          databaseURL: "https://gameanalytics-its-default-rtdb.firebaseio.com",
+          projectId: "gameanalytics-its",
+          storageBucket: "gameanalytics-its.firebasestorage.app",
+          messagingSenderId: "463281396319",
+          appId: "1:463281396319:android:9555536f147ddac00119ea"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        goOnline(db);
+
+        // TIME PLOT
+        // Fetch time data from Firebase
+        async function getTimeData() {
+            const analyticsRef = ref(db, 'timedata');
+            try {
+                const snapshot = await get(analyticsRef);
+                if (snapshot.exists()) {
+                    let completionTimes = {};
+
+                    snapshot.forEach(timestampSnapshot => {
+                        timestampSnapshot.forEach(sessionSnapshot => {
+                            let data = sessionSnapshot.val();
+                            let level = `${data.levelNumber}`;
+
+                            if (!completionTimes[level]) 
+                                completionTimes[level] = { ltr: [], rtl: [], total: [] };
+
+                            completionTimes[level].ltr.push(data.leftToRightTime);
+                            completionTimes[level].rtl.push(data.rightToLeftTime);
+                            completionTimes[level].total.push(data.totalTime);
+                        });
+                    });
+                    console.log(completionTimes);
+                    return completionTimes;
+                } else {
+                    console.log('No data available');
+                    return null;
+                }
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+
+        // Initialize controls
+        const checkboxContainer = document.getElementById("completion-checkboxes");
+        const dataTypeSelector = document.getElementById("completion-dataType");
+        
+
+        // Render checkboxes based on existing levels
+        function renderCheckboxes(levels) {
+            checkboxContainer.innerHTML = "";
+            levels.forEach(level => {
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = level;
+                checkbox.checked = level == "Tutorial 1" ? true : false;
+                checkbox.classList.add("levelCheckbox");
+
+                const label = document.createElement("label");
+                label.textContent = level;
+                label.appendChild(checkbox);
+
+                checkboxContainer.appendChild(label);
+                checkboxContainer.appendChild(document.createElement("br"));
+            });
+
+            // Add event listeners to checkboxes
+            document.querySelectorAll(".levelCheckbox").forEach(cb => cb.addEventListener("change", updateTimePlot));
+        }
+
+        // Draw time plot
+        async function updateTimePlot() {
+            const timeData = await getTimeData();
+            if (!timeData) return;
+            const plotDiv = document.getElementById("time-plot");
+            const selectedDataType = dataTypeSelector.value;
+            const selectedLevels = Array.from(document.querySelectorAll(".levelCheckbox:checked"))
+                                        .map(cb => cb.value)
+                                        .sort((a, b) => b.localeCompare(a));
+
+            const traces = selectedLevels.map(level => ({
+                x: timeData[level][selectedDataType], // Use x for horizontal orientation
+                y: Array(timeData[level][selectedDataType].length).fill(level), // Keep y constant for each level
+                type: "box",
+                name: level,
+                orientation: "h" // Set boxplot to horizontal
+            }));
+
+            Plotly.newPlot(plotDiv, traces, { 
+                title: "Completion Times",
+                xaxis: { title: "Time (seconds)" }, 
+                yaxis: { title: "Level" }
+            });
+        }
+
+        // RESTART PLOT
+        // Fetch restart data from Firebase
+        async function getRestartData() {
+            const analyticsRef = ref(db, 'restart');
+            try {
+                const snapshot = await get(analyticsRef);
+                if (snapshot.exists()) {
+                    let levelFrequencies = {};
+
+                    snapshot.forEach(timestampSnapshot => {
+                        timestampSnapshot.forEach(sessionSnapshot => {
+                            let data = sessionSnapshot.val();
+                            let level = data.levelNumber;
+                            if (!levelFrequencies[level]) levelFrequencies[level] = 0;
+                            levelFrequencies[level] += 1;
+                        });
+                    });
+                    console.log(levelFrequencies);
+                    return levelFrequencies;
+                } else {
+                    console.log('No data available');
+                    return null;
+                }
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+
+        // Draw restart plot
+        const updateRestartPlot = async () => {
+            const restartData = await getRestartData();
+            if (!restartData) return;
+            const plotDiv = document.getElementById('restart-graph');
+            const labels = Object.keys(restartData);
+            const data = Object.values(restartData);
+
+            const trace = {
+                x: labels,
+                y: data,
+                type: 'bar',
+                marker: {
+                    color: 'rgba(75, 192, 192, 0.5)'
+                }
+            };
+
+            Plotly.newPlot(plotDiv, [trace], {
+                title: "Restart Frequencies",
+                xaxis: { title: "Levels" },
+                yaxis: { title: "Number of Restarts" }
+            });
+
+        }
+
+        // DEATH HEATMAP
+        async function getDeathData() {
+            const analyticsRef = ref(db, 'death');
+            try {
+                const snapshot = await get(analyticsRef);
+                if (snapshot.exists()) {
+                    let levelDeaths = {};
+
+                    snapshot.forEach(timestampSnapshot => {
+                        timestampSnapshot.forEach(sessionSnapshot => {
+                            let data = sessionSnapshot.val();
+                            let level = data.levelNumber;
+                            if (!levelDeaths[level]) levelDeaths[level] = [];
+                            levelDeaths[level].push([data.x, data.y]);
+                        });
+                    });
+                    console.log(levelDeaths);
+                    
+                    // levelDeaths['Dummy'] = Array.from({length: 10}, () => [Math.floor(Math.random() * 20 - 10), Math.floor(Math.random() * 20 - 10)]);
+
+                    return levelDeaths;
+                } else {
+                    console.log('No data available');
+                    return null;
+                }
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+
+        // Initialize controls
+        const heatmapDropdown = document.getElementById('heatmap-dropdown');
+        const gameWidth = 20;
+        const gameHeight = 11;
+        const playerWidth = 1;
+        const playerHeight = 1;
+
+        function renderDropdown(levels) {
+            heatmapDropdown.innerHTML = "";
+            // create select element
+            const levelSelect = document.createElement('select');
+            levels.forEach(level => {
+                const option = document.createElement('option');
+                option.value = level;
+                option.textContent = level;
+                option.classList.add('levelDropdown');
+                levelSelect.appendChild(option);
+            });
+
+            heatmapDropdown.appendChild(levelSelect);
+
+            document.querySelectorAll(".levelDropdown").forEach(cb => cb.addEventListener("change", updateDeathHeatmap));
+        }
+
+        function drawHeatmap(levelData, id, img_path) {
+            // console.log('Drawing heatmap');
+            console.log("Level data for heatmap", levelData);
+            // Make heatmap
+            const plotDiv = document.getElementById(id);
+            plotDiv.innerHTML = '';
+            const canvas = document.createElement('canvas');
+            canvas.width = 600;
+            canvas.height = 300;
+            plotDiv.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            // Load level image
+            const image = new Image();
+            image.src = img_path;
+            
+            // Draw scatter plot
+            image.onload = () => {
+                ctx.globalAlpha = 0.25;
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                ctx.globalAlpha = 1;
+                levelData.forEach(d => {
+                    // get top left coordinate
+                    d[0] = d[0] - playerWidth / 2;
+                    d[1] = d[1] + playerHeight / 2;
+                    // normalize to canvas size
+                    d[0] = d[0] * canvas.width / gameWidth;
+                    d[1] = d[1] * canvas.height / gameHeight;
+                    ctx.fillStyle = 'rgba(255, 77, 77, 0.7)';
+                    ctx.beginPath();
+                    ctx.arc(canvas.width / 2 + d[0], canvas.height / 2 - d[1], 30, 0, 2 * Math.PI);
+                    ctx.lineWidth = 1;
+                    if (d[2] !== undefined) {
+                        ctx.fillStyle = d[2] ? 'rgba(0, 255, 0, 0.15)' : 'rgba(255, 0, 0, 0.15)';
+                        ctx.strokeStyle = d[2] ? 'rgba(0, 255, 0, 1)' : 'rgba(255, 0, 0, 1)';
+                    } else {
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+                        ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+                    }
+                    ctx.fill();
+                    ctx.stroke();
+                });
+            };            
+        }
+
+        // Draw death heatmap
+        const updateDeathHeatmap = async () => {
+            const deathData = await getDeathData();
+            if (!deathData) document.getElementById('death-heatmap').innerHTML = '';
+            
+            // Get selected level
+            const level = heatmapDropdown.querySelector('select').value;
+            const levelData = deathData[level];
+            if (!levelData) document.getElementById('death-heatmap').innerHTML = '';
+            drawHeatmap(levelData, 'death-heatmap', "Level Maps/" + level + ".png");        
+        }
+
+        // ABILITY HEATMAP
+        async function getAbilityData() {
+            const analyticsRef = ref(db, 'abilitydata');
+            try {
+                const snapshot = await get(analyticsRef);
+                if (snapshot.exists()) {
+                    let levelAbilities = {};
+
+                    snapshot.forEach(timestampSnapshot => {
+                        timestampSnapshot.forEach(sessionSnapshot => {
+                            let data = sessionSnapshot.val();
+                            let level = data.level;
+                            if (!levelAbilities[level]) levelAbilities[level] = {};
+                            if(!levelAbilities[level][data.ability]) levelAbilities[level][data.ability] = [];
+                            levelAbilities[level][data.ability].push([data.x, data.y, data.success]);
+                        });
+                    });
+                    console.log(levelAbilities);
+                    // Add dummy data
+                    // levelAbilities['Tutorial 3']['Jump'] = [];
+                    // levelAbilities['Tutorial 3']['Dash'] = [];
+                    // levelAbilities['Tutorial 3']['Heal'] = [];
+
+                    // const addDummyData = (ability) => {
+                    //     for (let i = 0; i < 3; i++) {
+                    //         const x = i*3;
+                    //         const y = i;
+                    //         levelAbilities['Tutorial 3'][ability].push([x, y, true]);
+                    //         levelAbilities['Tutorial 3'][ability].push([x+0.5, y+0.5, false]);
+                    //     }
+                    // }
+                    // addDummyData('Jump');
+                    // addDummyData('Dash');
+                    // addDummyData('Heal');
+                    return levelAbilities;
+                } else {
+                    console.log('No data available');
+                    return null;
+                }
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+
+        // Render checkboxes for abilities
+        function renderAbilityCheckboxes(abilities) {
+            const abilityCheckboxContainer = document.getElementById("ability-checkboxes");
+            abilityCheckboxContainer.innerHTML = "";
+            abilities.forEach(ability => {
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = ability;
+                checkbox.checked = ability == "Jump" ? true : false;
+                checkbox.classList.add("abilityCheckbox");
+
+                const label = document.createElement("label");
+                label.textContent = ability;
+                label.appendChild(checkbox);
+
+                abilityCheckboxContainer.appendChild(label);
+                abilityCheckboxContainer.appendChild(document.createElement("br"));
+            });
+
+            // Add event listeners to checkboxes
+            document.querySelectorAll(".abilityCheckbox").forEach(cb => cb.addEventListener("change", updateAbilityHeatmap));
+        }
+
+        // Draw ability heatmap
+        const updateAbilityHeatmap = async () => {
+            const abilityData = await getAbilityData();
+            if (!abilityData) document.getElementById('death-heatmap').innerHTML = '';
+            // Get selected level
+            const level = heatmapDropdown.querySelector('select').value;
+
+            // Get selected abilities
+            const abilities = Array.from(document.querySelectorAll('.abilityCheckbox'))
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+
+            const levelData = abilities.flatMap(ability => abilityData[level][ability] || []);
+            if (!levelData) document.getElementById('death-heatmap').innerHTML = '';
+            drawHeatmap(levelData, 'ability-heatmap', "Level Maps/" + level + ".png");
+        }
+        // Initialize dashboard
+        async function initialize() {
+            const timeData = await getTimeData();
+            if (timeData) {
+                const levels = Object.keys(timeData);
+                renderCheckboxes(levels);
+                updateTimePlot();
+            }
+            
+            updateRestartPlot();
+            
+            const deathData = await getDeathData();
+            const abilityData = await getAbilityData();
+            if (deathData || abilityData) {
+                const levels = Object.keys(abilityData);
+                renderDropdown(levels);
+                if (deathData) updateDeathHeatmap();
+                if (abilityData) {
+                    // Get selected level
+                    const level = heatmapDropdown.querySelector('select').value;
+                    renderAbilityCheckboxes(["Jump", "Dash", "Heal"])
+                    updateAbilityHeatmap()
+                };
+            }
+
+            
+            
+        }
+
+        // Event listeners
+        dataTypeSelector.addEventListener("change", updateTimePlot);
+        heatmapDropdown.addEventListener("change", updateDeathHeatmap);
+        heatmapDropdown.addEventListener("change", updateAbilityHeatmap);
+        heatmapDropdown.addEventListener("change", () => renderAbilityCheckboxes(["Jump", "Dash", "Heal"]));
+
+        // Load initial data
+        initialize();
+
+    </script>
+
+</body>
+</html>
+
+
+
