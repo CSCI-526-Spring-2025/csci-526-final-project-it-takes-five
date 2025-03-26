@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool abilityEnd() {
+        if(abilityInProgress == false) return false;
         abilityInProgress = false;
        // Check if touching safe zone
         GameObject[] safeZones = GameObject.FindGameObjectsWithTag("SafeZone");
@@ -96,10 +97,10 @@ public class PlayerController : MonoBehaviour
         {
             if (IsOverlapping(safeZone, transform))
             {   
-                analyticsScript.EndAbility(currentAbility, true);                return true;
+                analyticsScript.EndAbility(currentAbility, true, transform.position.x, transform.position.y);                return true;
             }
         }
-        analyticsScript.EndAbility(currentAbility, false);
+        analyticsScript.EndAbility(currentAbility, false, transform.position.x, transform.position.y);
         return false;
     }
 
