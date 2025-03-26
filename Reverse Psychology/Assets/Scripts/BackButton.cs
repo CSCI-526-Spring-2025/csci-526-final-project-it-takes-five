@@ -5,20 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class BackButton : MonoBehaviour
 {
+    public GameObject levelsPanel;
 
-    public void OnBackToTutorialClicked()
+    public void OnMainMenuClicked()
     {
-        Debug.Log("Back button clicked - attempting to load MainTutorialMenu");
-        MenuController.showTutorialsPanel = true;
-        MenuController.showLevelsPanel = false;
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenuScene");
     }
-    public void OnBackToLevelsClicked()
-    {
-        MenuController.showLevelsPanel = true;
-        MenuController.showTutorialsPanel = false;
-        SceneManager.LoadScene("MainMenuScene");
-    }
+
     public void OnRestartLevel1Clicked()
     {
         SceneManager.LoadScene("Level1");
@@ -31,25 +25,16 @@ public class BackButton : MonoBehaviour
     {
         SceneManager.LoadScene("Level3");
     }
-
-    public void OnRestart1Clicked()
+    public void OnRestartLevel4Clicked()
     {
-        SceneManager.LoadScene("Tutorial1Scene");
+        SceneManager.LoadScene("Level4");
     }
-    public void OnRestart2Clicked()
+    public void OnRestartLevel5Clicked()
     {
-        SceneManager.LoadScene("Tutorial2Scene");
+        SceneManager.LoadScene("Level5");
     }
-    public void OnRestart3Clicked()
+    public void OnRestartLevel6Clicked()
     {
-        SceneManager.LoadScene("Tutorial3Scene");
+        SceneManager.LoadScene("Level6");
     }
-
-    public void OnBackToMainMenuClicked()
-    {
-        Debug.Log("Back button clicked - attempting to loadMainMenu");
-        MenuController.showTutorialsPanel = false;
-        SceneManager.LoadScene("MainMenuScene");
-    }
-
 }

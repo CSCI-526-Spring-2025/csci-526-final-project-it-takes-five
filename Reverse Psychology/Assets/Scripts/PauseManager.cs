@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,19 +16,25 @@ public class PauseManager : MonoBehaviour
         instructionsPanel.SetActive(false);
     }
 
-    public void TogglePause()
+    public void PauseGame()
     {
-        Debug.Log("TogglePause clicked");
-        if (instructionsPanel.activeSelf)
-            return;
-        isPaused = !isPaused;
-        pauseMenu.SetActive(isPaused);
-        Time.timeScale = isPaused ? 0f : 1f;
+        Debug.Log("Pause clicked");
+        isPaused = true;
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0f;
+
+        // Disable button for a short duration to prevent double click
+        StartCoroutine(PreventDoubleClick());
     }
 
     public void ResumeGame()
     {
-        TogglePause();
+        isPaused = false;
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+
+        // Disable button for a short duration to prevent double click
+        StartCoroutine(PreventDoubleClick());
     }
 
     public void RestartLevel()
@@ -36,14 +43,12 @@ public class PauseManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void RestartFromCheckpoint()
-    {
-        Time.timeScale = 1f; // Ensure time resumes before respawning
-        // Logic to reset to checkpoint
-        GameObject.FindWithTag("Player").transform.position = new Vector3(2f, 1f, 0f); // Example checkpoint
-        TogglePause();
-    }
-
+    // public void RestartFromCheckpoint()
+    // {
+    //     Time.timeScale = 1f; // Ensure time resumes before respawning
+    //     // Logic to reset to checkpoint
+    //     GameObject.FindWithTag("Player").transform.position = new Vector3(2f, 1f, 0f); // Example checkpoint
+    // }
 
     public void ShowInstructions()
     {
@@ -54,5 +59,18 @@ public class PauseManager : MonoBehaviour
     public void CloseInstructions()
     {
         instructionsPanel.SetActive(false);
+        // Ensure the game remains paused when instructions are closed
+        isPaused = true;
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0f;
+
+        // Disable button for a short duration to prevent double click
+        StartCoroutine(PreventDoubleClick());
+    }
+
+    private IEnumerator PreventDoubleClick()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null); // Deselect UI elements
     }
 }

@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     // UI element to display orb count and warning messages
     public TextMeshProUGUI orbStackUIText;
-    public TextMeshProUGUI warningText;
+    private TextMeshProUGUI warningText;
 
     // Optional ground check settings.
     public Transform groundCheck;
@@ -46,8 +46,8 @@ public class PlayerController : MonoBehaviour
 
     // Ability success variables
     public GameObject gameAnalytics;
-    public bool abilityInProgress = false;
-    public string currentAbility = "";
+    private bool abilityInProgress = false;
+    private string currentAbility = "";
 
     void Start()
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Level3Hint : MonoBehaviour
+public class Level5Hint : MonoBehaviour
 {
     // Reference to the DashText GameObject (a TextMeshPro UI element).
     // Assign this in the Inspector.
@@ -17,7 +17,7 @@ public class Level3Hint : MonoBehaviour
         }
         else
         {
-            Debug.LogError("DashText is not assigned in Level3Hint!");
+            Debug.LogError("DashText is not assigned in Level5Hint!");
         }
     }
 

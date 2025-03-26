@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tutorial2Hint : MonoBehaviour
+public class Level1Hint : MonoBehaviour
 {
     public GameObject PickupText; // Text shown when colliding with BlueOrb
     public GameObject JumpText;   // Text shown when colliding with Button
+    public GameObject panel2;
 
     private bool isNearOrb = false;  // Track if player is near BlueOrb
     private bool isNearButton = false; // Track if player is near Button
@@ -24,6 +25,9 @@ public class Tutorial2Hint : MonoBehaviour
         {
             if (JumpText != null)
                 JumpText.SetActive(false);
+
+            if (panel2 != null)
+                panel2.SetActive(false);
 
             isNearButton = false; // Reset the button collision flag
         }

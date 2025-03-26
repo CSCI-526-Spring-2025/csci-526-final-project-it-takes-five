@@ -8,9 +8,8 @@ public class DoorScript : MonoBehaviour
     private bool isOpen = false;
     private SpriteRenderer sr;
     private BoxCollider2D col;
-    public GameObject gameOverText; 
-    private int maxTutorialLevel = 3;
-    private int maxLevels = 2;
+    public GameObject youWinText;
+    private int maxLevels = 6;
     public GameAnalytics gameAnalytics;
 
     void Start()
@@ -41,10 +40,8 @@ public class DoorScript : MonoBehaviour
     {
         if (isOpen && collision.CompareTag("Player"))
         {
-            Debug.Log("Tutorial 1 Complete");
-
+            Debug.Log("Level 1 Complete");
             gameAnalytics.EndLevel();
-
             StartCoroutine(ShowGameOverAndLoadScene());
             // Load the Tutorials Scene (make sure the scene name is correct in Unity's Build Settings)
             //SceneManager.LoadScene("MainMenuScene");
@@ -52,51 +49,30 @@ public class DoorScript : MonoBehaviour
     }
     IEnumerator ShowGameOverAndLoadScene()
     {
-        // Display the "Game Over" message.
-        // Option 1: Enable a UI panel that displays the message:
-        // if (gameOverPanel != null)
-        //     gameOverPanel.SetActive(true);
 
-        if (gameOverText != null)
-            gameOverText.SetActive(true);
+        if (youWinText != null)
+            youWinText.SetActive(true);
 
         // Option 2: Use a debug log or any other visual cue if no UI is available.
-        Debug.Log("Game Over");
+        Debug.Log("You Win!");
+        Time.timeScale = 0f;
 
-        // Wait for 5 seconds
-        yield return new WaitForSeconds(5f);
+        // Wait for 2 seconds in real time, even though the game is paused.
+        yield return new WaitForSecondsRealtime(2f);
 
-        if (gameOverText != null)
-            gameOverText.SetActive(false);
+        if (youWinText != null)
+            youWinText.SetActive(false);
 
-        if (MenuController.isTutorial)
+        MenuController.showLevelsPanel = true;
+        Time.timeScale = 1f;
+        if (MenuController.currentLevel == maxLevels)
         {
-            Debug.Log("1");
-            if (MenuController.currentLevel == maxTutorialLevel)
-            {
-                SceneManager.LoadScene("Level1");
-                MenuController.currentLevel = 1;
-                MenuController.isTutorial = false;
-                MenuController.showLevelsPanel = true;
-            } else
-            {
-                MenuController.currentLevel += 1;
-                SceneManager.LoadScene("Tutorial"+ MenuController.currentLevel+"Scene");
-                MenuController.showTutorialsPanel = true;
-            }
-        } else
-        {
-            MenuController.showLevelsPanel = true;
-            if (MenuController.currentLevel == maxLevels)
-            {
-                SceneManager.LoadScene("MainMenuScene");
-            }
-            else
-            {
-                MenuController.currentLevel += 1;
-                SceneManager.LoadScene("Level" + MenuController.currentLevel);
-            }
+            SceneManager.LoadScene("MainMenuScene");
         }
-        
+        else
+        {
+            MenuController.currentLevel += 1;
+            SceneManager.LoadScene("Level" + MenuController.currentLevel);
+        }
     }
 }

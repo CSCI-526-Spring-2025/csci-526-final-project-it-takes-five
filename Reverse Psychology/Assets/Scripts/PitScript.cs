@@ -17,6 +17,8 @@ public class PitScript : MonoBehaviour
             if (player != null)
                 player.enabled = false;
             
+            Time.timeScale = 0f;
+            
             // Start Coroutine to wait and exit the game
             StartCoroutine(GameOver());
         }
@@ -26,11 +28,13 @@ public class PitScript : MonoBehaviour
     {
         if (gameOverText != null)
             gameOverText.SetActive(true);
-        yield return new WaitForSeconds(5f);
+        // Wait for 2 seconds in real time, even though the game is paused.
+        yield return new WaitForSecondsRealtime(2f);
         if (gameOverText != null)
             gameOverText.SetActive(false);
 
         MenuController.showLevelsPanel = true;
-        SceneManager.LoadScene("MainMenuScene");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
