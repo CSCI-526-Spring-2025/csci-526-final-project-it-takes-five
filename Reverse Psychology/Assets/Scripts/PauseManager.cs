@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+//using ButtonScript.GameCheckpoint;
 
 public class PauseManager : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class PauseManager : MonoBehaviour
 
     private bool isPaused = false;
     public GameObject instructionsPanel;
+    public GameObject button;
+
+    
 
     void Start()
     {
@@ -43,12 +48,16 @@ public class PauseManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // public void RestartFromCheckpoint()
-    // {
-    //     Time.timeScale = 1f; // Ensure time resumes before respawning
-    //     // Logic to reset to checkpoint
-    //     GameObject.FindWithTag("Player").transform.position = new Vector3(2f, 1f, 0f); // Example checkpoint
-    // }
+    public void RestartFromCheckpoint()
+    {
+        //Debug.Log(button.GetComponent<ButtonScript>().getCheckpoint().playerPosition);
+        //for(int i = 0; i < button.GetComponent<ButtonScript>().getCheckpoint().remainingOrbs.Count; i++) {
+        //    Debug.Log()
+        //}
+        button.GetComponent<ButtonScript>().LoadCheckpoint();
+        ResumeGame();
+     
+    }
 
     public void ShowInstructions()
     {

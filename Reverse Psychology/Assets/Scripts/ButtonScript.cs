@@ -3,22 +3,29 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class OrbData
+public class RemainingOrbData
 {
     public string uid;
     public Vector3 position;
     // You can add other fields such as rotation, orb type, etc.
 }
 
-public class GameCheckpoint
+public class StackOrbData
 {
-    public Vector3 playerPosition;
-    public List<string> pickedUpOrbUIDs; // Orbs in the stack, referenced by UID.
-    public List<OrbData> remainingOrbs;  // Orbs not picked up, with their positions.
+    public string uid;
+    public Color color;
 }
+
+
 
 public class ButtonScript : MonoBehaviour
 {
+    public class GameCheckpoint
+    {
+        public Vector3 playerPosition;
+        public List<StackOrbData> pickedUpOrbs; // Orbs in the stack, referenced by UID.
+        public List<RemainingOrbData> remainingOrbs;  // Orbs not picked up, with their positions.
+    }
     public DoorScript door;
     // Assign the Door GameObject (with DoorScript) in the Inspector.
     public GameObject instructionText;
@@ -32,13 +39,17 @@ public class ButtonScript : MonoBehaviour
     private SpriteRenderer sr;
     public GameAnalytics gameAnalytics;
     private Stack<GameObject> checkpointStack;
+    private List<StackOrbData> pickedUpOrb = new List<StackOrbData>();
     private List<string> pickedUpOrbUIDs = new List<string>();
-    //private Stack<GameObject> remainingOrbs;
-    private List<OrbData> remainingOrbData = new List<OrbData>();
+    private List<RemainingOrbData> remainingOrbData = new List<RemainingOrbData>();
+    public GameCheckpoint gameCheckpoint = new GameCheckpoint();
+    public List<GameObject> allOrbs = new List<GameObject>();
 
     void Start()
     {
         // Get the SpriteRenderer component from the button.
+        allOrbs = GameObject.FindGameObjectsWithTag("BlueOrb")
+                                        .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToList();
         sr = GetComponent<SpriteRenderer>();
     }
 
@@ -77,8 +88,14 @@ public class ButtonScript : MonoBehaviour
         checkpointStack = player.getStack();
         for (int i = 0; i < checkpointStack.Count; i++)
         {
-            OrbClass orbComponent = checkpointStack.ElementAt(i).GetComponent<OrbClass>();
-            pickedUpOrbUIDs.Add(orbComponent.uniqueID);
+            StackOrbData data = new StackOrbData();
+            string uid = checkpointStack.ElementAt(i).GetComponent<OrbClass>().uniqueID;
+            data.uid = uid;
+            data.color = checkpointStack.ElementAt(i).GetComponent<SpriteRenderer>().color;
+            //checkpointStack.ElementAt((int)i).GetComponent<Sprit>
+            pickedUpOrbUIDs.Add(uid);
+            pickedUpOrb.Add(data);
+            Debug.Log("pickedup orb " + data.uid +" "+ data.color);
 
         }
 
@@ -93,11 +110,14 @@ public class ButtonScript : MonoBehaviour
                 // Check if this orb is not already picked up.
                 if (!pickedUpOrbUIDs.Contains(orbComponent.uniqueID))
                 {
-                    OrbData data = new OrbData();
+                    RemainingOrbData data = new RemainingOrbData();
                     data.uid = orbComponent.uniqueID;
                     data.position = orb.transform.position;
                     remainingOrbData.Add(data);
+                    Debug.Log("remining blue orb " + data.uid);
+
                 }
+
             }
         }
 
@@ -108,13 +128,104 @@ public class ButtonScript : MonoBehaviour
             {
                 if (!pickedUpOrbUIDs.Contains(orbComponent.uniqueID))
                 {
-                    OrbData data = new OrbData();
+                    RemainingOrbData data = new RemainingOrbData();
                     data.uid = orbComponent.uniqueID;
                     data.position = orb.transform.position;
                     remainingOrbData.Add(data);
                 }
             }
         }
-        
+
+        gameCheckpoint.remainingOrbs = remainingOrbData;
+        gameCheckpoint.pickedUpOrbs = pickedUpOrb;
+        gameCheckpoint.playerPosition = player.transform.position;
     }
+
+    public void LoadCheckpoint()
+    {
+        Debug.Log("in restart");
+        //if (PlayerPrefs.HasKey("GameCheckpoint"))
+        //{
+            //string json = PlayerPrefs.GetString("GameCheckpoint");
+            //GameCheckpoint checkpoint = JsonUtility.FromJson<GameCheckpoint>(json);
+            player.transform.position = gameCheckpoint.playerPosition;
+
+            // Rebuild the orb stack:
+            player.orbStack.Clear();
+            clearFloorOrbs();
+            for (int i = gameCheckpoint.pickedUpOrbs.Count - 1; i >= 0; i--)
+            {
+                StackOrbData data = gameCheckpoint.pickedUpOrbs.ElementAt(i);
+                Debug.Log("in stack "+data.uid);
+                GameObject orb = FindOrbByUID(data.uid);
+                if (orb != null)
+                {
+                    Debug.Log("in stack cp ", orb);
+                    player.orbStack.Push(orb);
+                }
+            }
+            player.UpdateOrbUI();
+
+            // Restore remaining orbs.
+            foreach (RemainingOrbData data in gameCheckpoint.remainingOrbs)
+            {
+                Debug.Log("remining orb " + data.uid);
+                GameObject orb = FindOrbByUID(data.uid);
+                if (orb != null)
+                {
+                Debug.Log("remaining cp ", orb);
+                orb.transform.position = data.position;
+                    // Optionally, re-enable orb if it was deactivated.
+                    orb.SetActive(true);
+                }
+                else
+                {
+                    // Alternatively, instantiate the orb if it doesn't exist.
+                    // You would need a prefab mapping to do this.
+                }
+            }
+
+            //Debug.Log("Checkpoint loaded: " + json);
+        //}
+        //else
+        //{
+        //    Debug.Log("No checkpoint found.");
+        //}
+    }
+
+    private GameObject FindOrbByUID(string uid)
+    {
+        // This is one possible implementation:
+        //GameObject[] allOrbs = GameObject.FindGameObjectsWithTag("BlueOrb");
+        foreach (GameObject orb in allOrbs)
+        {
+            OrbClass orbComponent = orb.GetComponent<OrbClass>();
+            Debug.Log("find uid orb " + orbComponent.uniqueID);
+            if (orbComponent != null && orbComponent.uniqueID == uid)
+            {
+                return orb;
+            }
+        }
+
+        //allOrbs = GameObject.FindGameObjectsWithTag("YellowOrb");
+        //foreach (GameObject orb in allOrbs)
+        //{
+        //    OrbClass orbComponent = orb.GetComponent<OrbClass>();
+        //    Debug.Log("yellow orb " + orbComponent.uniqueID);
+        //    if (orbComponent != null && orbComponent.uniqueID == uid)
+        //    {
+        //        return orb;
+        //    }
+        //}
+        return null;
+    }
+
+    private void clearFloorOrbs()
+    {
+        List<GameObject> allOrbs = GameObject.FindGameObjectsWithTag("BlueOrb").Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToList();
+        foreach (GameObject orb in allOrbs) { 
+            orb.SetActive(false);
+        }
+    }
+
 }

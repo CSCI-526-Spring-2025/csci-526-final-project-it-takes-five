@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private bool abilityInProgress = false;
     private string currentAbility = "";
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -300,7 +301,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update the UI for the orb stack.
-    private void UpdateOrbUI()
+    public void UpdateOrbUI()
     {
         // Loop through each UI slot.
         for (int i = 0; i < orbSlots.Length; i++)
