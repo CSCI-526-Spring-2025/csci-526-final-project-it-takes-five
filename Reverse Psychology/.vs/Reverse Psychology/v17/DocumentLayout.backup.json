@@ -7,19 +7,19 @@
       "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buttonscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|c:\\shubh\\usc\\sem 4\\game dev\\assignment 3\\csci-526-final-project-it-takes-five\\reverse psychology\\assets\\scripts\\orbclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\orbclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|c:\\shubh\\usc\\sem 4\\game dev\\assignment 3\\csci-526-final-project-it-takes-five\\reverse psychology\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|c:\\shubh\\usc\\sem 4\\game dev\\assignment 3\\csci-526-final-project-it-takes-five\\reverse psychology\\assets\\scripts\\pausemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|C:\\Shubh\\USC\\Sem 4\\Game dev\\Assignment 3\\csci-526-final-project-it-takes-five\\Reverse Psychology\\assets\\scripts\\pausemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\pausemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|c:\\shubh\\usc\\sem 4\\game dev\\assignment 3\\csci-526-final-project-it-takes-five\\reverse psychology\\assets\\scripts\\camerafollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|C:\\Shubh\\USC\\Sem 4\\Game dev\\Assignment 3\\csci-526-final-project-it-takes-five\\Reverse Psychology\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|C:\\Shubh\\USC\\Sem 4\\Game dev\\Assignment 3\\csci-526-final-project-it-takes-five\\Reverse Psychology\\assets\\scripts\\orbclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\orbclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|C:\\Shubh\\USC\\Sem 4\\Game dev\\Assignment 3\\csci-526-final-project-it-takes-five\\Reverse Psychology\\assets\\scripts\\camerafollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\camerafollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -34,7 +34,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "OrbClass.cs",
               "DocumentMoniker": "C:\\Shubh\\USC\\Sem 4\\Game dev\\Assignment 3\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\OrbClass.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\OrbClass.cs",
@@ -43,8 +43,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-27T06:53:45.017Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -54,7 +53,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\ButtonScript.cs",
               "ToolTip": "C:\\Shubh\\USC\\Sem 4\\Game dev\\Assignment 3\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\ButtonScript.cs",
               "RelativeToolTip": "Assets\\Scripts\\ButtonScript.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAiwJoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-27T08:32:45.44Z",
               "EditorCaption": ""
@@ -69,18 +68,17 @@
               "RelativeToolTip": "Assets\\Scripts\\CameraFollow.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-27T07:36:05.274Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-27T07:36:05.274Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "PauseManager.cs",
               "DocumentMoniker": "C:\\Shubh\\USC\\Sem 4\\Game dev\\Assignment 3\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PauseManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PauseManager.cs",
               "ToolTip": "C:\\Shubh\\USC\\Sem 4\\Game dev\\Assignment 3\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PauseManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\PauseManager.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAYwDgAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAgwDkAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-27T07:24:06.154Z",
               "EditorCaption": ""
@@ -93,7 +91,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
               "ToolTip": "C:\\Shubh\\USC\\Sem 4\\Game dev\\Assignment 3\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PlayerController.cs",
               "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAYwHsAAABpAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAHUAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-27T06:57:05.417Z",
               "EditorCaption": ""

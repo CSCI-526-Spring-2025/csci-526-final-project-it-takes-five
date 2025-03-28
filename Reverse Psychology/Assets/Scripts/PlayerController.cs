@@ -113,12 +113,16 @@ public class PlayerController : MonoBehaviour
         {
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
             {
-                //Debug.Log("Inside if");
                 orbStack.Push(nearbyOrb);
-                nearbyOrb.SetActive(false); // Deactivate the orb.
-                Debug.Log("Picked up orb. Orb count: " + orbStack.Count);
-                //Debug.Log("Orb id: " + nearbyOrb.uniqueID);
-                UpdateOrbUI();
+                // Deactivate the orb.
+                OrbMovement movement = nearbyOrb.GetComponent<OrbMovement>();
+                if (movement != null) { 
+                    movement.MoveToStack(new Vector2(8.75f, 6.5f), true);
+                } else
+                {
+                    nearbyOrb.SetActive(false);
+                    UpdateOrbUI();
+                }
                 // Find other nearby orbs if they exist, otherwise set nearbyOrb to null.
                 GameObject[] orbs = GameObject.FindGameObjectsWithTag("BlueOrb")
                                         .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToArray();
@@ -226,11 +230,24 @@ public class PlayerController : MonoBehaviour
             if (orbStack.Count > 0)
             {
                 GameObject topOrb = orbStack.Pop();
+                UpdateOrbUI();
+                topOrb.SetActive(true);
                 Vector3 dropPosition = transform.position;
                 dropPosition.y -= 0.3f; // Adjust the drop position downward by 0.2 units.
-                topOrb.transform.position = dropPosition;
-                topOrb.SetActive(true);
-                UpdateOrbUI();
+                OrbMovement movement = topOrb.GetComponent<OrbMovement>();
+                if (movement != null)
+                {
+                    movement.MoveToStack(dropPosition, false);
+                    topOrb.SetActive(true);
+                }
+                else
+                {
+                    topOrb.transform.position = dropPosition;
+                }
+
+
+
+                
             }
         }
 
@@ -314,7 +331,6 @@ public class PlayerController : MonoBehaviour
                 // Retrieve the orb from the stack using LINQ's ElementAt.
                 GameObject orbInStack = orbStack.ElementAt(i);
                 OrbClass orbComponent = orbInStack.GetComponent<OrbClass>();
-                Debug.Log(orbComponent.uniqueID);
                 SpriteRenderer orbSpriteRenderer = orbInStack.GetComponent<SpriteRenderer>();
                 if (orbSpriteRenderer != null)
                 {
@@ -328,8 +344,7 @@ public class PlayerController : MonoBehaviour
                 // Set the slot to show the empty slot sprite and a default color (e.g., white).
                 if(i < 2)
                 {
-                    slotImage.sprite = emptyTopSlotSprite;
-                    
+                    slotImage.sprite = emptyTopSlotSprite;                    
                 } else
                 {
                     slotImage.sprite = emptyBottomSlotSprite;
