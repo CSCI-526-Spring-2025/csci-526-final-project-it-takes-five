@@ -2553,6 +2553,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57aa390066c762b40bda099f8cac2176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1483261643 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1283622342081202957, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}
+  m_PrefabInstance: {fileID: 964279667}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1634423118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3371,6 +3376,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnMainMenuClicked
       objectReference: {fileID: 0}
+    - target: {fileID: 3958128439662622014, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 1483261643}
     - target: {fileID: 3958128439662622014, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
       propertyPath: restartCheckpointButton
       value: 
