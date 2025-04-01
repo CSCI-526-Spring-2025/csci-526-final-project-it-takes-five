@@ -331,6 +331,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3791737570666289590, guid: 589339665fe0a7d469d7318f5d33fc86, type: 3}
   m_PrefabInstance: {fileID: 292427537}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &297499938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1283622342081202957, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}
+  m_PrefabInstance: {fileID: 1358061125}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &398264503 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 88614059091664514, guid: 583e51949781a734888a68e45d5d9780, type: 3}
@@ -883,6 +888,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnMainMenuClicked
       objectReference: {fileID: 0}
+    - target: {fileID: 3958128439662622014, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 297499938}
     - target: {fileID: 3958128439662622014, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
       propertyPath: restartCheckpointButton
       value: 

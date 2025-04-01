@@ -410,6 +410,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 589339665fe0a7d469d7318f5d33fc86, type: 3}
+--- !u!1 &650538473 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1283622342081202957, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}
+  m_PrefabInstance: {fileID: 715636671}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &675481081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -508,6 +513,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3958128439662622014, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
       propertyPath: button
+      value: 
+      objectReference: {fileID: 650538473}
+    - target: {fileID: 3958128439662622014, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+      propertyPath: restartCheckpointButton
       value: 
       objectReference: {fileID: 675481082}
     - target: {fileID: 4118063902388084454, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
@@ -1154,6 +1163,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3075688880160066959, guid: 9badcf4dafce2ee49b1607a23f4c0f77, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406025818901254122, guid: 9badcf4dafce2ee49b1607a23f4c0f77, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
