@@ -18,6 +18,7 @@ public class GameAnalytics : MonoBehaviour
     private float levelStartTime;
     private float endTime;
     private bool pauseTime;
+    private bool sendStartFlag;
 
     private string levelNumber;
     private bool isReturning;
@@ -32,6 +33,7 @@ public class GameAnalytics : MonoBehaviour
         // Get level number
         GameObject textObject = GameObject.Find("CurrentLevel");
         pauseTime = false;
+        sendStartFlag = false;
         if (textObject != null)
         {
             TextMeshProUGUI textElement = textObject.GetComponent<TextMeshProUGUI>();
@@ -82,10 +84,65 @@ public class GameAnalytics : MonoBehaviour
         }
         float elapsedTime = endTime - levelTimer;
         timerText.text = "Time: " + elapsedTime.ToString("F2") + "s";
+
+       
+        if(!sendStartFlag && Time.time - levelTimer > 5f)
+        {
+            OnPlayerStart();
+            sendStartFlag = true;
+        }
     }
 
+    public void OnPlayerStart()
+    {
+        if (debug) return;
+        Debug.Log("Start data send");
+        StartCoroutine(SaveLevelStartAnalyticsData());
+
+    }
+
+    private IEnumerator SaveLevelStartAnalyticsData()
+    {
+        Debug.Log("Level Start Analytics data sending!!");
+        string timestamp = DateTime.UtcNow.ToString("_yyyy-MM-dd-HH-mm-ss");
+        string userId = SystemInfo.deviceUniqueIdentifier;
+
+        LevelAnalyticsData data = new LevelAnalyticsData(levelNumber, 0.0f, 0.0f);
+        string json = JsonUtility.ToJson(data);
+
+
+        Debug.Log($"Level {levelNumber} Start");
+        string URL = "https://gameanalytics-its-default-rtdb.firebaseio.com/start/";
+        //string key = "Level_" + userId + timestamp;
+        string key = timestamp;
+
+        //string databaseSecret = "AIzaSyBanWvgz3YKrMyGBrmfcer1Sub0qxcwPW0";  // Replace with your actual secret key
+
+
+        using (var uwr = new UnityWebRequest(URL + key + ".json", "POST"))
+        {
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+            using UploadHandlerRaw uploadHandler = new UploadHandlerRaw(jsonToSend);
+            uwr.uploadHandler = uploadHandler;
+            uwr.downloadHandler = new DownloadHandlerBuffer();
+            uwr.disposeUploadHandlerOnDispose = true;
+            uwr.disposeDownloadHandlerOnDispose = true;
+            uwr.SetRequestHeader("Content-Type", "application/json");
+            uwr.timeout = 5;
+            //Send the request then wait here until it returns
+            yield return uwr.SendWebRequest();
+            if (uwr.result != UnityWebRequest.Result.Success)
+                Debug.Log("Error While Sending:" + uwr.error + " TimeStamp:" + timestamp);
+            else
+                Debug.Log("Data Received:" + uwr.downloadHandler.text + "TimeStamp: " + timestamp);
+        }
+        yield return new WaitForSeconds(1f);  // Example of delay
+        Debug.Log("Level Analytics data saved.");
+    }
+
+
     // Event handlers for restart, level end, and ability use. Call coroutines to send data
-    
+
     // Send Level Data when player restarts: Level, Timestamp, dummy position to /restart
     // Used for num restarts graph
     public void OnPlayerRestart()

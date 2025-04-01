@@ -1450,6 +1450,10 @@ PrefabInstance:
       value: GameAnalytics
       objectReference: {fileID: 0}
     - target: {fileID: 8765099880603092972, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
+      propertyPath: debug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765099880603092972, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
       propertyPath: timerText
       value: 
       objectReference: {fileID: 1206734273}

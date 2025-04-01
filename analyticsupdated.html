@@ -22,6 +22,9 @@
         <div id="time-plot"></div>
     </div>
 
+    <!-- Restart, start, completion Table -->
+    <div id="summary-table"></div>
+
     <!-- Restart Graph -->
     <div id="restart-graph"></div>
 
@@ -412,6 +415,7 @@
             }
             
             updateRestartPlot();
+            updateSummaryTable();
             
             const deathData = await getDeathData();
             const abilityData = await getAbilityData();
@@ -436,6 +440,101 @@
         heatmapDropdown.addEventListener("change", updateDeathHeatmap);
         heatmapDropdown.addEventListener("change", updateAbilityHeatmap);
         heatmapDropdown.addEventListener("change", () => renderAbilityCheckboxes(["Jump", "Dash", "Heal"]));
+
+
+        // Function to fetch Restart Data from Firebase
+async function getRestartTotalData() {
+    const db = getDatabase();
+    const restartRef = ref(db, "restart");
+    
+    try {
+        const snapshot = await get(restartRef);
+        if (snapshot.exists()) {
+            let restartTotals = {};
+
+            snapshot.forEach(timestampSnapshot => {
+                timestampSnapshot.forEach(sessionSnapshot => {
+                    let data = sessionSnapshot.val();
+                    let level = data.levelNumber;
+
+                    if (!restartTotals[level]) restartTotals[level] = 0;
+                    restartTotals[level] += 1;
+                });
+            });
+
+            console.log("Restart Totals:", restartTotals);
+            return restartTotals;
+        } else {
+            console.log("No restart data available");
+            return {};
+        }
+    } catch (error) {
+        console.error("Error fetching restart data:", error);
+        return {};
+    }
+}
+
+// Function to fetch Completed Data from Firebase
+async function getCompletedTotalData() {
+    const db = getDatabase();
+    const completedRef = ref(db, "timedata");
+    
+    try {
+        const snapshot = await get(completedRef);
+        if (snapshot.exists()) {
+            let completedTotals = {};
+
+            snapshot.forEach(timestampSnapshot => {
+                timestampSnapshot.forEach(sessionSnapshot => {
+                    let data = sessionSnapshot.val();
+                    let level = data.levelNumber;
+
+                    if (!completedTotals[level]) completedTotals[level] = 0;
+                    completedTotals[level] += 1;
+                });
+            });
+
+            console.log("Completed Totals:", completedTotals);
+            return completedTotals;
+        } else {
+            console.log("No completed data available");
+            return {};
+        }
+    } catch (error) {
+        console.error("Error fetching completed data:", error);
+        return {};
+    }
+}
+
+// Function to display the data in an HTML table
+const updateSummaryTable = async () => {
+    const restartTotals = await getRestartTotalData();
+    const completedTotals = await getCompletedTotalData();
+    if (!restartTotals && !completedTotals) return;
+
+    const tableDiv = document.getElementById("summary-table");
+
+    let table = `<table border="1">
+                    <tr>
+                        <th>Level Number</th>
+                        <th>Restart Count</th>
+                        <th>Completed Count</th>
+                    </tr>`;
+
+    let levels = new Set([...Object.keys(restartTotals), ...Object.keys(completedTotals)]);
+
+    levels.forEach(level => {
+        table += `<tr>
+                    <td>${level}</td>
+                    <td>${restartTotals[level] || 0}</td>
+                    <td>${completedTotals[level] || 0}</td>
+                  </tr>`;
+    });
+
+    table += `</table>`;
+    tableDiv.innerHTML = table;
+};
+
 
         // Load initial data
         initialize();
