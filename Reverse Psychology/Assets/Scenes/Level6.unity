@@ -3371,6 +3371,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnMainMenuClicked
       objectReference: {fileID: 0}
+    - target: {fileID: 3958128439662622014, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+      propertyPath: restartCheckpointButton
+      value: 
+      objectReference: {fileID: 1961737890}
+    - target: {fileID: 4118063902388084454, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+      propertyPath: restartCheckpointButton
+      value: 
+      objectReference: {fileID: 1961737890}
     - target: {fileID: 6740249476568716747, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
       propertyPath: m_Name
       value: Pause
@@ -3381,6 +3389,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+--- !u!1 &1961737890 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7123406196792015013, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+  m_PrefabInstance: {fileID: 1961737889}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1976439507
 GameObject:
   m_ObjectHideFlags: 0

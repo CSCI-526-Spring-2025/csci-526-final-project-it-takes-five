@@ -468,6 +468,14 @@ PrefabInstance:
       propertyPath: button
       value: 
       objectReference: {fileID: 501839202}
+    - target: {fileID: 3958128439662622014, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+      propertyPath: restartCheckpointButton
+      value: 
+      objectReference: {fileID: 499659623}
+    - target: {fileID: 4118063902388084454, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+      propertyPath: restartCheckpointButton
+      value: 
+      objectReference: {fileID: 499659623}
     - target: {fileID: 6740249476568716747, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
       propertyPath: m_Name
       value: Pause
@@ -486,6 +494,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+--- !u!1 &499659623 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7123406196792015013, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+  m_PrefabInstance: {fileID: 499659622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &501839202 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1283622342081202957, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}

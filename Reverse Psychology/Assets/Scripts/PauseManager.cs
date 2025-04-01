@@ -12,6 +12,7 @@ public class PauseManager : MonoBehaviour
     private bool isPaused = false;
     public GameObject instructionsPanel;
     public GameObject button;
+    public GameObject restartCheckpointButton;
 
     
 
@@ -19,6 +20,7 @@ public class PauseManager : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         instructionsPanel.SetActive(false);
+        restartCheckpointButton.SetActive(false);
     }
 
     public void PauseGame()
@@ -27,6 +29,15 @@ public class PauseManager : MonoBehaviour
         isPaused = true;
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
+
+        if (button.GetComponent<ButtonScript>().checkpointCreated) // CHANGED
+        {
+            restartCheckpointButton.SetActive(true); // CHANGED
+        }
+        else
+        {
+            restartCheckpointButton.SetActive(false); // CHANGED
+        }
 
         // Disable button for a short duration to prevent double click
         StartCoroutine(PreventDoubleClick());

@@ -45,6 +45,8 @@ public class ButtonScript : MonoBehaviour
     public GameCheckpoint gameCheckpoint = new GameCheckpoint();
     public List<GameObject> allOrbs = new List<GameObject>();
 
+    public bool checkpointCreated = false;
+
     void Start()
     {
         // Get the SpriteRenderer component from the button.
@@ -139,6 +141,8 @@ public class ButtonScript : MonoBehaviour
         gameCheckpoint.remainingOrbs = remainingOrbData;
         gameCheckpoint.pickedUpOrbs = pickedUpOrb;
         gameCheckpoint.playerPosition = player.transform.position;
+
+        checkpointCreated = true;
     }
 
     public void LoadCheckpoint()
@@ -187,10 +191,10 @@ public class ButtonScript : MonoBehaviour
 
             //Debug.Log("Checkpoint loaded: " + json);
         //}
-        //else
-        //{
+        // else
+        // {
         //    Debug.Log("No checkpoint found.");
-        //}
+        // }
     }
 
     private GameObject FindOrbByUID(string uid)
