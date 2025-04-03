@@ -12,6 +12,7 @@ public class DoorScript : MonoBehaviour
     private int maxLevels = 6;
     public GameAnalytics gameAnalytics;
 
+
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();

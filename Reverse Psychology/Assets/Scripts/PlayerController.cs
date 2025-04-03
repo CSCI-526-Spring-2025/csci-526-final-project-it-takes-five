@@ -56,8 +56,8 @@ public class PlayerController : MonoBehaviour
     public float overlapThreshold = 0.1f;  
     private float shiftOffset = 0.6f;
     public Transform leftWall;           // Left boundary
-    public Transform rightWall;  
-
+    public Transform rightWall;
+ 
     bool IsOrbAtPosition(Vector3 pos)
     {
         foreach (GameObject orb in droppedOrbs)

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -45,10 +46,14 @@ public class ButtonScript : MonoBehaviour
     public GameCheckpoint gameCheckpoint = new GameCheckpoint();
     public List<GameObject> allOrbs = new List<GameObject>();
 
+
+    public GameObject checkpointText;
+
     public bool checkpointCreated = false;
 
     void Start()
     {
+        if (checkpointText != null) checkpointText.SetActive(false);
         // Get the SpriteRenderer component from the button.
         allOrbs = GameObject.FindGameObjectsWithTag("BlueOrb")
                                         .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToList();
@@ -87,6 +92,8 @@ public class ButtonScript : MonoBehaviour
 
     public void saveCheckpoint()
     {
+        Debug.Log("in checkpoint saved");
+
         checkpointStack = player.getStack();
         for (int i = 0; i < checkpointStack.Count; i++)
         {
@@ -141,10 +148,20 @@ public class ButtonScript : MonoBehaviour
         gameCheckpoint.remainingOrbs = remainingOrbData;
         gameCheckpoint.pickedUpOrbs = pickedUpOrb;
         gameCheckpoint.playerPosition = player.transform.position;
-
+        Debug.Log("checkpoint saved");
         checkpointCreated = true;
-    }
+        if (checkpointText != null)
+        {
+            StartCoroutine(ShowAndHideCheckpoint());
+        }
 
+    }
+    private IEnumerator ShowAndHideCheckpoint()
+    {
+        checkpointText.SetActive(true);
+        yield return new WaitForSeconds(3.0f);
+        checkpointText.SetActive(false);
+    }
     public void LoadCheckpoint()
     {
         Debug.Log("in restart");
