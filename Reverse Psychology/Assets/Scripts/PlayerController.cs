@@ -49,6 +49,86 @@ public class PlayerController : MonoBehaviour
     private bool abilityInProgress = false;
     private string currentAbility = "";
 
+    // At the class level, maintain a list of dropped orbs.
+    public List<GameObject> droppedOrbs = new List<GameObject>();
+
+    // Define a threshold for determining overlap.
+    public float overlapThreshold = 0.1f;  
+    private float shiftOffset = 0.6f;
+    public Transform leftWall;           // Left boundary
+    public Transform rightWall;  
+
+    bool IsOrbAtPosition(Vector3 pos)
+    {
+        foreach (GameObject orb in droppedOrbs)
+        {
+            // Check if the orb is close enough to be considered overlapping.
+            if (Vector3.Distance(orb.transform.position, pos) < overlapThreshold)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Optionally, shift an orb if it is overlapping the drop position.
+    void ResolveOverlaps(Vector3 dropPosition, GameObject topOrb)
+    {
+        bool check = true;
+        foreach (GameObject orb in droppedOrbs.ToList())
+        {
+            // Check if the orb is overlapping.
+            if (Vector3.Distance(orb.transform.position, dropPosition) < overlapThreshold)
+            {
+                check = false;
+
+                // Calculate the potential new position.
+                Vector3 newPosition = orb.transform.position + new Vector3(shiftOffset, 0, 0);
+
+                // // Check boundary conditions to prevent going out of bounds.
+                // float rightBoundary = rightWall.position.x;  // Adjust based on your game level dimensions.
+                // float leftBoundary = leftWall.position.x;
+                // if (newPosition.x > rightBoundary || newPosition.x < leftBoundary)
+                // {
+                //     // If shifting right is not feasible, try shifting left.
+                //     newPosition = orb.transform.position - new Vector3(shiftOffset, 0, 0);
+                // }
+
+                // // Obstacle collision check.
+                // Collider2D[] colliders = Physics2D.OverlapCircleAll(newPosition, overlapThreshold);
+                // bool isObstacle = colliders.Any(col => col.CompareTag("Wall") || col.CompareTag("Obstacle"));
+                // if (isObstacle)
+                // {
+                //     // Try shifting in the opposite direction if blocked by an obstacle.
+                //     newPosition = orb.transform.position - new Vector3(shiftOffset, 0, 0);
+
+                //     // Check the new position for obstacles.
+                //     colliders = Physics2D.OverlapCircleAll(newPosition, overlapThreshold);
+                //     isObstacle = colliders.Any(col => col.CompareTag("Wall") || col.CompareTag("Obstacle"));
+
+                //     if (isObstacle)
+                //     {
+                //         // If both right and left are blocked, move the orb vertically to clear the way.
+                //         newPosition = orb.transform.position + new Vector3(0, shiftOffset, 0);
+                //     }
+                // }
+
+                // Update the orb's position.
+                orb.transform.position = newPosition;
+
+                // Recurse to resolve any overlaps caused by this movement.
+                droppedOrbs.Add(topOrb);
+                droppedOrbs.Remove(orb);
+                ResolveOverlaps(newPosition, orb);
+            }
+        }
+        if (check)
+        {
+            droppedOrbs.Add(topOrb);
+        }
+    }
+
+
 
     void Start()
     {
@@ -60,6 +140,9 @@ public class PlayerController : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("Ghost");
         rb.gravityScale = 0;
         sr.color = ghostColor;
+
+        droppedOrbs = GameObject.FindGameObjectsWithTag("BlueOrb")
+                                        .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToList();
 
         // Disable collisions with walls.
         GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
@@ -113,6 +196,7 @@ public class PlayerController : MonoBehaviour
         {
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
             {
+                droppedOrbs.Remove(nearbyOrb);
                 orbStack.Push(nearbyOrb);
                 // Deactivate the orb.
                 OrbMovement movement = nearbyOrb.GetComponent<OrbMovement>();
@@ -225,31 +309,66 @@ public class PlayerController : MonoBehaviour
         }
 
         // Press G to drop the top orb at the player's position.
-        if (Input.GetMouseButtonDown(1))
-        {
-            if (orbStack.Count > 0)
-            {
-                GameObject topOrb = orbStack.Pop();
-                UpdateOrbUI();
-                topOrb.SetActive(true);
-                Vector3 dropPosition = transform.position;
-                dropPosition.y -= 0.3f; // Adjust the drop position downward by 0.2 units.
-                OrbMovement movement = topOrb.GetComponent<OrbMovement>();
-                if (movement != null)
-                {
-                    movement.MoveToStack(dropPosition, false);
-                    topOrb.SetActive(true);
-                }
-                else
-                {
-                    topOrb.transform.position = dropPosition;
-                }
+        // if (Input.GetMouseButtonDown(1))
+        // {
+        //     if (orbStack.Count > 0)
+        //     {
+        //         GameObject topOrb = orbStack.Pop();
+        //         UpdateOrbUI();
+        //         topOrb.SetActive(true);
+        //         Vector3 dropPosition = transform.position;
+        //         dropPosition.y -= 0.3f; // Adjust the drop position downward by 0.2 units.
+        //         OrbMovement movement = topOrb.GetComponent<OrbMovement>();
+        //         if (movement != null)
+        //         {
+        //             movement.MoveToStack(dropPosition, false);
+        //             topOrb.SetActive(true);
+        //         }
+        //         else
+        //         {
+        //             topOrb.transform.position = dropPosition;
+        //         }
 
 
 
                 
+        //     }
+        // }
+
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (orbStack.Count > 0)
+                {
+                    GameObject topOrb = orbStack.Pop();
+                    UpdateOrbUI();
+                    topOrb.SetActive(true);
+
+                    // Determine the base drop position relative to the player.
+                    Vector3 dropPosition = transform.position;
+                    dropPosition.y -= 0.3f; // Adjust the drop position downward.
+
+                   
+
+                    // Now place the new orb at the drop position.
+                    OrbMovement movement = topOrb.GetComponent<OrbMovement>();
+                    if (movement != null)
+                    {
+                        movement.MoveToStack(dropPosition, false);
+                    }
+                    else
+                    {
+                        topOrb.transform.position = dropPosition;
+                    }
+
+                    // Resolve overlap for any already dropped orbs at the intended drop position.
+                    ResolveOverlaps(dropPosition, topOrb);
+
+                    // Add the new orb to the list so future drops can check it.
+                    
+                }
             }
-        }
+
 
         // If ability is in progress, check if it has ended.
         if (abilityInProgress){
