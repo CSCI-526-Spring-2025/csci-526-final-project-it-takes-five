@@ -181,7 +181,8 @@ public class PlayerController : MonoBehaviour
         {
             if (IsOverlapping(safeZone, transform))
             {   
-                analyticsScript.EndAbility(currentAbility, true, transform.position.x, transform.position.y);                return true;
+                analyticsScript.EndAbility(currentAbility, true, transform.position.x, transform.position.y);                
+                return true;
             }
         }
         analyticsScript.EndAbility(currentAbility, false, transform.position.x, transform.position.y);

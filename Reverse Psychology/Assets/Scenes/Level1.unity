@@ -1236,7 +1236,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Moves:
 
-    1 Jump = 2 Blue Orbs'
+    Jump (Space) = 2 Blue Orbs'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2775,6 +2775,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8943412493807321050, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: panel1
+      value: 
+      objectReference: {fileID: 1216892629}
+    - target: {fileID: 8943412493807321050, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: panel2
       value: 
       objectReference: {fileID: 209626248}
@@ -2909,6 +2913,10 @@ PrefabInstance:
     - target: {fileID: 7216907984866797521, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
       propertyPath: m_Name
       value: GameAnalytics
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765099880603092972, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
+      propertyPath: debug
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8765099880603092972, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
       propertyPath: timerText

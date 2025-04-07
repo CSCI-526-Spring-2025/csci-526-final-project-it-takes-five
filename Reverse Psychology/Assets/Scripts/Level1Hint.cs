@@ -7,6 +7,7 @@ public class Level1Hint : MonoBehaviour
     public GameObject PickupText; // Text shown when colliding with BlueOrb
     public GameObject JumpText;   // Text shown when colliding with Button
     public GameObject panel2;
+    public GameObject panel1;
 
     private bool isNearOrb = false;  // Track if player is near BlueOrb
     private bool isNearButton = false; // Track if player is near Button

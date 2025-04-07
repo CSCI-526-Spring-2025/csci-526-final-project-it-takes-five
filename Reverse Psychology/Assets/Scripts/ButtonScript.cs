@@ -30,6 +30,7 @@ public class ButtonScript : MonoBehaviour
     public DoorScript door;
     // Assign the Door GameObject (with DoorScript) in the Inspector.
     public GameObject instructionText;
+    public GameObject Panel1;
     public GameObject Panel2;
     public GameObject globalLightObject;
     private Light2D globalLight;
@@ -80,6 +81,7 @@ public class ButtonScript : MonoBehaviour
             // Show text if it exists
             if (instructionText != null) instructionText.SetActive(true);
             if (Panel2 != null) Panel2.SetActive(true);
+            if (Panel1 != null) Panel1.SetActive(false);
 
             
             // Trigger the door opening and player transformation.

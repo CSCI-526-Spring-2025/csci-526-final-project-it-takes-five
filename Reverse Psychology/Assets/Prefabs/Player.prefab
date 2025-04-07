@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   ghostColor: {r: 0.36862746, g: 0.81960785, b: 0.81960785, a: 1}
-  humanColor: {r: 1, g: 1, b: 0, a: 1}
+  humanColor: {r: 0.09119492, g: 0.3333333, b: 0.3333333, a: 1}
   orbStackUIText: {fileID: 0}
   groundCheck: {fileID: 0}
   groundCheckRadius: 0.2
@@ -192,6 +192,10 @@ MonoBehaviour:
   dashDuration: 0.2
   dashDistance: 7
   gameAnalytics: {fileID: 0}
+  droppedOrbs: []
+  overlapThreshold: 0.1
+  leftWall: {fileID: 0}
+  rightWall: {fileID: 0}
 --- !u!114 &8943412493807321050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,3 +210,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PickupText: {fileID: 0}
   JumpText: {fileID: 0}
+  panel2: {fileID: 0}
