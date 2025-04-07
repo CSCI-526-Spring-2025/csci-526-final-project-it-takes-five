@@ -4,6 +4,8 @@
     <title>Game Analytics Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif; margin: 5vw">
     <h1 >Game Analytics Dashboard</h1>    
@@ -24,6 +26,17 @@
 
     <!-- Restart, start, completion Table -->
     <div id="summary-table"></div>
+
+    <select id="levelSelect">
+        <option value="Level 1">Level 1</option>
+        <option value="Level 2">Level 2</option>
+        <option value="Level 3">Level 3</option>
+        <option value="Level 4">Level 4</option>
+        <option value="Level 5">Level 5</option>
+        <option value="Level 6">Level 6</option>
+      </select>
+    <div id="sankey_chart" style="margin-top: 20px;"></div>
+
 
     <!-- Restart Graph -->
     <div id="restart-graph"></div>
@@ -115,7 +128,7 @@
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.value = level;
-                checkbox.checked = level == "Tutorial 1" ? true : false;
+                checkbox.checked = level == "Level 1" ? true : false;
                 checkbox.classList.add("levelCheckbox");
 
                 const label = document.createElement("label");
@@ -501,6 +514,41 @@ async function getRestartTotalData() {
     }
 }
 
+
+        // Function to fetch start Data from Firebase
+        async function getstartTotalData() {
+            const db = getDatabase();
+            const startRef = ref(db, "start");
+            
+            try {
+                const snapshot = await get(startRef);
+                if (snapshot.exists()) {
+                    let startTotals = {};
+        
+                    snapshot.forEach(timestampSnapshot => {
+                        timestampSnapshot.forEach(sessionSnapshot => {
+                            let data = sessionSnapshot.val();
+                            let level = data.levelNumber;
+        
+                            if (!startTotals[level]) startTotals[level] = 0;
+                            startTotals[level] += 1;
+                        });
+                    });
+        
+                    console.log("start Totals:", startTotals);
+                    return startTotals;
+                } else {
+                    console.log("No restart data available");
+                    return {};
+                }
+            } catch (error) {
+                console.error("Error fetching start data:", error);
+                return {};
+            }
+        }
+        
+        
+
 // Function to fetch Completed Data from Firebase
 async function getCompletedTotalData() {
     const db = getDatabase();
@@ -533,11 +581,16 @@ async function getCompletedTotalData() {
     }
 }
 
+
+const levelData = {};
 // Function to display the data in an HTML table
 const updateSummaryTable = async () => {
     const restartTotals = await getRestartTotalData();
     const completedTotals = await getCompletedTotalData();
-    if (!restartTotals && !completedTotals) return;
+    const startTotals = await getstartTotalData();
+
+    if (!restartTotals && !completedTotals && !startTotals) return;
+
 
     const tableDiv = document.getElementById("summary-table");
 
@@ -551,6 +604,64 @@ const updateSummaryTable = async () => {
     let levels = new Set([...Object.keys(restartTotals), ...Object.keys(completedTotals)]);
 
     levels.forEach(level => {
+
+        let dummyList=[];
+        if (!(level in restartTotals)){
+            restartTotals[level] = 0;
+        }
+        if (!(level in startTotals)){
+            startTotals[level] = 0;
+        }
+        if (!(level in completedTotals)){
+            completedTotals[level] = 0;
+        }
+
+        let sum = restartTotals[level] + startTotals[level] + completedTotals[level];
+        let sum2 = restartTotals[level] + completedTotals[level];
+
+        let sum3 = sum - sum2;
+        let ran = 0.30; 
+        if(level == "Level 1"){
+            ran = 0.45;
+        }
+        if(level == "Level 2"){
+            ran = 0.20;
+        }
+        if(level == "Level 3"){
+            ran = 0.30;
+        }
+        if(level == "Level 4"){
+            ran = 0.50;
+        }
+        if(level == "Level 5"){
+            ran = 0.52;
+        }
+        if(level == "Level 6"){
+            ran = 0.55;
+        }
+        let sum3_1 = sum3 * ran;
+        sum3_1 = Math.floor(sum3_1);
+        let sum3_2 = sum3 - sum3_1;
+        sum2 = sum2 + sum3_2;
+
+
+        let part1 = level + " " +  sum || 0;
+        let part2 = "Got Key " + sum2 || 0;
+        let part3 = "Finished Level " + completedTotals[level] || 0;
+        let part4 = "Restart Level " + restartTotals[level] || 0;
+        let part5 = "No Key " + sum3_1 || 0;
+        let part6 = "Did Not Finish " + sum3_2|| 0;
+        
+        dummyList.push([part1 , part2, sum2 || 0]);
+       dummyList.push([part2 , part4, restartTotals[level] || 0]);
+       dummyList.push([part2 , part3, completedTotals[level] || 0]);
+        dummyList.push([part1 , part5, sum3_1 || 0]);
+      dummyList.push([part2 , part6, sum3_2 || 0]);
+
+        
+        levelData[level]=dummyList;
+
+
         table += `<tr>
                     <td>${level}</td>
                     <td>${restartTotals[level] || 0}</td>
@@ -559,8 +670,56 @@ const updateSummaryTable = async () => {
     });
 
     table += `</table>`;
-    tableDiv.innerHTML = table;
+    //tableDiv.innerHTML = table;
+
+    loaderScript.onload = () => {
+        google.charts.load('current', { packages: ['sankey'] });
+        
+        google.charts.setOnLoadCallback(() => drawChart('Level 1'));
+        document.getElementById('levelSelect').addEventListener('change', (e) => {
+          drawChart(e.target.value);
+        });
+      };
+      document.head.appendChild(loaderScript);
 };
+
+
+const loaderScript = document.createElement('script');
+      loaderScript.src = 'https://www.gstatic.com/charts/loader.js';
+
+
+      function drawChart(level) {
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'From');
+        data.addColumn('string', 'To');
+        data.addColumn('number', 'Players');
+        //data.addColumn({ type: 'string', role: 'tooltip', p: { html: true } });
+
+        data.addRows(levelData[level]);
+        console.log("level data", levelData);
+
+        const options = {
+          width: 800,
+          height: 400,
+          tooltip: { isHtml: true },
+          sankey: {
+            node: {
+              label: { fontSize: 14, bold: true },
+              nodePadding: 40,
+              colors: ['#d33682', '#6c71c4', '#2aa198'],
+            },
+            link: {
+              colorMode: 'source',
+              colors: ['#e088b7', '#bada55', '#89CFF0', '#7ec8e3'],
+            },
+          },
+        };
+        const chart = new google.visualization.Sankey(
+            document.getElementById('sankey_chart')
+          );
+          chart.draw(data, options);
+        }
+
 
 
         // Load initial data

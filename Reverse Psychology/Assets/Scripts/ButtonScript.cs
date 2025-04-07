@@ -89,6 +89,8 @@ public class ButtonScript : MonoBehaviour
             player.TransformToHuman();
 
             saveCheckpoint();
+            Debug.Log("send got key saved");
+            gameAnalytics.SendGotKey();
         }
     }
 
