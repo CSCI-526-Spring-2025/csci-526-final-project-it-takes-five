@@ -171,6 +171,11 @@ public class PlayerController : MonoBehaviour
         return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
+    void OnDrawGizmosSelected() {
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
 
     public Stack<GameObject> getStack()
     {
@@ -382,7 +387,7 @@ public class PlayerController : MonoBehaviour
 
         // If jump is in progress, check if it has ended.
         if (jumpInProgress && Mathf.Abs(rb.velocity.y) < 0.01f && IsGrounded()) {
-            Debug.Log("Ground detected? " + IsGrounded());
+            // Debug.Log("Ground detected? " + IsGrounded());
             Debug.Log("Jump ended by touching ground. Success: " + abilityEnd());
             jumpInProgress = false;
         }
