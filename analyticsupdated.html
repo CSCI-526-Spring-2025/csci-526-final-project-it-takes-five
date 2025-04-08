@@ -27,6 +27,7 @@
     <!-- Restart, start, completion Table -->
     <div id="summary-table"></div>
 
+    <h2>Level Summary</h2>
     <select id="levelSelect">
         <option value="Level 1">Level 1</option>
         <option value="Level 2">Level 2</option>
@@ -39,7 +40,7 @@
 
 
     <!-- Restart Graph -->
-    <div id="restart-graph"></div>
+    <div id="restart-graph" style="display:none"></div>
 
     <!-- Heatmaps -->
     <div id="heatmaps">
@@ -360,7 +361,7 @@
             const level = heatmapDropdown.querySelector('select').value;
             const levelData = deathData[level];
             if (!levelData) document.getElementById('death-heatmap').innerHTML = '';
-            if (levelData.length === 0) return;
+            //if (levelData.length === 0) return;
             console.log('Death Heatmap')
             drawHeatmap(levelData, 'death-heatmap', "Level Maps/" + level + ".png");        
         }
