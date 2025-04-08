@@ -69,6 +69,11 @@
         const db = getDatabase(app);
         goOnline(db);
 
+        // Cutoff date
+        const cutoffDate = new Date("2023-04-06");
+
+        // LEVEL DATA
+
         // TIME PLOT
         // Fetch time data from Firebase
         async function getTimeData() {

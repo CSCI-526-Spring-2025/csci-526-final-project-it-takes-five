@@ -23,6 +23,8 @@ public class Level2Hint : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && flag == 0)
         {
             flag = 1;
+            // get orb stack from player controller script
+            // Display the drop text if there are not two blue orbs at top of stack
             DropText.SetActive(true);
         }
 

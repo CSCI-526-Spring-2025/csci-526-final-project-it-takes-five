@@ -1051,8 +1051,12 @@ PrefabInstance:
       value: SafeZone
       objectReference: {fileID: 0}
     - target: {fileID: 4100174218792050293, guid: 7dd82fe814d707e4b874c75bc13b10db, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.3670697
+      objectReference: {fileID: 0}
+    - target: {fileID: 4100174218792050293, guid: 7dd82fe814d707e4b874c75bc13b10db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.5500001
+      value: 1.8519
       objectReference: {fileID: 0}
     - target: {fileID: 4100174218792050293, guid: 7dd82fe814d707e4b874c75bc13b10db, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1443,6 +1447,10 @@ PrefabInstance:
     - target: {fileID: 7216907984866797521, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
       propertyPath: m_Name
       value: GameAnalytics
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765099880603092972, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
+      propertyPath: debug
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8765099880603092972, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
       propertyPath: timerText
@@ -2807,6 +2815,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8943412493807321050, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+    - {fileID: 5502832650639990896, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+    - {fileID: 412102324128734605, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

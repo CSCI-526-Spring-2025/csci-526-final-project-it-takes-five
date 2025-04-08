@@ -248,6 +248,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8324899639100108648, guid: 59997e74e62944943b4c6aa6d0685522, type: 3}
+      propertyPath: gameOverText
+      value: 
+      objectReference: {fileID: 1883667923}
+    - target: {fileID: 8324899639100108648, guid: 59997e74e62944943b4c6aa6d0685522, type: 3}
+      propertyPath: gameAnalytics
+      value: 
+      objectReference: {fileID: 1056132732}
     - target: {fileID: 9169762728415507577, guid: 59997e74e62944943b4c6aa6d0685522, type: 3}
       propertyPath: m_Name
       value: Spikes1
@@ -1929,7 +1937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8765099880603092972, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
       propertyPath: debug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8765099880603092972, guid: 65e79abfcae95e6468c94efccda04911, type: 3}
       propertyPath: timerText
@@ -3576,6 +3584,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8943412493807321050, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+    - {fileID: 5502832650639990896, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+    - {fileID: 412102324128734605, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

@@ -220,8 +220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8548564155797595297, guid: 67061b29bd5bd4a4c94ce1fdcfc103da, type: 3}
       propertyPath: m_text
-      value: In the corporeal form you cannot travel across the wall, spend your
-        2 collected orbs to jump!
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8548564155797595297, guid: 67061b29bd5bd4a4c94ce1fdcfc103da, type: 3}
       propertyPath: m_fontSize
@@ -428,7 +427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4100174218792050293, guid: 7dd82fe814d707e4b874c75bc13b10db, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.620498
+      value: 7.5466595
       objectReference: {fileID: 0}
     - target: {fileID: 4100174218792050293, guid: 7dd82fe814d707e4b874c75bc13b10db, type: 3}
       propertyPath: m_LocalScale.y
@@ -436,7 +435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4100174218792050293, guid: 7dd82fe814d707e4b874c75bc13b10db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.4631
       objectReference: {fileID: 0}
     - target: {fileID: 4100174218792050293, guid: 7dd82fe814d707e4b874c75bc13b10db, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1714,7 +1713,7 @@ GameObject:
   - component: {fileID: 1871315963}
   - component: {fileID: 1871315965}
   - component: {fileID: 1871315966}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2641,6 +2640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SafeZone1
       objectReference: {fileID: 0}
+    - target: {fileID: 788704146256921232, guid: 7dd82fe814d707e4b874c75bc13b10db, type: 3}
+      propertyPath: m_TagString
+      value: SafeZone
+      objectReference: {fileID: 0}
     - target: {fileID: 4100174218792050293, guid: 7dd82fe814d707e4b874c75bc13b10db, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.5500001
@@ -2701,7 +2704,7 @@ PrefabInstance:
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: groundCheck
       value: 
-      objectReference: {fileID: 8053566322406420538}
+      objectReference: {fileID: 2510614377109603967}
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: gameAnalytics
       value: 
@@ -2734,6 +2737,10 @@ PrefabInstance:
       propertyPath: orbSlots.Array.data[4]
       value: 
       objectReference: {fileID: 1517976957}
+    - target: {fileID: 5502832650639990896, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6864809446113388273, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9
@@ -2790,11 +2797,18 @@ PrefabInstance:
       propertyPath: PickupText
       value: 
       objectReference: {fileID: 1058276433}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5502832650639990896, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+    - {fileID: 412102324128734605, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+--- !u!4 &2510614377109603967 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4032627094771701639, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+  m_PrefabInstance: {fileID: 2510614377109603966}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2526960275094409983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3000,11 +3014,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaf85e3c03075b448960addbfae0187c, type: 3}
---- !u!4 &8053566322406420538 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6543884770007432029, guid: eaf85e3c03075b448960addbfae0187c, type: 3}
-  m_PrefabInstance: {fileID: 8053566322406420537}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8092035297519516506
 PrefabInstance:
   m_ObjectHideFlags: 0

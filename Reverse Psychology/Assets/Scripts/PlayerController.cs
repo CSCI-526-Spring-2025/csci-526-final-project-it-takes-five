@@ -46,7 +46,9 @@ public class PlayerController : MonoBehaviour
 
     // Ability success variables
     public GameObject gameAnalytics;
-    private bool abilityInProgress = false;
+    private bool jumpInProgress = false;
+    private bool dashInProgress = false;
+    private bool healInProgress = false;
     private string currentAbility = "";
 
     // At the class level, maintain a list of dropped orbs.
@@ -165,18 +167,29 @@ public class PlayerController : MonoBehaviour
         return objectBounds.Intersects(playerBounds);
     }
 
+    bool IsGrounded() {
+        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+    }
+
+
     public Stack<GameObject> getStack()
     {
         return orbStack;
     }
 
     public bool abilityEnd() {
-        if(abilityInProgress == false) return false;
-        abilityInProgress = false;
+        // if(abilityInProgress == false) return false;
+        // abilityInProgress = false;
+        Debug.Log("currentAbility: " + currentAbility + ", jumpInProgress: " + jumpInProgress + ", dashInProgress: " + dashInProgress + ", healInProgress: " + healInProgress);
+        if (jumpInProgress == false && dashInProgress == false && healInProgress == false) return false;
+        if (jumpInProgress && currentAbility == "Jump") jumpInProgress = false;
+        if (dashInProgress && currentAbility == "Dash") dashInProgress = false;
+        if (healInProgress && currentAbility == "Heal") healInProgress = false;
+       
        // Check if touching safe zone
         GameObject[] safeZones = GameObject.FindGameObjectsWithTag("SafeZone");
         GameAnalytics analyticsScript = gameAnalytics.GetComponent<GameAnalytics>();
-
+        Debug.Log("Ability ended at: " + transform.position.x + ", " + transform.position.y);
         foreach (GameObject safeZone in safeZones)
         {
             if (IsOverlapping(safeZone, transform))
@@ -227,10 +240,10 @@ public class PlayerController : MonoBehaviour
                 {
                     UpdateOrbUI();
                     // End old ability
-                    if (abilityInProgress) {
-                        Debug.Log("Ability ended. Success: " + abilityEnd());
+                    if (jumpInProgress || dashInProgress || healInProgress) {
+                        Debug.Log("Ability ended by starting new ability. Success: " + abilityEnd());
                     }
-                    abilityInProgress = true;
+                    jumpInProgress = true;
                     currentAbility = "Jump";
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                     Debug.Log("Jump performed using 2 blue orbs.");
@@ -248,7 +261,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Not enough orbs to dash.");
+                Debug.Log("Not enough orbs to jump.");
                 if (warningText != null)
                 {
                     warningText.gameObject.SetActive(true);
@@ -268,10 +281,10 @@ public class PlayerController : MonoBehaviour
                 if (topOrb.CompareTag("YellowOrb") && secondOrb.CompareTag("YellowOrb"))
                 {
                     UpdateOrbUI();
-                    if (abilityInProgress) {
-                        Debug.Log("Ability ended. Success: " + abilityEnd());
+                    if (jumpInProgress || dashInProgress || healInProgress) {
+                        Debug.Log("Ability ended by starting new ability. Success: " + abilityEnd());
                     }
-                    abilityInProgress = true;
+                    dashInProgress = true;
                     currentAbility = "Dash";
                     Debug.Log("Dash performed using 2 yellow orbs.");
                     StartCoroutine(Dash());
@@ -328,11 +341,7 @@ public class PlayerController : MonoBehaviour
         //         else
         //         {
         //             topOrb.transform.position = dropPosition;
-        //         }
-
-
-
-                
+        //         }       
         //     }
         // }
 
@@ -371,13 +380,11 @@ public class PlayerController : MonoBehaviour
             }
 
 
-        // If ability is in progress, check if it has ended.
-        if (abilityInProgress){
-            // Check if not midair
-            if (rb.velocity.y == 0) {
-                Debug.Log("Ability ended. Success: " + abilityEnd());
-            }
-
+        // If jump is in progress, check if it has ended.
+        if (jumpInProgress && Mathf.Abs(rb.velocity.y) < 0.01f && IsGrounded()) {
+            Debug.Log("Ground detected? " + IsGrounded());
+            Debug.Log("Jump ended by touching ground. Success: " + abilityEnd());
+            jumpInProgress = false;
         }
     }
 
@@ -392,6 +399,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashDuration);
         rb.gravityScale = originalGravity;
         isDashing = false;
+        Debug.Log("Ability ended by completing dash. Success: " + abilityEnd());
     }
 
     // Transform the player from ghost to human.
@@ -439,10 +447,15 @@ public class PlayerController : MonoBehaviour
 
     // Update the UI for the orb stack.
     public void UpdateOrbUI()
-    {
+    {   
         // Loop through each UI slot.
         for (int i = 0; i < orbSlots.Length; i++)
         {
+            if (orbSlots[i] == null)
+            {
+                Debug.LogError("Orb slot at index " + i + " is null.");
+                continue;
+            }
             // Each orbSlot is a GameObject with an Image component.
             Image slotImage = orbSlots[i].GetComponent<Image>();
 
