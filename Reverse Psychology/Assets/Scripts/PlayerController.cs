@@ -381,8 +381,8 @@ public class PlayerController : MonoBehaviour
 
 
         // If jump is in progress, check if it has ended.
-        //if (jumpInProgress && Mathf.Abs(rb.velocity.y) < 0.01f && IsGrounded()) {
-            if (jumpInProgress && Mathf.Abs(rb.velocity.y) < 0.01f){
+        if (jumpInProgress && Mathf.Abs(rb.velocity.y) < 0.01f && IsGrounded()) {
+           // if (jumpInProgress && Mathf.Abs(rb.velocity.y) < 0.01f){
 
                 Debug.Log("Ground detected? " + IsGrounded());
             Debug.Log("Jump ended by touching ground. Success: " + abilityEnd());

@@ -3533,7 +3533,7 @@ PrefabInstance:
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: groundCheck
       value: 
-      objectReference: {fileID: 1851630965}
+      objectReference: {fileID: 2510614377109603968}
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: warningText
       value: 
@@ -3644,6 +3644,11 @@ PrefabInstance:
 --- !u!1 &2510614377109603967 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 502441113168722369, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+  m_PrefabInstance: {fileID: 2510614377109603966}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2510614377109603968 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5635705453790899252, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
   m_PrefabInstance: {fileID: 2510614377109603966}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &2510614377109603969 stripped

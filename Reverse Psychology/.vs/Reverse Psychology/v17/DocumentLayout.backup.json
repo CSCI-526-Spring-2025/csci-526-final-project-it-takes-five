@@ -1,34 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\",
+  "WorkspaceRootPath": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PlayerController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\PlayerController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|d:\\mscs\\csci526\\games\\csci-526-final-project-it-takes-five\\reverse psychology\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\ButtonScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\ButtonScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\GameAnalytics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:Assets\\Scripts\\GameAnalytics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\Level1Hint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\Level1Hint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\ButtonScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:Assets\\Scripts\\ButtonScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\DoorScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\DoorScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\Level1Hint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:Assets\\Scripts\\Level1Hint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PauseManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\PauseManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\DoorScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:Assets\\Scripts\\DoorScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\OrbClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\OrbClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\GameAnalytics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\GameAnalytics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\OrbClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:Assets\\Scripts\\OrbClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,11 +38,11 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ButtonScript.cs",
-              "DocumentMoniker": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\ButtonScript.cs",
+              "DocumentMoniker": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\ButtonScript.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ButtonScript.cs",
-              "ToolTip": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\ButtonScript.cs",
+              "ToolTip": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\ButtonScript.cs",
               "RelativeToolTip": "Assets\\Scripts\\ButtonScript.cs",
               "ViewState": "AgIAAFIAAAAAAAAAAAAowFwAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -54,11 +50,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Level1Hint.cs",
-              "DocumentMoniker": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\Level1Hint.cs",
+              "DocumentMoniker": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\Level1Hint.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Level1Hint.cs",
-              "ToolTip": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\Level1Hint.cs",
+              "ToolTip": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\Level1Hint.cs",
               "RelativeToolTip": "Assets\\Scripts\\Level1Hint.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAQwDEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -68,22 +64,22 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "PlayerController.cs",
-              "DocumentMoniker": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PlayerController.cs",
+              "DocumentMoniker": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
-              "ToolTip": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PlayerController.cs",
+              "ToolTip": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PlayerController.cs",
               "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
-              "ViewState": "AgIAAHYBAAAAAAAAAAAewIIBAABRAAAAAAAAAA==",
+              "ViewState": "AgIAAGkBAAAAAAAAAIAwwHkBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-03T16:06:49.872Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "DoorScript.cs",
-              "DocumentMoniker": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\DoorScript.cs",
+              "DocumentMoniker": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\DoorScript.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\DoorScript.cs",
-              "ToolTip": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\DoorScript.cs",
+              "ToolTip": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\DoorScript.cs",
               "RelativeToolTip": "Assets\\Scripts\\DoorScript.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -91,23 +87,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PauseManager.cs",
-              "DocumentMoniker": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PauseManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\PauseManager.cs",
-              "ToolTip": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PauseManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\PauseManager.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAQwCAAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-01T07:11:18.137Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 5,
               "Title": "OrbClass.cs",
-              "DocumentMoniker": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\OrbClass.cs",
+              "DocumentMoniker": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\OrbClass.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\OrbClass.cs",
-              "ToolTip": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\OrbClass.cs",
+              "ToolTip": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\OrbClass.cs",
               "RelativeToolTip": "Assets\\Scripts\\OrbClass.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -115,15 +99,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "GameAnalytics.cs",
-              "DocumentMoniker": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\GameAnalytics.cs",
+              "DocumentMoniker": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\GameAnalytics.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameAnalytics.cs",
-              "ToolTip": "C:\\Users\\archi\\OneDrive\\Desktop\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\GameAnalytics.cs",
+              "ToolTip": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\GameAnalytics.cs",
               "RelativeToolTip": "Assets\\Scripts\\GameAnalytics.cs",
               "ViewState": "AgIAAIUAAAAAAAAAAAAkwJMAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-01T05:25:52.807Z"
+              "WhenOpened": "2025-04-01T05:25:52.807Z",
+              "EditorCaption": ""
             }
           ]
         }
