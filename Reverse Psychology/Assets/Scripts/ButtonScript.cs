@@ -171,8 +171,6 @@ public class ButtonScript : MonoBehaviour
         Debug.Log("in restart");
         //if (PlayerPrefs.HasKey("GameCheckpoint"))
         //{
-            //string json = PlayerPrefs.GetString("GameCheckpoint");
-            //GameCheckpoint checkpoint = JsonUtility.FromJson<GameCheckpoint>(json);
             player.transform.position = gameCheckpoint.playerPosition;
 
             // Rebuild the orb stack:

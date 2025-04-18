@@ -13,14 +13,18 @@ public class PauseManager : MonoBehaviour
     public GameObject instructionsPanel;
     public GameObject button;
     public GameObject restartCheckpointButton;
+    public GameObject checkpointLoadText;
 
-    
+
+
 
     void Start()
     {
         pauseMenu.SetActive(false);
         instructionsPanel.SetActive(false);
         restartCheckpointButton.SetActive(false);
+        if (checkpointLoadText != null)
+            checkpointLoadText.SetActive(false);
     }
 
     public void PauseGame()
@@ -65,9 +69,21 @@ public class PauseManager : MonoBehaviour
         //for(int i = 0; i < button.GetComponent<ButtonScript>().getCheckpoint().remainingOrbs.Count; i++) {
         //    Debug.Log()
         //}
-        button.GetComponent<ButtonScript>().LoadCheckpoint();
+
+        StartCoroutine(LoadCheckpointText());
         ResumeGame();
      
+    }
+
+    IEnumerator LoadCheckpointText()
+    {
+        if (checkpointLoadText != null)
+            checkpointLoadText.SetActive(true);
+        button.GetComponent<ButtonScript>().LoadCheckpoint();
+        // Wait for 2 seconds in real time, even though the game is paused.
+        yield return new WaitForSecondsRealtime(2f);
+        if (checkpointLoadText != null)
+            checkpointLoadText.SetActive(false);
     }
 
     public void ShowInstructions()

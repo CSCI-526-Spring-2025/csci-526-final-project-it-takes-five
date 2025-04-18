@@ -6,6 +6,9 @@ public class SpikeScript : MonoBehaviour
 {
     public GameObject gameOverText; // Assign in the Inspector
     public GameAnalytics gameAnalytics;
+    public GameObject button;
+    public GameObject PauseMenu;
+
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,13 +16,22 @@ public class SpikeScript : MonoBehaviour
         {
             Debug.Log("Player touched spike! Game Over.");
             gameAnalytics.EndLevelDeath(collision.transform.position.x, collision.transform.position.y);
-            PlayerController player = collision.GetComponent<PlayerController>();
-            if (player != null)
-                player.enabled = false;
-            Time.timeScale = 0f;
+            //PlayerController player = collision.GetComponent<PlayerController>();
+            //if (player != null)
+            //    player.enabled = false;
+            //Time.timeScale = 0f;
+
+            //if (button.GetComponent<ButtonScript>().checkpointCreated) // CHANGED
+            //{
+                PauseMenu.GetComponent<PauseManager>().RestartFromCheckpoint();
+            //}
+            //else
+            //{
+            //    // Start Coroutine to wait and exit the game
+            //    StartCoroutine(GameOver());
+            //}
+
             
-            // Start Coroutine to wait and exit the game
-            StartCoroutine(GameOver());
         }
     }
 
@@ -36,4 +48,6 @@ public class SpikeScript : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+
 }

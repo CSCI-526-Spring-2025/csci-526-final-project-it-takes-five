@@ -6,6 +6,8 @@ public class PitScript : MonoBehaviour
 {
     public GameObject gameOverText; // Assign in the Inspector
     public GameAnalytics gameAnalytics;
+    public GameObject PauseMenu;
+
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,14 +15,15 @@ public class PitScript : MonoBehaviour
         {
             Debug.Log("Player fell into the pit! Game Over.");
             gameAnalytics.EndLevelDeath(collision.transform.position.x, collision.transform.position.y);
-            PlayerController player = collision.GetComponent<PlayerController>();
-            if (player != null)
-                player.enabled = false;
-            
-            Time.timeScale = 0f;
-            
-            // Start Coroutine to wait and exit the game
-            StartCoroutine(GameOver());
+            PauseMenu.GetComponent<PauseManager>().RestartFromCheckpoint();
+            //PlayerController player = collision.GetComponent<PlayerController>();
+            //if (player != null)
+            //    player.enabled = false;
+
+            //Time.timeScale = 0f;
+
+            //// Start Coroutine to wait and exit the game
+            //StartCoroutine(GameOver());
         }
     }
 
