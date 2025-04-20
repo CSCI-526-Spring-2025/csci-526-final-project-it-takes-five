@@ -75,7 +75,7 @@ public class Level1Hint : MonoBehaviour
         }
 
         // Resume game after jump (space key) near button
-        if (isNearObstacle && Input.GetKeyDown(KeyCode.Space))
+        if (isNearObstacle && Input.anyKeyDown)
         {
             if (JumpText != null) JumpText.SetActive(false);
             isNearObstacle = false;
