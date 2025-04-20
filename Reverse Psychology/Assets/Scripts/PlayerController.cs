@@ -59,6 +59,8 @@ public class PlayerController : MonoBehaviour
     private float shiftOffset = 0.6f;
     public Transform leftWall;           // Left boundary
     public Transform rightWall;
+
+    private float facingDirection = 1f; // +1 = right, –1 = left
  
     bool IsOrbAtPosition(Vector3 pos)
     {
@@ -165,6 +167,19 @@ public class PlayerController : MonoBehaviour
         Bounds objectBounds = obj.GetComponent<Renderer>().bounds;
         Bounds playerBounds = player.GetComponent<Renderer>().bounds;
         return objectBounds.Intersects(playerBounds);
+    }
+
+    private void HandleMovementInput()
+    {
+        if (isDashing)
+            return;
+    
+        float moveInput = Input.GetAxis("Horizontal");
+        if (Mathf.Abs(moveInput) > 0.01f)
+        {
+            facingDirection = Mathf.Sign(moveInput);
+        }
+        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
     }
 
     bool IsGrounded() {
@@ -312,39 +327,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Only process regular movement if not dashing.
-        if (!isDashing)
-        {
-            float moveInput = Input.GetAxis("Horizontal");
-            if (moveInput != 0)
-            {
-                lastHorizontalInput = moveInput;
-            }
-            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-        }
-
-        // Press G to drop the top orb at the player's position.
-        // if (Input.GetMouseButtonDown(1))
-        // {
-        //     if (orbStack.Count > 0)
-        //     {
-        //         GameObject topOrb = orbStack.Pop();
-        //         UpdateOrbUI();
-        //         topOrb.SetActive(true);
-        //         Vector3 dropPosition = transform.position;
-        //         dropPosition.y -= 0.3f; // Adjust the drop position downward by 0.2 units.
-        //         OrbMovement movement = topOrb.GetComponent<OrbMovement>();
-        //         if (movement != null)
-        //         {
-        //             movement.MoveToStack(dropPosition, false);
-        //             topOrb.SetActive(true);
-        //         }
-        //         else
-        //         {
-        //             topOrb.transform.position = dropPosition;
-        //         }       
-        //     }
-        // }
-
+        HandleMovementInput();
 
             if (Input.GetMouseButtonDown(1))
             {
@@ -393,16 +376,37 @@ public class PlayerController : MonoBehaviour
     IEnumerator Dash()
     {
         isDashing = true;
-        // Calculate dash speed so that the player covers dashDistance in dashDuration.
-        float dashSpeed = dashDistance / dashDuration;
+
+        // capture start
+        Vector2 startPos = rb.position;
+        Vector2 dashVector = Vector2.right * facingDirection * dashDistance;
+        Vector2 targetPos = startPos + dashVector;
         float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0; // Disable gravity for a pure horizontal dash.
-        rb.velocity = new Vector2(lastHorizontalInput * dashSpeed, 0);
-        yield return new WaitForSeconds(dashDuration);
+
+        // disable gravity & velocity
+        rb.gravityScale = 0f;
+        rb.velocity = Vector2.zero;
+
+        // interpolate over time
+        float elapsed = 0f;
+        while (elapsed < dashDuration)
+        {
+            float t = elapsed / dashDuration;
+            rb.MovePosition(Vector2.Lerp(startPos, targetPos, t));
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // ensure exact final position
+        rb.MovePosition(targetPos);
+
+        // restore
         rb.gravityScale = originalGravity;
         isDashing = false;
+
         Debug.Log("Ability ended by completing dash. Success: " + abilityEnd());
     }
+
 
     // Transform the player from ghost to human.
     public void TransformToHuman()
