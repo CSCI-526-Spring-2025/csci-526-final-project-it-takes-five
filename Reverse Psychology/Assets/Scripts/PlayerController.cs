@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     // UI element to display orb count and warning messages
     public TextMeshProUGUI orbStackUIText;
-    private TextMeshProUGUI warningText;
+    public TextMeshProUGUI warningText;
 
     // Optional ground check settings.
     public Transform groundCheck;
@@ -235,11 +235,20 @@ public class PlayerController : MonoBehaviour
                 {
                     nearbyOrb.SetActive(false);
                     UpdateOrbUI();
+                    
                 }
                 // Find other nearby orbs if they exist, otherwise set nearbyOrb to null.
                 GameObject[] orbs = GameObject.FindGameObjectsWithTag("BlueOrb")
                                         .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToArray();
                 nearbyOrb = orbs.FirstOrDefault(orb => orb.activeInHierarchy && IsOverlapping(orb, transform));
+            }
+            else if(nearbyOrb != null && orbStack.Count >= orbStackCapacity){
+                if (warningText != null)
+                {
+                    warningText.text = "Orb stack is full!";
+                    warningText.gameObject.SetActive(true);
+                    StartCoroutine(HideWarningAfterDelay(2f));
+                }
             }
         }
 
@@ -268,18 +277,27 @@ public class PlayerController : MonoBehaviour
                     orbStack.Push(secondOrb);
                     orbStack.Push(topOrb);
                     Debug.Log("Jump cannot be performed without 2 blue orbs on top.");
+                    // if (warningText != null)
+                    // {
+                    //     warningText.gameObject.SetActive(true);
+                    // }
                     if (warningText != null)
                     {
+                        warningText.text = "Need 2 blue orbs on top to jump!";
                         warningText.gameObject.SetActive(true);
+                        StartCoroutine(HideWarningAfterDelay(2f));
                     }
                 }
             }
             else
             {
                 Debug.Log("Not enough orbs to jump.");
+                Debug.Log(warningText+" warning text");
                 if (warningText != null)
                 {
+                    warningText.text = "Not enough orbs!";
                     warningText.gameObject.SetActive(true);
+                    StartCoroutine(HideWarningAfterDelay(2f));
                 }
             }
         }
@@ -310,9 +328,12 @@ public class PlayerController : MonoBehaviour
                     orbStack.Push(secondOrb);
                     orbStack.Push(topOrb);
                     Debug.Log("Dash cannot be performed without 2 yellow orbs on top.");
+                    Debug.Log(warningText+" warning text");
                     if (warningText != null)
                     {
+                        warningText.text = "Need 2 yellow orbs on top to dash!";
                         warningText.gameObject.SetActive(true);
+                        StartCoroutine(HideWarningAfterDelay(2f));
                     }
                 }
             }
@@ -490,6 +511,15 @@ public class PlayerController : MonoBehaviour
                 }
                 slotImage.color = Color.white;
             }
+        }
+    }
+
+    IEnumerator HideWarningAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (warningText != null)
+        {
+            warningText.gameObject.SetActive(false);
         }
     }
 }
