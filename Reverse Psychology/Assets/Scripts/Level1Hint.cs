@@ -53,7 +53,7 @@ public class Level1Hint : MonoBehaviour
         }
 
         // Pickup orb with mouse click when near orb
-        if (isNearOrb && Input.GetMouseButtonDown(0))
+        if (isNearOrb && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.O)))
         {
             if (PickupText != null) PickupText.SetActive(false);
             isNearOrb = false;
@@ -67,7 +67,7 @@ public class Level1Hint : MonoBehaviour
         }
 
         // Drop orb with right mouse click
-        if (dropHintShown && DropText.activeSelf && Input.GetMouseButtonDown(1))
+        if (dropHintShown && DropText.activeSelf && (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.P)))
         {
             if (DropText != null) DropText.SetActive(false);
             Time.timeScale = 1;

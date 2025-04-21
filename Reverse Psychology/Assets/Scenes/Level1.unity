@@ -446,6 +446,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2739779719249884888, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
+      propertyPath: m_text
+      value: 'Left: A
+
+        Right: D
+
+        Jump: Space
+
+        Dash: Left
+        Shift
+
+        Grab Orb: Mouse Left Click/O
+
+        Drop Orb: Mouse Right
+        Click/P'
+      objectReference: {fileID: 0}
     - target: {fileID: 3235871982424432977, guid: 7a579377f81f2574397ac17bb5d296ab, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -591,7 +607,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Right click to drop orb.
+  m_text: Right click or press the "P" key to drop orb.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1214,7 +1230,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click to pick up orb.
+  m_text: Click or press the "O" key to pick up orb.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

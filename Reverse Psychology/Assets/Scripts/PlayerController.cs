@@ -221,7 +221,7 @@ public class PlayerController : MonoBehaviour
     {
         
         // Pick up orbs when pressing left arrow key.
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.O))
         {
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
             {
@@ -329,7 +329,7 @@ public class PlayerController : MonoBehaviour
         // Only process regular movement if not dashing.
         HandleMovementInput();
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.P))
             {
                 if (orbStack.Count > 0)
                 {

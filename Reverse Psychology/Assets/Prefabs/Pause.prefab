@@ -684,6 +684,9 @@ MonoBehaviour:
   pauseMenu: {fileID: 3235871982424432977}
   pauseButton: {fileID: 2459683176360655307}
   instructionsPanel: {fileID: 2954484156745859094}
+  button: {fileID: 0}
+  restartCheckpointButton: {fileID: 0}
+  checkpointLoadText: {fileID: 0}
 --- !u!1 &2944066193266689521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,6 +1558,9 @@ MonoBehaviour:
   pauseMenu: {fileID: 3235871982424432977}
   pauseButton: {fileID: 2459683176360655307}
   instructionsPanel: {fileID: 2954484156745859094}
+  button: {fileID: 0}
+  restartCheckpointButton: {fileID: 0}
+  checkpointLoadText: {fileID: 0}
 --- !u!1 &7123406196792015013
 GameObject:
   m_ObjectHideFlags: 0
@@ -2299,9 +2305,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pause
-
-'
+  m_text: Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
