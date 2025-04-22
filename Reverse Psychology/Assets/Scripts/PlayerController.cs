@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI orbStackUIText;
     public TextMeshProUGUI warningText;
 
+    public TextMeshProUGUI orbDropText;
+
+
     // Optional ground check settings.
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
@@ -78,6 +81,7 @@ public class PlayerController : MonoBehaviour
     // Optionally, shift an orb if it is overlapping the drop position.
     void ResolveOverlaps(Vector3 dropPosition, GameObject topOrb)
     {
+
         bool check = true;
         foreach (GameObject orb in droppedOrbs.ToList())
         {
@@ -98,28 +102,33 @@ public class PlayerController : MonoBehaviour
                 //     newPosition = orb.transform.position - new Vector3(shiftOffset, 0, 0);
                 // }
 
-                // // Obstacle collision check.
-                // Collider2D[] colliders = Physics2D.OverlapCircleAll(newPosition, overlapThreshold);
-                // bool isObstacle = colliders.Any(col => col.CompareTag("Wall") || col.CompareTag("Obstacle"));
-                // if (isObstacle)
-                // {
-                //     // Try shifting in the opposite direction if blocked by an obstacle.
-                //     newPosition = orb.transform.position - new Vector3(shiftOffset, 0, 0);
+                // Obstacle collision check.
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(newPosition, overlapThreshold);
+                bool isObstacle = colliders.Any(col => col.CompareTag("Border"));
 
-                //     // Check the new position for obstacles.
-                //     colliders = Physics2D.OverlapCircleAll(newPosition, overlapThreshold);
-                //     isObstacle = colliders.Any(col => col.CompareTag("Wall") || col.CompareTag("Obstacle"));
+                if (!isObstacle)
+                {
+                    // Try shifting in the opposite direction if blocked by an obstacle.
+                    newPosition = orb.transform.position - new Vector3(shiftOffset, 0, 0);
 
-                //     if (isObstacle)
-                //     {
-                //         // If both right and left are blocked, move the orb vertically to clear the way.
-                //         newPosition = orb.transform.position + new Vector3(0, shiftOffset, 0);
-                //     }
-                // }
+
+                    Debug.Log("Border collision with orb");
+
+                    // Check the new position for obstacles.
+                    colliders = Physics2D.OverlapCircleAll(newPosition, overlapThreshold);
+                    isObstacle = colliders.Any(col => col.CompareTag("Wall") || col.CompareTag("Obstacle"));
+
+                    if (isObstacle)
+                    {
+                        // If both right and left are blocked, move the orb vertically to clear the way.
+                        newPosition = orb.transform.position + new Vector3(0, shiftOffset, 0);
+                    }
+                }
 
                 // Update the orb's position.
                 orb.transform.position = newPosition;
 
+                
                 // Recurse to resolve any overlaps caused by this movement.
                 droppedOrbs.Add(topOrb);
                 droppedOrbs.Remove(orb);
@@ -130,6 +139,57 @@ public class PlayerController : MonoBehaviour
         {
             droppedOrbs.Add(topOrb);
         }
+    }
+
+
+    // Optionally, shift an orb if it is overlapping the drop position.
+    bool ResolveOrbOverlaps(Vector3 dropPosition, GameObject topOrb)
+    {
+        int maxAttempts = 10;
+        int attempts = 0;
+
+        Vector3 originalPosition = topOrb.transform.position;
+
+        while (attempts < maxAttempts)
+        {
+            // Check if overlapping with another orb (exclude topOrb itself)
+            Collider2D[] orbColliders = Physics2D.OverlapCircleAll(topOrb.transform.position, overlapThreshold);
+            bool isBlocked = orbColliders.Any(col =>
+                (col.CompareTag("BlueOrb") || col.CompareTag("YellowOrb")) &&
+                col.gameObject != topOrb
+            );
+
+            // Check if blocked by a wall or obstacle
+            bool isBlockedWall = orbColliders.Any(col =>
+                col.CompareTag("Border") || col.CompareTag("Wall") || col.CompareTag("Obstacle")
+            );
+
+            if (isBlockedWall)
+            {
+                Debug.Log("Blocked by wall/obstacle. Reverting position.");
+                topOrb.transform.position = originalPosition;
+                return false;
+            }
+
+            if (!isBlocked)
+            {
+                Debug.Log("Valid position found after " + attempts + " shifts.");
+                break;
+            }
+
+            // Shift the orb to the right
+            topOrb.transform.position += new Vector3(shiftOffset, 0, 0);
+            attempts++;
+        }
+
+        if (attempts == maxAttempts)
+        {
+            Debug.LogWarning("Max attempts reached while resolving orb overlaps.");
+            topOrb.transform.position = originalPosition; // Optional: revert if nothing worked
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -352,17 +412,25 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.P))
             {
-                if (orbStack.Count > 0)
+            if (orbStack.Count > 0)
+            {
+                GameObject topOrb = orbStack.Pop();
+
+                // Determine the base drop position relative to the player.
+                Vector3 dropPosition = transform.position;
+                dropPosition.y -= 0.3f; // Adjust the drop position downward.
+
+                Collider2D[] initialColliders = Physics2D.OverlapCircleAll(dropPosition, overlapThreshold);
+                bool isBlocked = initialColliders.Any(col => col.CompareTag("Wall") || col.CompareTag("Obstacle"));
+
+                if (!isBlocked)
                 {
-                    GameObject topOrb = orbStack.Pop();
+
+
+                    Debug.Log("Orb drop success");
+
                     UpdateOrbUI();
                     topOrb.SetActive(true);
-
-                    // Determine the base drop position relative to the player.
-                    Vector3 dropPosition = transform.position;
-                    dropPosition.y -= 0.3f; // Adjust the drop position downward.
-
-                   
 
                     // Now place the new orb at the drop position.
                     OrbMovement movement = topOrb.GetComponent<OrbMovement>();
@@ -375,12 +443,36 @@ public class PlayerController : MonoBehaviour
                         topOrb.transform.position = dropPosition;
                     }
 
-                    // Resolve overlap for any already dropped orbs at the intended drop position.
-                    ResolveOverlaps(dropPosition, topOrb);
+                    bool orbBlocked = ResolveOrbOverlaps(dropPosition, topOrb);
 
+                    if (!orbBlocked)
+                    {
+                        Debug.Log("Orb drop Failed");
+                        orbStack.Push(topOrb);
+                        topOrb.SetActive(false);
+                        UpdateOrbUI();
+
+                        orbDropText.gameObject.SetActive(true);
+                        StartCoroutine(HideOrbDropDelay(4f));
+
+                    }
+
+                    // Resolve overlap for any already dropped orbs at the intended drop position.
+                    //ResolveOverlaps(dropPosition, topOrb);
                     // Add the new orb to the list so future drops can check it.
-                    
+
                 }
+                else
+                {
+                    Debug.Log("Orb drop Failed");
+                    orbStack.Push(topOrb);
+                    topOrb.SetActive(false);
+                    UpdateOrbUI();
+                    orbDropText.gameObject.SetActive(true);
+                    StartCoroutine(HideOrbDropDelay(4f));
+
+                }
+            }
             }
 
 
@@ -520,6 +612,16 @@ public class PlayerController : MonoBehaviour
         if (warningText != null)
         {
             warningText.gameObject.SetActive(false);
+        }
+    }
+
+
+    IEnumerator HideOrbDropDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (orbDropText != null)
+        {
+            orbDropText.gameObject.SetActive(false);
         }
     }
 }

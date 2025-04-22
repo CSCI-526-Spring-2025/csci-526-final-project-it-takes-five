@@ -122,7 +122,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &214107290
+--- !u!1 &83975089
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,42 +130,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 214107291}
-  - component: {fileID: 214107293}
-  - component: {fileID: 214107292}
+  - component: {fileID: 83975090}
+  - component: {fileID: 83975092}
+  - component: {fileID: 83975091}
   m_Layer: 5
-  m_Name: CheckPointMessage
+  m_Name: OrbDropText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &214107291
+  m_IsActive: 0
+--- !u!224 &83975090
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214107290}
+  m_GameObject: {fileID: 83975089}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000395, y: 1.0000395, z: 1.0000395}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2023093395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 855, y: 35}
-  m_SizeDelta: {x: 222.01, y: 35.51001}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 2.0001, y: 129.51}
+  m_SizeDelta: {x: 400, y: 35.51}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &214107292
+--- !u!114 &83975091
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214107290}
+  m_GameObject: {fileID: 83975089}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Checkpoint Created ...
+  m_text: You cannot drop the Orb near the obstacle.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -188,8 +188,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294901760
-  m_fontColor: {r: 0, g: 0, b: 1, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 0.10943389, g: 0.10943389, b: 0.10943389, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -206,14 +206,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -248,13 +248,13 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &214107293
+--- !u!222 &83975092
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214107290}
+  m_GameObject: {fileID: 83975089}
   m_CullTransparentMesh: 1
 --- !u!224 &227470087 stripped
 RectTransform:
@@ -876,7 +876,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Checkpoint Loaded...
+  m_text: Checkpoint Created...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -969,7 +969,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 855, y: 35}
+  m_AnchoredPosition: {x: 799, y: 35}
   m_SizeDelta: {x: 221.9, y: 35.51001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &781830354
@@ -1364,7 +1364,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click or press the "O" key to pick up orb.
+  m_text: Left Click or press the "O" key to pick up orb.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2276,8 +2276,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294901760
-  m_fontColor: {r: 0, g: 0, b: 1, a: 1}
+    rgba: 4291100672
+  m_fontColor: {r: 0, g: 0, b: 0.7735849, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2524,7 +2524,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1906709926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2772,11 +2772,11 @@ RectTransform:
   - {fileID: 750121969}
   - {fileID: 901252874}
   - {fileID: 1598465449}
-  - {fileID: 214107291}
   - {fileID: 1169872789}
   - {fileID: 1216892630}
   - {fileID: 1058276434}
   - {fileID: 545177625}
+  - {fileID: 83975090}
   - {fileID: 1788472242}
   - {fileID: 227470087}
   - {fileID: 474964809}
@@ -3439,6 +3439,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2510614377109603967}
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: orbDropText
+      value: 
+      objectReference: {fileID: 83975091}
+    - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: warningText
       value: 
       objectReference: {fileID: 438757587}
@@ -3449,7 +3453,7 @@ PrefabInstance:
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: checkpointText
       value: 
-      objectReference: {fileID: 214107290}
+      objectReference: {fileID: 0}
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: orbStackUIText
       value: 
@@ -3586,8 +3590,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2799575005726675502, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3266873071273647929, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
       propertyPath: m_Name
+      value: Border
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266873071273647929, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111886670553214184, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
+      propertyPath: m_TagString
       value: Border
       objectReference: {fileID: 0}
     - target: {fileID: 4915640491682611176, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
@@ -3629,6 +3645,30 @@ PrefabInstance:
     - target: {fileID: 4915640491682611176, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521199547533167521, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6365341406951535445, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.49455556
+      objectReference: {fileID: 0}
+    - target: {fileID: 6365341406951535445, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.3243
+      objectReference: {fileID: 0}
+    - target: {fileID: 7100675488291724460, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
+      propertyPath: m_TagString
+      value: Border
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328546072464632007, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.47523817
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328546072464632007, guid: 6967a5c308c433840b72ccb202944fd6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.1795
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4048,7 +4088,7 @@ PrefabInstance:
     - target: {fileID: 3050957128351866769, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}
       propertyPath: checkpointText
       value: 
-      objectReference: {fileID: 214107290}
+      objectReference: {fileID: 0}
     - target: {fileID: 5996796952539358615, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}
       propertyPath: m_Name
       value: Key

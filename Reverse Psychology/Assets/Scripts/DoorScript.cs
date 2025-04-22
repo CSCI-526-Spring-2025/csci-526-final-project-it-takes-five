@@ -9,7 +9,7 @@ public class DoorScript : MonoBehaviour
     private SpriteRenderer sr;
     private BoxCollider2D col;
     public GameObject youWinText;
-    private int maxLevels = 6;
+    private int maxLevels = 5;
     public GameAnalytics gameAnalytics;
 
 

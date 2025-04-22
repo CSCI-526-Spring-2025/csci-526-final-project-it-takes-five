@@ -12,6 +12,8 @@ TagManager:
   - Button
   - SafeZone
   - JumpTrigger
+  - Obstacle
+  - Border
   layers:
   - Default
   - TransparentFX
