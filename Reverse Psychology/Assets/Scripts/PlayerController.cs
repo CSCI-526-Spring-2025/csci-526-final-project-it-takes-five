@@ -150,6 +150,9 @@ public class PlayerController : MonoBehaviour
 
         Vector3 originalPosition = topOrb.transform.position;
 
+        
+
+
         while (attempts < maxAttempts)
         {
             // Check if overlapping with another orb (exclude topOrb itself)
@@ -158,6 +161,15 @@ public class PlayerController : MonoBehaviour
                 (col.CompareTag("BlueOrb") || col.CompareTag("YellowOrb")) &&
                 col.gameObject != topOrb
             );
+            Debug.Log($"isBlocked {isBlocked}");
+            Debug.Log(orbColliders.Length); 
+
+            Debug.Log($"Drop Pos: {dropPosition}, Orb Pos: {topOrb.transform.position}");
+            foreach (var col in orbColliders)
+            {
+                Debug.Log($"Collider: {col.gameObject.name}, Tag: {col.tag}");
+            }
+
 
             // Check if blocked by a wall or obstacle
             bool isBlockedWall = orbColliders.Any(col =>
@@ -283,8 +295,15 @@ public class PlayerController : MonoBehaviour
         // Pick up orbs when pressing left arrow key.
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.O))
         {
+            //added start Find other nearby orbs if they exist, otherwise set nearbyOrb to null.
+            GameObject[] orbs = GameObject.FindGameObjectsWithTag("BlueOrb")
+                                    .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToArray();
+            nearbyOrb = orbs.FirstOrDefault(orb => orb.activeInHierarchy && IsOverlapping(orb, transform));
+            //added end
+
             if (nearbyOrb != null && orbStack.Count < orbStackCapacity)
             {
+                Debug.Log($"nearbyorbbbbbbbbbbb {nearbyOrb}");
                 droppedOrbs.Remove(nearbyOrb);
                 orbStack.Push(nearbyOrb);
                 // Deactivate the orb.
@@ -297,10 +316,10 @@ public class PlayerController : MonoBehaviour
                     UpdateOrbUI();
                     
                 }
-                // Find other nearby orbs if they exist, otherwise set nearbyOrb to null.
-                GameObject[] orbs = GameObject.FindGameObjectsWithTag("BlueOrb")
-                                        .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToArray();
-                nearbyOrb = orbs.FirstOrDefault(orb => orb.activeInHierarchy && IsOverlapping(orb, transform));
+                //// Find other nearby orbs if they exist, otherwise set nearbyOrb to null.
+                //GameObject[] orbs = GameObject.FindGameObjectsWithTag("BlueOrb")
+                //                        .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToArray();
+                //nearbyOrb = orbs.FirstOrDefault(orb => orb.activeInHierarchy && IsOverlapping(orb, transform));
             }
             else if(nearbyOrb != null && orbStack.Count >= orbStackCapacity){
                 if (warningText != null)
@@ -432,16 +451,22 @@ public class PlayerController : MonoBehaviour
                     UpdateOrbUI();
                     topOrb.SetActive(true);
 
+
                     // Now place the new orb at the drop position.
                     OrbMovement movement = topOrb.GetComponent<OrbMovement>();
+                    Debug.Log(movement);
                     if (movement != null)
                     {
+                        Debug.Log("IF Orb drop ");
                         movement.MoveToStack(dropPosition, false);
                     }
                     else
                     {
+                        Debug.Log("ELSE Orb drop ");
                         topOrb.transform.position = dropPosition;
                     }
+                    Debug.Log($"Orb drop {dropPosition}");
+                    Debug.Log($"Orb drop {topOrb}");
 
                     bool orbBlocked = ResolveOrbOverlaps(dropPosition, topOrb);
 
