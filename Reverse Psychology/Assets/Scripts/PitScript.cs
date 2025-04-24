@@ -15,6 +15,7 @@ public class PitScript : MonoBehaviour
         {
             Debug.Log("Player fell into the pit! Game Over.");
             gameAnalytics.EndLevelDeath(collision.transform.position.x, collision.transform.position.y);
+            StartCoroutine(GameOver());
             PauseMenu.GetComponent<PauseManager>().RestartFromCheckpoint();
             //PlayerController player = collision.GetComponent<PlayerController>();
             //if (player != null)
@@ -36,8 +37,8 @@ public class PitScript : MonoBehaviour
         if (gameOverText != null)
             gameOverText.SetActive(false);
 
-        MenuController.showLevelsPanel = true;
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //MenuController.showLevelsPanel = true;
+        //Time.timeScale = 1f;
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

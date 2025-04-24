@@ -1,37 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|d:\\mscs\\csci526\\games\\csci-526-final-project-it-takes-five\\reverse psychology\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03014399-03B7-B733-4BD0-8DD995CEF77F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PlayerController.cs",
-              "DocumentMoniker": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PlayerController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
-              "ToolTip": "D:\\MSCS\\CSCI526\\games\\csci-526-final-project-it-takes-five\\Reverse Psychology\\Assets\\Scripts\\PlayerController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
-              "ViewState": "AgIAALUBAAAAAAAAAAAUwN4BAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T20:01:42.236Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

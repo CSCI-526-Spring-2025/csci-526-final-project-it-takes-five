@@ -23,7 +23,8 @@ public class SpikeScript : MonoBehaviour
 
             //if (button.GetComponent<ButtonScript>().checkpointCreated) // CHANGED
             //{
-                PauseMenu.GetComponent<PauseManager>().RestartFromCheckpoint();
+            StartCoroutine(GameOver());
+            PauseMenu.GetComponent<PauseManager>().RestartFromCheckpoint();
             //}
             //else
             //{
@@ -44,9 +45,9 @@ public class SpikeScript : MonoBehaviour
         if (gameOverText != null)
             gameOverText.SetActive(false);
 
-        MenuController.showLevelsPanel = true;
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //MenuController.showLevelsPanel = true;
+        //Time.timeScale = 1f;
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 
