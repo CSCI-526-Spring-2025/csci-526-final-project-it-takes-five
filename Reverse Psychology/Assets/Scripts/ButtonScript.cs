@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using TMPro;
 
 public class RemainingOrbData
 {
@@ -32,10 +33,11 @@ public class ButtonScript : MonoBehaviour
     public GameObject instructionText;
     public GameObject Panel1;
     public GameObject Panel2;
-    public GameObject globalLightObject;
-    private Light2D globalLight;
+    // public GameObject globalLightObject;
+    // private Light2D globalLight;
+    public Canvas targetCanvas;
     public PlayerController player;       // Assign the Player GameObject (with PlayerController) in the Inspector.
-    public Color pressedColor = Color.gray;  // Color to change to when the button is pressed.
+    //public Color pressedColor = Color.gray;  // Color to change to when the button is pressed.
     private float newIntensity = 1f;
     private bool activated = false;
     private SpriteRenderer sr;
@@ -61,6 +63,15 @@ public class ButtonScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
     }
 
+    void Update()
+    {
+        if (activated)
+        {
+            // make button follow player
+            transform.position = player.transform.position;
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (!activated && collision.CompareTag("Player"))
@@ -70,14 +81,26 @@ public class ButtonScript : MonoBehaviour
             gameAnalytics.StartReturnJourney();
 
             // Change the button color to indicate it has been pressed.
-            if (sr != null)
+            StartCoroutine(ChangeBackgroundColor(new Color32(133, 225, 255, 255)));
+            // Find all text components in the scene.
+
+            PlayerController.defaultTextColor = Color.black;
+            TextMeshProUGUI[] tmpros = targetCanvas.GetComponentsInChildren<TextMeshProUGUI>(true);
+            foreach (TextMeshProUGUI tmp in tmpros)
             {
-                sr.color = pressedColor;
+                if (tmp.color == Color.white)
+                {
+                    tmp.color = Color.black;
+                }
             }
-            if (globalLightObject != null) { 
-            globalLight = globalLightObject.GetComponent<Light2D>();
-            globalLight.intensity = newIntensity;
-            }
+            // if (sr != null)
+            // {
+            //     sr.color = pressedColor;
+            // }
+            // if (globalLightObject != null) { 
+            // globalLight = globalLightObject.GetComponent<Light2D>();
+            // globalLight.intensity = newIntensity;
+            // }
             // Show text if it exists
             if (instructionText != null) instructionText.SetActive(true);
             if (Panel2 != null) Panel2.SetActive(true);
@@ -248,6 +271,19 @@ public class ButtonScript : MonoBehaviour
         List<GameObject> allOrbs = GameObject.FindGameObjectsWithTag("BlueOrb").Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToList();
         foreach (GameObject orb in allOrbs) { 
             orb.SetActive(false);
+        }
+    }
+
+    IEnumerator ChangeBackgroundColor(Color32 targetColor)
+    {
+        Color32 startColor = Camera.main.backgroundColor;
+        float t = 0;
+
+        while (t < 1)
+        {
+            Camera.main.backgroundColor = Color32.Lerp(startColor, targetColor, t);
+            t += Time.deltaTime;
+            yield return null;
         }
     }
 

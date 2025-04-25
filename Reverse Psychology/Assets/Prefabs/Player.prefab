@@ -78,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.36862746, g: 0.81960785, b: 0.81960785, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 87b0b77beb47405429e50e7ca54cbbb2, type: 3}
+  m_Color: {r: 0.81960785, g: 0.3686275, b: 0.73539007, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -152,7 +152,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.22, y: 1.42}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -174,9 +174,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  ghostColor: {r: 0.36862746, g: 0.81960785, b: 0.81960785, a: 1}
-  humanColor: {r: 0.09119492, g: 0.3333333, b: 0.3333333, a: 1}
+  humanSprite: {fileID: 7482667652216324306, guid: 841fb7be43dbcc64fa038d1717d52a78, type: 3}
   orbStackUIText: {fileID: 0}
+  warningText: {fileID: 0}
+  orbDropText: {fileID: 0}
   groundCheck: {fileID: 0}
   groundCheckRadius: 0.2
   groundLayer:
@@ -197,6 +198,14 @@ MonoBehaviour:
   overlapThreshold: 0.1
   leftWall: {fileID: 0}
   rightWall: {fileID: 0}
+  moveText: {fileID: 0}
+  moveDashText: {fileID: 0}
+  defaultTextColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  defaultOutlineWidth: 0
+  highlightOutlineColor: {r: 1, g: 0, b: 0, a: 1}
+  highlightOutlineWidth: 0.2
 --- !u!114 &8943412493807321050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,8 +220,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PickupText: {fileID: 0}
   JumpText: {fileID: 0}
-  panel2: {fileID: 0}
-  panel1: {fileID: 0}
+  IntroText: {fileID: 0}
+  DropText: {fileID: 0}
+  Overlay: {fileID: 0}
+  OrbStackCanvas: {fileID: 0}
+  ButtonArrow: {fileID: 0}
+  DoorArrow: {fileID: 0}
 --- !u!1 &4204510803681488245
 GameObject:
   m_ObjectHideFlags: 0

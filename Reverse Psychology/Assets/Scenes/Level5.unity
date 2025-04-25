@@ -1765,6 +1765,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2510614377109603969}
     - target: {fileID: 3050957128351866769, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}
+      propertyPath: targetCanvas
+      value: 
+      objectReference: {fileID: 2023093394}
+    - target: {fileID: 3050957128351866769, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}
       propertyPath: gameAnalytics
       value: 
       objectReference: {fileID: 1481316607}
@@ -4892,16 +4896,20 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2944862140548666216, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: m_Color.a
+      value: 0.7490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944862140548666216, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: m_Color.b
-      value: 0.81886786
+      value: 0.74561405
       objectReference: {fileID: 0}
     - target: {fileID: 2944862140548666216, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: m_Color.g
-      value: 0.81886786
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2944862140548666216, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: m_Color.r
-      value: 0.36926305
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: moveText

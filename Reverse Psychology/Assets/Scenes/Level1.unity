@@ -1788,10 +1788,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Goal: Open door on left by pushing button on right.
+  m_text: 'Goal: Open door using key.
 
-    Press any key
-    to continue.'
+    WASD to move.
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3701,6 +3702,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2944862140548666216, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: m_Color.a
+      value: 0.7490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944862140548666216, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: m_Color.b
+      value: 0.74561405
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944862140548666216, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944862140548666216, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: moveText
       value: 
@@ -4301,6 +4318,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 822365011}
+    - target: {fileID: 3050957128351866769, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}
+      propertyPath: targetCanvas
+      value: 
+      objectReference: {fileID: 2023093394}
     - target: {fileID: 3050957128351866769, guid: 5a26bfa8c07cd0c4ba7e4c0bd29a910a, type: 3}
       propertyPath: gameAnalytics
       value: 

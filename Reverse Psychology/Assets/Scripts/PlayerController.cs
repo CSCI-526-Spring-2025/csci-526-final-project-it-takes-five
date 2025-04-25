@@ -10,8 +10,9 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
     private float jumpForce = 7f;
-    public Color ghostColor = Color.white;
-    public Color humanColor = Color.yellow;
+    // public Color ghostColor = Color.white;
+    // public Color humanColor = Color.yellow;
+    public Sprite humanSprite;
 
     private bool isGhost = true;
     private Rigidbody2D rb;
@@ -68,7 +69,7 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI moveText;       // “2 blue orbs = 1 jump”
     public TextMeshProUGUI moveDashText;   // “2 yellow orbs = 1 dash”
 
-    public Color defaultTextColor = Color.white;
+    public static Color defaultTextColor = Color.white;
     public Color highlightColor   = Color.red;
 
     public Color defaultOutlineColor    = Color.black;
@@ -226,7 +227,7 @@ public class PlayerController : MonoBehaviour
         // Start as ghost.
         gameObject.layer = LayerMask.NameToLayer("Ghost");
         rb.gravityScale = 0;
-        sr.color = ghostColor;
+        //sr.color = ghostColor;
 
         droppedOrbs = GameObject.FindGameObjectsWithTag("BlueOrb")
                                         .Union(GameObject.FindGameObjectsWithTag("YellowOrb")).ToList();
@@ -589,7 +590,9 @@ public class PlayerController : MonoBehaviour
                 Physics2D.IgnoreCollision(col, wallCol, false);
             }
             gameObject.layer = LayerMask.NameToLayer("Human");
-            sr.color = humanColor;
+            // sr.color = humanColor;
+            sr.sprite = humanSprite;
+            sr.color = new Color32(255, 0, 190, 255);
             Debug.Log("Player transformed to human!");
             UpdateAbilityTextHighlight();
 
@@ -667,7 +670,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateAbilityTextHighlight()
     {
         // reset both to default first
-        moveText.color     = defaultTextColor;
+        moveText.color = defaultTextColor;
         moveText.outlineColor = defaultOutlineColor;
         moveText.outlineWidth = defaultOutlineWidth;
         if(moveDashText != null){

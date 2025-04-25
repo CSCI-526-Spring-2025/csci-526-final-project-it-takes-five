@@ -24,7 +24,7 @@ public class DoorScript : MonoBehaviour
         if (!isOpen)
         {
             isOpen = true;
-            sr.color = openColor; // Change door color to green when opened
+            // sr.color = openColor; // Change door color to green when opened
 
             // Set collider as trigger so the player can pass through
             if (col != null)
