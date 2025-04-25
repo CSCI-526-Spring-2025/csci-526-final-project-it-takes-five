@@ -64,7 +64,18 @@ public class PlayerController : MonoBehaviour
     public Transform rightWall;
 
     private float facingDirection = 1f; // +1 = right, –1 = left
- 
+
+    public TextMeshProUGUI moveText;       // “2 blue orbs = 1 jump”
+    public TextMeshProUGUI moveDashText;   // “2 yellow orbs = 1 dash”
+
+    public Color defaultTextColor = Color.white;
+    public Color highlightColor   = Color.red;
+
+    public Color defaultOutlineColor    = Color.black;
+    public float defaultOutlineWidth    = 0f;
+    public Color highlightOutlineColor  = Color.red;
+    public float highlightOutlineWidth  = 0.2f;
+    
     bool IsOrbAtPosition(Vector3 pos)
     {
         foreach (GameObject orb in droppedOrbs)
@@ -232,6 +243,8 @@ public class PlayerController : MonoBehaviour
             }
         }
         UpdateOrbUI();
+        UpdateAbilityTextHighlight();
+
     }
 
     bool IsOverlapping(GameObject obj, Transform player)
@@ -314,6 +327,8 @@ public class PlayerController : MonoBehaviour
                 {
                     nearbyOrb.SetActive(false);
                     UpdateOrbUI();
+                    UpdateAbilityTextHighlight();
+
                     
                 }
                 //// Find other nearby orbs if they exist, otherwise set nearbyOrb to null.
@@ -342,6 +357,8 @@ public class PlayerController : MonoBehaviour
                 if (topOrb.CompareTag("BlueOrb") && secondOrb.CompareTag("BlueOrb"))
                 {
                     UpdateOrbUI();
+                    UpdateAbilityTextHighlight();
+
                     // End old ability
                     if (jumpInProgress || dashInProgress || healInProgress) {
                         Debug.Log("Ability ended by starting new ability. Success: " + abilityEnd());
@@ -393,6 +410,8 @@ public class PlayerController : MonoBehaviour
                 if (topOrb.CompareTag("YellowOrb") && secondOrb.CompareTag("YellowOrb"))
                 {
                     UpdateOrbUI();
+                    UpdateAbilityTextHighlight();
+
                     if (jumpInProgress || dashInProgress || healInProgress) {
                         Debug.Log("Ability ended by starting new ability. Success: " + abilityEnd());
                     }
@@ -457,6 +476,8 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Orb drop success");
 
                     UpdateOrbUI();
+                    UpdateAbilityTextHighlight();
+
                     topOrb.SetActive(true);
 
 
@@ -484,6 +505,7 @@ public class PlayerController : MonoBehaviour
                         orbStack.Push(topOrb);
                         topOrb.SetActive(false);
                         UpdateOrbUI();
+                        UpdateAbilityTextHighlight();
 
                         orbDropText.gameObject.SetActive(true);
                         StartCoroutine(HideOrbDropDelay(4f));
@@ -501,6 +523,7 @@ public class PlayerController : MonoBehaviour
                     orbStack.Push(topOrb);
                     topOrb.SetActive(false);
                     UpdateOrbUI();
+                    UpdateAbilityTextHighlight();
                     orbDropText.gameObject.SetActive(true);
                     StartCoroutine(HideOrbDropDelay(4f));
 
@@ -568,6 +591,8 @@ public class PlayerController : MonoBehaviour
             gameObject.layer = LayerMask.NameToLayer("Human");
             sr.color = humanColor;
             Debug.Log("Player transformed to human!");
+            UpdateAbilityTextHighlight();
+
         }
     }
 
@@ -636,6 +661,48 @@ public class PlayerController : MonoBehaviour
                 }
                 slotImage.color = Color.white;
             }
+        }
+    }
+
+    private void UpdateAbilityTextHighlight()
+    {
+        // reset both to default first
+        moveText.color     = defaultTextColor;
+        moveText.outlineColor = defaultOutlineColor;
+        moveText.outlineWidth = defaultOutlineWidth;
+        if(moveDashText != null){
+            moveDashText.color = defaultTextColor;
+            moveDashText.outlineColor = defaultOutlineColor;
+            moveDashText.outlineWidth = defaultOutlineWidth;
+        }
+
+        if (isGhost)
+            return;
+
+
+        if (orbStack.Count < 2)
+            return;
+
+        // Stack.ElementAt(0) == top, (1) == second
+        var top    = orbStack.ElementAt(0);
+        var second = orbStack.ElementAt(1);
+
+        bool twoBlue   = top.CompareTag("BlueOrb")   && second.CompareTag("BlueOrb");
+        bool twoYellow = top.CompareTag("YellowOrb") && second.CompareTag("YellowOrb");
+
+        if (twoBlue)
+        {
+            // Ready to jump
+            moveText.color = highlightColor;
+            moveText.outlineColor = highlightOutlineColor;
+            moveText.outlineWidth = highlightOutlineWidth;
+        }
+        else if (twoYellow)
+        {
+            // Ready to dash
+            moveDashText.color = highlightColor;
+            moveDashText.outlineColor = highlightOutlineColor;
+            moveDashText.outlineWidth = highlightOutlineWidth;
         }
     }
 

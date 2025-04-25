@@ -3126,7 +3126,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Moves:
+  m_text: '
 
     Jump (Space) = 2 Blue Orbs'
   m_isRightToLeft: 0
@@ -3233,6 +3233,10 @@ PrefabInstance:
       propertyPath: leftWall
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
+      propertyPath: moveText
+      value: 
+      objectReference: {fileID: 2084245909}
     - target: {fileID: 3574238460566074994, guid: 6aaa2c64d768ac641911e4c5a3f9de8e, type: 3}
       propertyPath: jumpForce
       value: 8

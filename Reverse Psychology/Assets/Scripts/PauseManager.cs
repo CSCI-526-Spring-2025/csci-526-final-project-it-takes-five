@@ -27,6 +27,18 @@ public class PauseManager : MonoBehaviour
             checkpointLoadText.SetActive(false);
     }
 
+    void Update()
+    {
+        // When the player hits Esc, toggle pause/resume.
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused)
+                ResumeGame();
+            else
+                PauseGame();
+        }
+    }
+
     public void PauseGame()
     {
         Debug.Log("Pause clicked");
