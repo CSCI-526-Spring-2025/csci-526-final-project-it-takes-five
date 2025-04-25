@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
             if (Vector3.Distance(orb.transform.position, dropPosition) < overlapThreshold)
             {
                 check = false;
-
+                Debug.Log("hi riya");
                 // Calculate the potential new position.
                 Vector3 newPosition = orb.transform.position + new Vector3(shiftOffset, 0, 0);
 
@@ -437,7 +437,15 @@ public class PlayerController : MonoBehaviour
 
                 // Determine the base drop position relative to the player.
                 Vector3 dropPosition = transform.position;
-                dropPosition.y -= 0.3f; // Adjust the drop position downward.
+                if (isGhost)
+                {
+                    dropPosition.y -= 0.25f;
+                }
+                else
+                {
+                    dropPosition.y += 0.6f;
+                }
+              
 
                 Collider2D[] initialColliders = Physics2D.OverlapCircleAll(dropPosition, overlapThreshold);
                 bool isBlocked = initialColliders.Any(col => col.CompareTag("Wall") || col.CompareTag("Obstacle"));
