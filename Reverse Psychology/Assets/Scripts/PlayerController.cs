@@ -264,9 +264,12 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(moveInput) > 0.01f)
         {
             facingDirection = Mathf.Sign(moveInput);
+            // Flip the sprite to face left/right
+            sr.flipX = facingDirection > 0f;
         }
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
     }
+
 
     bool IsGrounded() {
         return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
@@ -578,7 +581,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // Transform the player from ghost to human.
     public void TransformToHuman()
     {
         if (isGhost)
@@ -590,12 +592,29 @@ public class PlayerController : MonoBehaviour
                 Physics2D.IgnoreCollision(col, wallCol, false);
             }
             gameObject.layer = LayerMask.NameToLayer("Human");
-            // sr.color = humanColor;
+
+            // Swap to human sprite
             sr.sprite = humanSprite;
             sr.color = new Color32(255, 0, 190, 255);
+
+            // Resize the player when becoming human
+            Vector3 newScale = transform.localScale;
+            newScale.x = 0.3f;
+            newScale.y = 0.3f;
+            transform.localScale = newScale;
+
+            // Adjust the BoxCollider2D offset
+            BoxCollider2D box = col as BoxCollider2D;
+            if (box != null)
+            {
+                Vector2 offset = box.offset;
+                offset.y = -2.42f;
+                // keep offset.x as is
+                box.offset = offset;
+            }
+
             Debug.Log("Player transformed to human!");
             UpdateAbilityTextHighlight();
-
         }
     }
 
